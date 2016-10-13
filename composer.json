@@ -1,6 +1,6 @@
 {
     "name": "elfsundae/holly",
-    "description": "A PHP framework built with Laravel.",
+    "description": "The Holly Framework.",
     "keywords": ["holly", "framework", "laravel"],
     "license": "MIT",
     "type": "project",
