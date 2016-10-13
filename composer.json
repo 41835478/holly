@@ -1,19 +1,31 @@
 {
-    "name": "laravel/laravel",
-    "description": "The Laravel Framework.",
-    "keywords": ["framework", "laravel"],
+    "name": "elfsundae/holly",
+    "description": "A PHP framework built with Laravel.",
+    "keywords": ["holly", "framework", "laravel"],
     "license": "MIT",
     "type": "project",
     "require": {
         "php": ">=5.6.4",
-        "laravel/framework": "5.3.*"
+        "laravel/framework": "5.3.*",
+        "backup-manager/laravel": "^1.1",
+        "rap2hpoutre/laravel-log-viewer": "dev-master",
+        "intervention/image": "^2.3",
+        "mews/captcha": "^2.1",
+        "simplesoftwareio/simple-qrcode": "^1.4",
+        "guzzlehttp/guzzle": "~6.2",
+        "fabpot/goutte": "^3.1",
+        "yajra/laravel-datatables-oracle": "^6.20"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
         "mockery/mockery": "0.9.*",
         "phpunit/phpunit": "~5.0",
         "symfony/css-selector": "3.1.*",
-        "symfony/dom-crawler": "3.1.*"
+        "symfony/dom-crawler": "3.1.*",
+        "barryvdh/laravel-debugbar": "~2.3",
+        "barryvdh/laravel-ide-helper": "~2.2",
+        "doctrine/dbal": "~2.5",
+        "caouecs/laravel-lang": "~3.0"
     },
     "autoload": {
         "classmap": [
@@ -46,5 +58,11 @@
     },
     "config": {
         "preferred-install": "dist"
+    },
+    "repositories": {
+        "packagist": {
+            "type": "composer",
+            "url": "https://packagist.phpcomposer.com"
+        }
     }
 }
