@@ -1,5 +1,5 @@
 {
-    "name": "elfsundae/holly",
+    "name": "elfsundae/holly-app",
     "description": "The Holly Framework.",
     "keywords": ["holly", "framework", "laravel"],
     "license": "MIT",
@@ -7,6 +7,7 @@
     "require": {
         "php": ">=5.6.4",
         "laravel/framework": "5.3.*",
+        "elfsundae/holly": "dev-master",
         "backup-manager/laravel": "^1.1",
         "rap2hpoutre/laravel-log-viewer": "dev-master",
         "intervention/image": "^2.3",
@@ -45,7 +46,8 @@
             "php -r \"file_exists('.env') || copy('.env.example', '.env');\""
         ],
         "post-create-project-cmd": [
-            "php artisan key:generate"
+            "php artisan key:generate",
+            "php artisan holly:api-token-key"
         ],
         "post-install-cmd": [
             "Illuminate\\Foundation\\ComposerScripts::postInstall",
