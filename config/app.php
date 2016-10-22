@@ -167,7 +167,10 @@ return [
          * Package Service Providers...
          */
 
-        //
+        Holly\Providers\ApiServiceProvider::class,
+        Holly\Providers\AppClientServiceProvider::class,
+        Holly\Providers\ConsoleServiceProvider::class,
+        Holly\Providers\HollyServiceProvider::class,
 
         /*
          * Application Service Providers...
