@@ -4,47 +4,60 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | int2string
+    | Application URLs
     |--------------------------------------------------------------------------
-    |
-    | Charset for `Holly\Support\Helper::int2string()` and `Holly\Support\Helper::string2int()`.
-    | You may generate it using
-    | `php -r "echo str_shuffle('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ').PHP_EOL;"`.
-    |
     */
 
-    'int2string' => 'm5epH6MoXOF28svrSGTgwUZqBQ4Kic91PDjAYVfxNz7hdunbRaJl3E0CWItyLk',
+    'url' => [
+        'site' => env('APP_URL'),
+        'admin' => env('APP_URL_ADMIN', env('APP_URL')),
+        'api' => env('APP_URL_API', env('APP_URL')),
+        'asset' => env('APP_URL_ASSET', env('APP_URL')),
+        'cdn' => env('APP_URL_CDN', env('APP_URL')),
+    ],
 
     /*
     |--------------------------------------------------------------------------
-    | API request & response
+    | Session Cookie Domains
+    |--------------------------------------------------------------------------
+    */
+
+    'cookie_domains' => [
+        'admin' => env('COOKIE_DOMAIN_ADMIN', null),
+        'api' => env('COOKIE_DOMAIN_API', null),
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | API
     |--------------------------------------------------------------------------
     */
 
     'api' => [
-
         'key' => [
             'code' => 'code',
             'message' => 'msg',
         ],
-
         'code' => [
             'success' => 1,
         ],
-
         'token' => [
-            /*
-             * The key used for the API token encryption, generated using
-             * `php artisan holly:api-token-key`.
-             */
             'key' => env('API_TOKEN_KEY'),
-            /*
-             * Valid seconds interval allowed between the server and the api client.
-             */
-            'expire' => 200,
+            'valid_interval' => 200,
         ],
-
     ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | int2string
+    |--------------------------------------------------------------------------
+    |
+    | Charset for `Holly\Support\Helper::int2string()` and `Holly\Support\Helper::string2int()`.
+    | You may generate it using `php -r "echo str_shuffle('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ').PHP_EOL;"`.
+    |
+    */
+
+    'int2string' => 'm5epH6MoXOF28svrSGTgwUZqBQ4Kic91PDjAYVfxNz7hdunbRaJl3E0CWItyLk',
 
     /*
     |--------------------------------------------------------------------------
@@ -71,6 +84,7 @@ return [
     | After reviewing approved, you can change it to a non-existent version.
     |
     */
-   'app_store_reviewing_version' => env('IOS_REVIEWING_APP_VERSION', '1.0.0-done'),
+
+    'app_store_reviewing_version' => env('IOS_REVIEWING_APP_VERSION', '1.0.0-done'),
 
 ];
