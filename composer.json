@@ -48,7 +48,8 @@
         ],
         "post-create-project-cmd": [
             "php artisan key:generate",
-            "php artisan holly:api-token-key"
+            "php artisan holly:api-token-key",
+            "php artisan holly:int2string-characters"
         ],
         "post-install-cmd": [
             "Illuminate\\Foundation\\ComposerScripts::postInstall",
