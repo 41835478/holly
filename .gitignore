@@ -1,5 +1,5 @@
 /node_modules
-/public/storage
+# /public/storage
 /storage/*.key
 /vendor
 /.idea
@@ -7,3 +7,5 @@ Homestead.json
 Homestead.yaml
 .env
 .php_cs.cache
+_ide_helper.php
+_ide_helper_models.php
