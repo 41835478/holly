@@ -62,15 +62,15 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | int2string
+    | Characters for int2string
     |--------------------------------------------------------------------------
     |
-    | Charset for `Holly\Support\Helper::int2string()` and `Holly\Support\Helper::string2int()`.
-    | You may generate it using `php -r "echo str_shuffle('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ').PHP_EOL;"`.
+    | Characters for `Holly\Support\Helper::int2string()` and `Holly\Support\Helper::string2int()`.
+    | You may generate it via `php artisan holly:int2string-characters`.
     |
     */
 
-    'int2string' => 'm5epH6MoXOF28svrSGTgwUZqBQ4Kic91PDjAYVfxNz7hdunbRaJl3E0CWItyLk',
+    'int2string_characters' => '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ',
 
     /*
     |--------------------------------------------------------------------------
@@ -98,6 +98,6 @@ return [
     |
     */
 
-    'app_store_reviewing_version' => env('IOS_REVIEWING_APP_VERSION', '1.0.0-done'),
+    'app_store_reviewing_version' => env('IOS_REVIEWING_APP_VERSION', null),
 
 ];
