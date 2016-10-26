@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 return array(
 
@@ -24,10 +24,11 @@ return array(
     |
     */
 
-    'include_helpers' => false,
+    'include_helpers' => true,
 
     'helper_files' => array(
         base_path().'/vendor/laravel/framework/src/Illuminate/Support/helpers.php',
+        base_path().'/vendor/elfsundae/holly/src/Holly/Support/helpers.php',
     ),
 
     /*
@@ -71,7 +72,7 @@ return array(
             'emergency' => 'Monolog\Logger::addEmergency',
         )
     ),
-    
+
     /*
     |--------------------------------------------------------------------------
     | Interface implementations
@@ -81,7 +82,7 @@ return array(
     | are detected by the helpers, others can be listed below.
     |
     */
-    
+
     'interfaces' => array(
 
     ),
@@ -113,7 +114,9 @@ return array(
     |
     */
     'custom_db_types' => array(
-
+        'mysql' => [
+            'json' => 'json_array',
+        ],
     ),
 
     /*
