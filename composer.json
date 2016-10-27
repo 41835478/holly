@@ -16,7 +16,8 @@
         "guzzlehttp/guzzle": "~6.2",
         "fabpot/goutte": "^3.1",
         "yajra/laravel-datatables-oracle": "^6.20",
-        "aporat/store-receipt-validator": "^1.4"
+        "aporat/store-receipt-validator": "^1.4",
+        "laravel-notification-channels/bearychat": "^1.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
@@ -57,6 +58,8 @@
         ],
         "post-update-cmd": [
             "Illuminate\\Foundation\\ComposerScripts::postUpdate",
+            "php artisan ide-helper:generate",
+            "php artisan ide-helper:models -R -n",
             "php artisan optimize"
         ]
     },
