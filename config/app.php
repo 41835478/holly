@@ -174,6 +174,8 @@ return [
         Mews\Captcha\CaptchaServiceProvider::class,
         SimpleSoftwareIO\QrCode\QrCodeServiceProvider::class,
         Yajra\Datatables\DatatablesServiceProvider::class,
+        ElfSundae\BearyChat\Laravel\ServiceProvider::class,
+        NotificationChannels\BearyChat\BearyChatServiceProvider::class,
 
         /*
          * Application Service Providers...
