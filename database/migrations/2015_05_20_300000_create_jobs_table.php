@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateJobsTable1 extends Migration
+class CreateJobsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -19,7 +19,7 @@ class CreateJobsTable1 extends Migration
 
         Schema::create('jobs', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('queue');
+            $table->string('queue', 191);
             $table->longText('payload');
             $table->tinyInteger('attempts')->unsigned();
             $table->unsignedInteger('reserved_at')->nullable();
