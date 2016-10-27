@@ -44,19 +44,19 @@ class RouteServiceProvider extends ServiceProvider
         // The routes definitions will be placed in file "routes/{$identifer}.php".
         $routes = [
             'site' => [
-                'domain' => config('app.domain.site'),
+                'domain' => config('app.domains.site'),
                 'middleware' => 'web',
             ],
             'admin' => [
-                'domain' => config('app.domain.admin'),
+                'domain' => config('app.domains.admin'),
                 'middleware' => 'web',
             ],
             'api' => [
-                'domain' => config('app.domain.api'),
+                'domain' => config('app.domains.api'),
                 'middleware' => 'api',
             ],
             'api-web' => [
-                'domain' => config('app.domain.site'),
+                'domain' => config('app.domains.site'),
                 'prefix' => 'api',
                 'namespace' => 'Site',
                 'middleware' => ['web', 'api.client'],
