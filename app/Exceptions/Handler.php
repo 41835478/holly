@@ -5,6 +5,9 @@ namespace App\Exceptions;
 use Exception;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Holly\Http\ApiResponse;
+use Symfony\Component\HttpKernel\Exception\HttpException;
+use Illuminate\Validation\ValidationException;
 
 class Handler extends ExceptionHandler
 {
@@ -20,6 +23,8 @@ class Handler extends ExceptionHandler
         \Illuminate\Database\Eloquent\ModelNotFoundException::class,
         \Illuminate\Session\TokenMismatchException::class,
         \Illuminate\Validation\ValidationException::class,
+        ActionFailureException::class,
+        InvalidInputException::class,
     ];
 
     /**
@@ -32,7 +37,15 @@ class Handler extends ExceptionHandler
      */
     public function report(Exception $exception)
     {
-        parent::report($exception);
+        if ($this->shouldntReport($exception)) {
+            return;
+        }
+
+        $requestInfo = $this->getRequestInfo($this->container['request']);
+
+        $this->container['log']->error($exception, $requestInfo);
+
+        $this->notifyException($exception, $requestInfo);
     }
 
     /**
@@ -44,6 +57,16 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
+        if ($this->container->isDownForMaintenance()) {
+            return new ApiResponse('服务器维护中，请稍后重试。', 503);
+        }
+
+        if ($exception instanceof ActionFailureException ||
+            $exception instanceof InvalidInputException
+        ) {
+            return $this->renderActionFailure($request, $exception);
+        }
+
         return parent::render($request, $exception);
     }
 
@@ -57,9 +80,123 @@ class Handler extends ExceptionHandler
     protected function unauthenticated($request, AuthenticationException $exception)
     {
         if ($request->expectsJson()) {
-            return response()->json(['error' => 'Unauthenticated.'], 401);
+            return new ApiResponse('认证失败，请先登录。', 401);
         }
 
         return redirect()->guest('login');
+    }
+
+    /**
+     * Get the request info.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return array
+     */
+    protected function getRequestInfo($request)
+    {
+        $info = [
+            'IP' => $request->ips(),
+            'UserAgent' => $request->server('HTTP_USER_AGENT'),
+            'URL' => $request->fullUrl(),
+        ];
+
+        if ($this->container->runningInConsole()) {
+            $info['Command'] = implode(' ', $request->server('argv', []));
+        }
+
+        return $info;
+    }
+
+    /**
+     * Notify the exception.
+     *
+     * @param  \Exception  $exception
+     * @param  array  $requestInfo
+     */
+    protected function notifyException(Exception $exception, $requestInfo = null)
+    {
+        if ($this->container->environment('production')) {
+            // dispatch(
+            //     (new SendBearyChat)
+            //     ->client('server')
+            //     ->text('New Exception!')
+            //     ->notification('New Exception: '.get_class($exception))
+            //     ->markdown(false)
+            //     ->add(str_limit($exception, 1300), get_class($exception), null, '#a0a0a0')
+            //     ->add(str_limit(string_value($requestInfo), 1300), 'Request Info', null, '#e67f0a')
+            // );
+        }
+    }
+
+    /**
+     * Render the given exception of action failure.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \Exception  $exception
+     * @return \Illuminate\Http\Response
+     */
+    protected function renderActionFailure($request, Exception $exception)
+    {
+        if ($request->expectsJson()) {
+            return new ApiResponse($exception->getMessage(), $exception->getCode());
+        }
+
+        return redirect()->back()->withInput($request->input())->with('alert.error', $exception->getMessage());
+    }
+
+    /**
+     * Render the given HttpException.
+     *
+     * @param  \Symfony\Component\HttpKernel\Exception\HttpException  $e
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    protected function renderHttpException(HttpException $e)
+    {
+        if ($this->container['request']->expectsJson()) {
+            $status = $e->getStatusCode();
+
+            if (401 === $status) {
+                return api('认证失败，请先登录！', $status);
+            } elseif (403 === $status) {
+                return api('拒绝访问（无权操作）！', $status);
+            } elseif ($status >= 400 && $status < 500) {
+                return api("[{$status}] 非法操作！", $status);
+            } else {
+                return api("[{$status}] 数据异常！", 500);
+            }
+        }
+
+        return parent::renderHttpException($e);
+    }
+
+    /**
+     * Create a response object from the given validation exception.
+     *
+     * @param  \Illuminate\Validation\ValidationException  $e
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    protected function convertValidationExceptionToResponse(ValidationException $e, $request)
+    {
+        if ($request->expectsJson()) {
+            return new ApiResponse(implode("\n", array_flatten($e->validator->errors()->getMessages())), 422);
+        }
+
+        return parent::convertValidationExceptionToResponse($e, $request);
+    }
+
+    /**
+     * Create a Symfony response for the given exception.
+     *
+     * @param  \Exception  $e
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    protected function convertExceptionToResponse(Exception $e)
+    {
+        if (! $this->container['config']['app.debug'] && $this->container['request']->expectsJson()) {
+            return new ApiResponse('Internal Server Error', 500);
+        }
+
+        return parent::convertExceptionToResponse($e);
     }
 }
