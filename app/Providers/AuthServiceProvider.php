@@ -13,7 +13,7 @@ class AuthServiceProvider extends ServiceProvider
      * @var array
      */
     protected $policies = [
-        'App\Model' => 'App\Policies\ModelPolicy',
+        'App\Models\AdminUser' => 'App\Policies\AdminUserPolicy',
     ];
 
     /**
@@ -25,6 +25,8 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        //
+        Gate::define('manage-system-log', function ($user) {
+            return $user instanceof \App\Models\AdminUser && $user->isSuperAdmin();
+        });
     }
 }
