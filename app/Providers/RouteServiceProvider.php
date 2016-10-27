@@ -23,7 +23,11 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        $this->pattern('id', '[0-9]+');
+
+        $this->bind('admin_user', function ($value) {
+            return \App\Models\AdminUser::find($value);
+        });
 
         parent::boot();
     }
@@ -35,45 +39,40 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function map()
     {
-        $this->mapApiRoutes();
+        // Defines all routes in format: `identifier => attributes`.
+        // If there is no "namespace" in attributes, the default namespace will be `$this->namespace.'\\'.studly_case($identifier)`.
+        // The routes definitions will be placed in file "routes/{$identifer}.php".
+        $routes = [
+            'site' => [
+                'domain' => config('app.domain.site'),
+                'middleware' => 'web',
+            ],
+            'admin' => [
+                'domain' => config('app.domain.admin'),
+                'middleware' => 'web',
+            ],
+            'api' => [
+                'domain' => config('app.domain.api'),
+                'middleware' => 'api',
+            ],
+            'api-web' => [
+                'domain' => config('app.domain.site'),
+                'prefix' => 'api',
+                'namespace' => 'Site',
+                'middleware' => ['web', 'api.client'],
+            ],
+        ];
 
-        $this->mapWebRoutes();
+        foreach ($routes as $identifier => $attributes) {
+            $attributes['namespace'] = $this->namespace.'\\'.
+                studly_case(array_get($attributes, 'namespace', $identifier));
 
-        //
-    }
-
-    /**
-     * Define the "web" routes for the application.
-     *
-     * These routes all receive session state, CSRF protection, etc.
-     *
-     * @return void
-     */
-    protected function mapWebRoutes()
-    {
-        Route::group([
-            'middleware' => 'web',
-            'namespace' => $this->namespace,
-        ], function ($router) {
-            require base_path('routes/web.php');
-        });
-    }
-
-    /**
-     * Define the "api" routes for the application.
-     *
-     * These routes are typically stateless.
-     *
-     * @return void
-     */
-    protected function mapApiRoutes()
-    {
-        Route::group([
-            'middleware' => 'api',
-            'namespace' => $this->namespace,
-            'prefix' => 'api',
-        ], function ($router) {
-            require base_path('routes/api.php');
-        });
+            Route::group(
+                $attributes,
+                function ($router) use ($identifier) {
+                    require base_path('routes/'.$identifier.'.php');
+                }
+            );
+        }
     }
 }
