@@ -2,16 +2,16 @@
 
 namespace App\Http\Middleware;
 
-use Illuminate\Cookie\Middleware\EncryptCookies as BaseEncrypter;
+use Holly\Http\Middleware\EncryptCookies as BaseEncrypter;
 
 class EncryptCookies extends BaseEncrypter
 {
     /**
-     * The names of the cookies that should not be encrypted.
+     * The names of the cookies that should be encrypted.
      *
      * @var array
      */
-    protected $except = [
+    protected $only = [
         //
     ];
 }
