@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Carbon\Carbon;
 use Holly\Providers\AppServiceProvider as ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -14,6 +15,8 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         parent::boot();
+
+        Carbon::setLocale('zh');
     }
 
     /**
@@ -35,6 +38,10 @@ class AppServiceProvider extends ServiceProvider
 
         if (is_domain('admin')) {
             $this->registerServicesForAdmin();
+        }
+
+        if (is_domain('api')) {
+            $this->hackForApiRequest($this->app['request']);
         }
     }
 
@@ -61,5 +68,21 @@ class AppServiceProvider extends ServiceProvider
     protected function registerServicesForAdmin()
     {
         $this->app->register(\Rap2hpoutre\LaravelLogViewer\LaravelLogViewerServiceProvider::class);
+    }
+
+    /**
+     * Hack the current Request instance for adding "Accept: application/json" header,
+     * to make `$request->expectsJson()` working for API requests.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     */
+    protected function hackForApiRequest($request)
+    {
+        if (! str_contains(($accept = $request->headers->get('Accept')), ['/json', '+json'])) {
+            $accept .= (! empty($accept) ? ', ' : '').'application/json';
+
+            $request->headers->set('Accept', $accept);
+            $request->server->set('HTTP_ACCEPT', $accept);
+        }
     }
 }
