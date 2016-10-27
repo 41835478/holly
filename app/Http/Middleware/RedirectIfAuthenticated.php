@@ -18,7 +18,11 @@ class RedirectIfAuthenticated
     public function handle($request, Closure $next, $guard = null)
     {
         if (Auth::guard($guard)->check()) {
-            return redirect('/home');
+            if ($request->expectsJson()) {
+                return api('已经登录了。', 403);
+            } else {
+                return redirect('/');
+            }
         }
 
         return $next($request);

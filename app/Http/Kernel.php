@@ -33,8 +33,15 @@ class Kernel extends HttpKernel
         ],
 
         'api' => [
-            'throttle:60,1',
+            \App\Http\Middleware\EncryptCookies::class,
+            \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
+            \Illuminate\Session\Middleware\StartSession::class,
+            \Illuminate\View\Middleware\ShareErrorsFromSession::class,
+            // 'throttle:60,1',
             'bindings',
+            'api.client',
+            'api.token',
+            'api.profile',
         ],
     ];
 
@@ -52,5 +59,9 @@ class Kernel extends HttpKernel
         'can' => \Illuminate\Auth\Middleware\Authorize::class,
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
+        'csrf' => \App\Http\Middleware\VerifyCsrfToken::class,
+        'api.client' => \Holly\Http\Middleware\CheckForApiClient::class,
+        'api.token' => \App\Http\Middleware\VerifyApiToken::class,
+        'api.profile' => \Holly\Http\Middleware\AddDebugbarDataToApiResponse::class,
     ];
 }
