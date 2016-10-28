@@ -166,15 +166,11 @@ return [
         /*
          * Package Service Providers...
          */
-        Holly\Providers\ApiServiceProvider::class,
-        Holly\Providers\AppClientServiceProvider::class,
-        Holly\Providers\ConsoleServiceProvider::class,
         Holly\Providers\HollyServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
         Mews\Captcha\CaptchaServiceProvider::class,
         SimpleSoftwareIO\QrCode\QrCodeServiceProvider::class,
         Yajra\Datatables\DatatablesServiceProvider::class,
-        ElfSundae\BearyChat\Laravel\ServiceProvider::class,
         NotificationChannels\BearyChat\BearyChatServiceProvider::class,
 
         /*
