@@ -39,7 +39,9 @@ class AppServiceProvider extends ServiceProvider
         }
 
         if (is_domain('api')) {
-            $this->hackForApiRequest($this->app['request']);
+            $this->app->rebinding('request', function ($app, $request) {
+                $this->hackForApiRequest($request);
+            });
         }
     }
 
