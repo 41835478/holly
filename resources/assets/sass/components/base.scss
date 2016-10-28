@@ -1,0 +1,19 @@
+
+.touch-callout-none {
+  -webkit-touch-callout: none;
+}
+
+.break-word, .btn, span {
+  white-space: normal !important;
+  -ms-word-break: break-all;
+  word-break: break-all;
+  word-wrap: break-word;
+}
+
+.pre-wrap {
+  white-space: pre-wrap;
+  white-space: -moz-pre-wrap;
+  white-space: -pre-wrap;
+  white-space: -o-pre-wrap;
+  word-wrap: break-word;
+}

@@ -1,0 +1,13 @@
+
+/*!
+ * wechat-tips cover for downloading app
+ * 微信内无法跳转 App Store ，此时显示这个 wechat-cover
+ */
+
+.wechat-cover{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background-color:#000;opacity:.7;z-index:103}
+.wechat-hide{display:none}
+.wechat-tips{display:none;position:fixed;top:10px;width:100%;text-align:right;z-index:103;padding-top:14px;box-sizing:border-box}
+.wechat-tips span{text-align:left;vertical-align:middle;font-size:16px;color:#fff;margin-right:10px;font-weight:700;line-height:30px;display:inline-block}.wechat-tips span.en{width:240px}
+.wechat-tips img{width:50px;display:inline-block;vertical-align:middle;margin-bottom:13px;margin-right:20px}@media (min-width:420px){.wechat-tips span{margin-right:15px}
+.wechat-tips span.en{width:auto;margin-bottom:-20px}
+.wechat-tips img{margin-right:20px}}

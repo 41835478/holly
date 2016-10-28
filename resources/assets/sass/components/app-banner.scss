@@ -1,0 +1,45 @@
+
+/*!
+ * App banner
+ * 一般用来显示手机app的下载banner
+ */
+
+.app-banner-container {
+  text-decoration: none !important;
+  margin: 0;
+  padding: 0;
+}
+
+a.app-banner-container, .app-banner-container a {
+  color: inherit;
+}
+
+.app-banner {
+  background-color: #eeeeee;
+  padding: 10px 20px 10px 20px;
+  font-size: 20px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.app-banner-left .app-banner-body .app-banner-right  {
+  display: table-cell;
+  vertical-align: middle;
+  text-decoration: none;
+}
+
+.app-banner-icon {
+  width: 45px;
+  height: 45px;
+}
+
+.app-banner-body {
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.app-banner-right {
+  float: right !important;
+}
