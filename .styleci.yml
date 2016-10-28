@@ -3,5 +3,9 @@ preset: laravel
 linting: true
 
 finder:
-  exclude:
-    - "config"
+  path:
+    - "app"
+    - "database"
+    - "resources/views"
+    - "routes"
+    - "tests"
