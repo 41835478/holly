@@ -49,8 +49,7 @@
         ],
         "post-create-project-cmd": [
             "php artisan key:generate",
-            "php artisan holly:api-token-key",
-            "php artisan holly:int2string-characters"
+            "php artisan holly:api-token-key"
         ],
         "post-install-cmd": [
             "Illuminate\\Foundation\\ComposerScripts::postInstall",
@@ -58,8 +57,7 @@
         ],
         "post-update-cmd": [
             "Illuminate\\Foundation\\ComposerScripts::postUpdate",
-            "php artisan ide-helper:generate",
-            "php artisan ide-helper:models -R -n",
+            "php artisan generate-ide-helpers",
             "php artisan optimize"
         ]
     },
