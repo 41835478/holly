@@ -86,15 +86,12 @@
 @endtask
 
 @task('queue')
-    if [ -d "{{ $path }}" ]; then
-        cd "{{ $path }}"
-        php artisan queue:restart
-    fi
+    cd "{{ $path }}"
+    php artisan queue:restart
 @endtask
 
 @task('db-backup')
     cd "{{ $path }}"
-
     php artisan db:backup --database=mysql \
         --destination=local \
         --compression=gzip \
