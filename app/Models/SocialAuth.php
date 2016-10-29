@@ -205,12 +205,12 @@ class SocialAuth extends Model
         $this->refresh_token = array_get($credentials, 'refresh_token');
 
         if ($this->social_type == static::SOCIAL_TYPE_WEIBO) {
-            $this->uid = str_limit($credentials['uid'], 40);
+            $this->uid = str_limit2($credentials['uid'], 40);
         } elseif ($this->social_type == static::SOCIAL_TYPE_WEIXIN) {
-            $this->uid = str_limit($credentials['openid'], 40);
-            $this->vendor = str_limit($credentials['unionid'], 200);
+            $this->uid = str_limit2($credentials['openid'], 40);
+            $this->vendor = str_limit2($credentials['unionid'], 200);
         } elseif ($this->social_type == static::SOCIAL_TYPE_QQ) {
-            $this->uid = str_limit($credentials['openid'], 40);
+            $this->uid = str_limit2($credentials['openid'], 40);
         }
 
         if ($expires_in = array_get($credentials, 'expires_in')) {

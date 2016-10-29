@@ -31,13 +31,13 @@ class Feedback extends Model
         $instance = new static;
         $instance->user_id = $user_id;
         $instance->device_id = $device_id;
-        $instance->os = str_limit(array_get($data, 'os', app('AppClient')->os), 10);
-        $instance->os_version = str_limit(array_get($data, 'os_version'), 20);
-        $instance->platform = str_limit(array_get($data, 'platform'), 20);
-        $instance->network = str_limit(array_get($data, 'network'), 8);
+        $instance->os = str_limit2(array_get($data, 'os', app('AppClient')->os), 10);
+        $instance->os_version = str_limit2(array_get($data, 'os_version'), 20);
+        $instance->platform = str_limit2(array_get($data, 'platform'), 20);
+        $instance->network = str_limit2(array_get($data, 'network'), 8);
         $instance->ip = Request::ip();
         $instance->content = $data['feedback_content'];
-        $instance->contact = str_limit(array_get($data, 'feedback_contact'), 100);
+        $instance->contact = str_limit2(array_get($data, 'feedback_contact'), 100);
         $instance->created_at = Carbon::now();
 
         $instance->save();
@@ -51,7 +51,7 @@ class Feedback extends Model
     {
         dispatch(
             (new SendBearyChat('收到新的意见反馈！', $feedback->content, $feedback->contact))
-            ->notification('收到新的意见反馈：'.str_limit($feedback->content, 50))
+            ->notification('收到新的意见反馈：'.str_limit2($feedback->content, 50))
         );
     }
 }

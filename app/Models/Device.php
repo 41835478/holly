@@ -91,23 +91,23 @@ class Device extends Model
 
         $device = static::firstOrNew(array_only($deviceInfo, 'tdid'));
 
-        $device->acid = str_limit($deviceInfo['acid'], 40);
-        $device->os = str_limit($deviceInfo['os'], 10);
-        $device->os_version = str_limit($deviceInfo['os_version'], 20);
-        $device->platform = str_limit($deviceInfo['platform'], 20);
-        $device->model = str_limit(array_get($deviceInfo, 'model'), 20);
-        $device->name = str_limit(array_get($deviceInfo, 'name'), 150);
+        $device->acid = str_limit2($deviceInfo['acid'], 40);
+        $device->os = str_limit2($deviceInfo['os'], 10);
+        $device->os_version = str_limit2($deviceInfo['os_version'], 20);
+        $device->platform = str_limit2($deviceInfo['platform'], 20);
+        $device->model = str_limit2(array_get($deviceInfo, 'model'), 20);
+        $device->name = str_limit2(array_get($deviceInfo, 'name'), 150);
         $device->is_jailbroken = (bool) array_get($deviceInfo, 'jailbroken') ? 1 : 0;
-        $device->carrier = str_limit(array_get($deviceInfo, 'carrier'), 16);
-        $device->locale = str_limit(array_get($deviceInfo, 'locale'), 16);
-        $device->network = str_limit(array_get($deviceInfo, 'network'), 8);
-        $device->ssid = str_limit(array_get($deviceInfo, 'ssid'), 30);
+        $device->carrier = str_limit2(array_get($deviceInfo, 'carrier'), 16);
+        $device->locale = str_limit2(array_get($deviceInfo, 'locale'), 16);
+        $device->network = str_limit2(array_get($deviceInfo, 'network'), 8);
+        $device->ssid = str_limit2(array_get($deviceInfo, 'ssid'), 30);
         if (! empty($deviceInfo['push_token'])) {
-            $device->push_token = str_limit($deviceInfo['push_token'], 64);
+            $device->push_token = str_limit2($deviceInfo['push_token'], 64);
         }
-        $device->did = str_limit(array_get($deviceInfo, 'did'), 40);
-        $device->idfa = str_limit(array_get($deviceInfo, 'idfa'), 40);
-        $device->idfv = str_limit(array_get($deviceInfo, 'idfv'), 40);
+        $device->did = str_limit2(array_get($deviceInfo, 'did'), 40);
+        $device->idfa = str_limit2(array_get($deviceInfo, 'idfa'), 40);
+        $device->idfv = str_limit2(array_get($deviceInfo, 'idfv'), 40);
         $screen_width = 0;
         $screen_height = 0;
         if (isset($deviceInfo['screen_size']) && str_contains($deviceInfo['screen_size'], 'x')) {
@@ -141,7 +141,7 @@ class Device extends Model
 
     public static function updatePushTokenForTdid($tdid, $pushToken = null)
     {
-        $pushToken = ! empty($pushToken) ? str_limit($pushToken, 64) : null;
+        $pushToken = ! empty($pushToken) ? str_limit2($pushToken, 64) : null;
 
         return static::where('tdid', $tdid)->update(['push_token' => $pushToken]);
     }

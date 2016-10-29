@@ -9,10 +9,10 @@ class DeviceApp extends Model
     public static function touchDeviceApp($device_id, $appInfo)
     {
         if ($device_id &&
-            $identifier = str_limit(array_get($appInfo, 'app_identifier'), 191)
+            $identifier = str_limit2(array_get($appInfo, 'app_identifier'), 191)
         ) {
-            $version = str_limit(array_get($appInfo, 'app_version', ''), 20);
-            $channel = str_limit(array_get($appInfo, 'app_channel', ''), 20);
+            $version = str_limit2(array_get($appInfo, 'app_version'), 20);
+            $channel = str_limit2(array_get($appInfo, 'app_channel'), 20);
 
             static::unguard();
 

@@ -225,7 +225,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     {
         $this->updateAvatarFromUrl(SocialAuth::getAvatarFromSocialUser($social, $user));
 
-        $this->username = str_limit(SocialAuth::getUsernameFromSocialUser($social, $user), 10, '');
+        $this->username = str_limit2(SocialAuth::getUsernameFromSocialUser($social, $user), 10);
 
         if ($save) {
             $this->save();
