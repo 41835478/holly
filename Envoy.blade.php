@@ -30,23 +30,6 @@
     echo "====== Finished deploying \"{{ $repoName }}\"."
 @endtask
 
-@task('git')
-    if [ ! -d "{{ $path }}" ]; then
-        git clone {{ $repo }} --branch={{ $branch }} --single-branch --depth=1 "{{ $path }}"
-    else
-        cd "{{ $path }}"
-        git pull origin {{ $branch }}
-    fi
-@endtask
-
-@task('composer')
-    if [ -f "{{ $path }}/composer.json" ]; then
-        cd "{{ $path }}"
-        composer install --no-dev --no-interaction --profile
-        composer dump-autoload --optimize
-    fi
-@endtask
-
 @task('laravel')
     if [ ! -d "{{ $path }}" ]; then
         git clone {{ $repo }} --branch={{ $branch }} --single-branch --depth=1 "{{ $path }}"
@@ -85,6 +68,13 @@
     fi
 @endtask
 
+@task('status')
+    cd "{{ $path }}"
+    git status
+    echo "=========="
+    git log -1 --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+@endtask
+
 @task('queue')
     cd "{{ $path }}"
     php artisan queue:restart
@@ -97,14 +87,6 @@
         --compression=gzip \
         --destinationPath=`date +\%Y-%m-%d__%H:%M:%S.sql`
 @endtask
-
-@task('status')
-    cd "{{ $path }}"
-    git status
-    echo "=========="
-    git log -1 --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
-@endtask
-
 
 @task('up')
     cd "{{ $path }}"
