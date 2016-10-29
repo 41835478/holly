@@ -156,13 +156,13 @@ class Handler extends ExceptionHandler
             $status = $e->getStatusCode();
 
             if (401 === $status) {
-                return api('认证失败，请先登录！', $status);
+                return new ApiResponse('认证失败，请先登录！', $status);
             } elseif (403 === $status) {
-                return api('拒绝访问（无权操作）！', $status);
+                return new ApiResponse('拒绝访问（无权操作）！', $status);
             } elseif ($status >= 400 && $status < 500) {
-                return api("[{$status}] 非法操作！", $status);
+                return new ApiResponse("[{$status}] 非法操作！", $status);
             } else {
-                return api("[{$status}] 数据异常！", 500);
+                return new ApiResponse("[{$status}] 数据异常！", 500);
             }
         }
 
