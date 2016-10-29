@@ -137,14 +137,14 @@ class Handler extends ExceptionHandler
      */
     protected function createApiResponse($message = null, $code = null)
     {
-        if (empty($message)) {
-            $message = '发生错误，操作失败！';
-        }
-
         $response = new ApiResponse($message, $code);
 
         if (($successCode = $response::successCode()) === $response->getCode()) {
             $response->setCode(-1 * $successCode);
+        }
+
+        if (empty($response->getMessage())) {
+            $response->setMessage('发生错误，操作失败！');
         }
 
         return $response;
@@ -230,7 +230,7 @@ class Handler extends ExceptionHandler
     protected function convertExceptionToResponse(Exception $e)
     {
         if (! $this->container['config']['app.debug'] && $this->container['request']->expectsJson()) {
-            return $this->createApiResponse('Internal Server Error', 500);
+            return $this->createApiResponse(['__error' => $e->getMessage()], $e->getCode());
         }
 
         return parent::convertExceptionToResponse($e);
