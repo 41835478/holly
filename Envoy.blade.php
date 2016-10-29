@@ -7,7 +7,7 @@
 @servers(['web' => 'www@192.168.1.1'])
 
 @setup
-    $repo = 'git@github.com/repo.git';
+    $repo = 'git@git.coding.net:ElfSundae/holly-app.git';
     $branch = isset($branch) ? $branch : 'master';
     $wwwRoot = '/data/www';
     $repoName = preg_replace('#\\.git$#i', '', pathinfo($repo, PATHINFO_BASENAME));
@@ -51,7 +51,9 @@
     if [ ! -d "{{ $path }}" ]; then
         git clone {{ $repo }} --branch={{ $branch }} --single-branch --depth=1 "{{ $path }}"
         cd "{{ $path }}"
-        composer install --no-dev --no-interaction --profile
+        composer install --no-scripts --no-dev --no-interaction --profile
+        composer run-script post-root-package-install
+        composer run-script post-create-project-cmd
     fi
 
     cd "{{ $path }}"
