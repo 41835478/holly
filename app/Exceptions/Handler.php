@@ -58,7 +58,7 @@ class Handler extends ExceptionHandler
     public function render($request, Exception $exception)
     {
         if ($this->container->isDownForMaintenance()) {
-            return new ApiResponse('服务器维护中，请稍后重试。', 503);
+            return $this->createApiResponse('服务器维护中，请稍后重试。', 503);
         }
 
         if ($exception instanceof ActionFailureException ||
@@ -80,7 +80,7 @@ class Handler extends ExceptionHandler
     protected function unauthenticated($request, AuthenticationException $exception)
     {
         if ($request->expectsJson()) {
-            return new ApiResponse('认证失败，请先登录。', 401);
+            return $this->createApiResponse('认证失败，请先登录。', 401);
         }
 
         return redirect()->guest('login');
@@ -129,16 +129,49 @@ class Handler extends ExceptionHandler
     }
 
     /**
+     * Create an API response.
+     *
+     * @param  mixed  $message
+     * @param  int  $code
+     * @return \Holly\Http\ApiResponse
+     */
+    protected function createApiResponse($message = null, $code = null)
+    {
+        if (empty($message)) {
+            $message = '发生错误，操作失败！';
+        }
+
+        $response = new ApiResponse($message, $code);
+
+        if (($successCode = $response::successCode()) === $response->getCode()) {
+            $response->setCode(-1 * $successCode);
+        }
+
+        return $response;
+    }
+
+    /**
+     * Create an API response for the given exception.
+     *
+     * @param  \Exception  $e
+     * @return \Holly\Http\ApiResponse
+     */
+    protected function convertExceptionToApiResponse(Exception $e)
+    {
+        return $this->createApiResponse($e->getMessage(), $e->getCode());
+    }
+
+    /**
      * Render the given exception of action failure.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \Exception  $exception
-     * @return \Illuminate\Http\Response
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     protected function renderActionFailure($request, Exception $exception)
     {
         if ($request->expectsJson()) {
-            return new ApiResponse($exception->getMessage(), $exception->getCode());
+            return $this->convertExceptionToApiResponse($exception);
         }
 
         return redirect()->back()->withInput($request->input())->with('alert.error', $exception->getMessage());
@@ -154,15 +187,18 @@ class Handler extends ExceptionHandler
     {
         if ($this->container['request']->expectsJson()) {
             $status = $e->getStatusCode();
+            if (empty($message = $e->getMessage())) {
+                $message = false;
+            }
 
             if (401 === $status) {
-                return new ApiResponse('认证失败，请先登录！', $status);
+                return $this->createApiResponse($message ?: '认证失败，请先登录！', $status);
             } elseif (403 === $status) {
-                return new ApiResponse('拒绝访问（无权操作）！', $status);
+                return $this->createApiResponse($message ?: '拒绝访问（无权操作）！', $status);
             } elseif ($status >= 400 && $status < 500) {
-                return new ApiResponse("[{$status}] 非法操作！", $status);
+                return $this->createApiResponse($message ?: "[{$status}] 非法操作！", $status);
             } else {
-                return new ApiResponse("[{$status}] 数据异常！", 500);
+                return $this->createApiResponse($message ?: "[{$status}] 数据异常！", 500);
             }
         }
 
@@ -179,7 +215,7 @@ class Handler extends ExceptionHandler
     protected function convertValidationExceptionToResponse(ValidationException $e, $request)
     {
         if ($request->expectsJson()) {
-            return new ApiResponse(implode("\n", array_flatten($e->validator->errors()->getMessages())), 422);
+            return $this->createApiResponse(implode("\n", array_flatten($e->validator->errors()->getMessages())), 422);
         }
 
         return parent::convertValidationExceptionToResponse($e, $request);
@@ -194,7 +230,7 @@ class Handler extends ExceptionHandler
     protected function convertExceptionToResponse(Exception $e)
     {
         if (! $this->container['config']['app.debug'] && $this->container['request']->expectsJson()) {
-            return new ApiResponse('Internal Server Error', 500);
+            return $this->createApiResponse('Internal Server Error', 500);
         }
 
         return parent::convertExceptionToResponse($e);
