@@ -79,7 +79,7 @@ class AppServiceProvider extends ServiceProvider
     protected function hackForApiRequest($request)
     {
         if (! str_contains(($accept = $request->headers->get('Accept')), ['/json', '+json'])) {
-            $accept .= (! empty($accept) ? ',' : '').'application/json';
+            $accept = 'application/json'.(empty($accept) ? '' : ',').$accept;
 
             $request->headers->set('Accept', $accept);
             $request->server->set('HTTP_ACCEPT', $accept);
