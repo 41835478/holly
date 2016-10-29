@@ -4,7 +4,7 @@
  *
  --}}
 
-@servers(['web' => 'www@192.168.1.1'])
+@servers(['web' => 'www@i0x123.aliyun'])
 
 @setup
     $repo = 'git@git.coding.net:ElfSundae/holly-app.git';
