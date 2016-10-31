@@ -35,4 +35,16 @@ return [
         'secret' => env('STRIPE_SECRET'),
     ],
 
+    /*
+     * Google Analytics
+     * https://www.google.com/analytics
+     */
+    'google_analytics' => '',
+
+    /*
+     * Baidu Analytics
+     * http://tongji.baidu.com
+     */
+    'baidu_analytics' => '',
+
 ];
