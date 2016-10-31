@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "a23b3a88502969217bf6bd50ff12977c",
+    "hash": "0e708a79fd50b00476463aeeb8035c53",
     "content-hash": "6a85eb647506890e63bb95354106e20e",
     "packages": [
         {
@@ -492,12 +492,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/ElfSundae/holly.git",
-                "reference": "2bf30dca7ae1a90b8ca0faf265b65193f0bcd22d"
+                "reference": "672a9e1995d44c97f338d69ccc7984888adcd35e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://packagist.phpcomposer.com/files/ElfSundae/holly/2bf30dca7ae1a90b8ca0faf265b65193f0bcd22d.zip",
-                "reference": "2bf30dca7ae1a90b8ca0faf265b65193f0bcd22d",
+                "url": "https://packagist.phpcomposer.com/files/ElfSundae/holly/672a9e1995d44c97f338d69ccc7984888adcd35e.zip",
+                "reference": "672a9e1995d44c97f338d69ccc7984888adcd35e",
                 "shasum": ""
             },
             "require": {
@@ -506,9 +506,9 @@
                 "php": ">=5.6.4"
             },
             "require-dev": {
-                "mockery/mockery": "0.9.*",
+                "mockery/mockery": "~0.9.4",
                 "orchestra/testbench": "~3.0",
-                "phpunit/phpunit": "~5.0"
+                "phpunit/phpunit": "~5.4"
             },
             "type": "library",
             "autoload": {
@@ -536,7 +536,7 @@
                 "holly",
                 "laravel"
             ],
-            "time": "2016-10-28 18:35:18"
+            "time": "2016-10-29 17:50:35"
         },
         {
             "name": "elfsundae/laravel-bearychat",
@@ -3894,16 +3894,16 @@
         },
         {
             "name": "doctrine/cache",
-            "version": "v1.6.0",
+            "version": "v1.6.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/cache.git",
-                "reference": "f8af318d14bdb0eff0336795b428b547bd39ccb6"
+                "reference": "b6f544a20f4807e81f7044d31e679ccbb1866dc3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://packagist.phpcomposer.com/files/doctrine/cache/f8af318d14bdb0eff0336795b428b547bd39ccb6.zip",
-                "reference": "f8af318d14bdb0eff0336795b428b547bd39ccb6",
+                "url": "https://packagist.phpcomposer.com/files/doctrine/cache/b6f544a20f4807e81f7044d31e679ccbb1866dc3.zip",
+                "reference": "b6f544a20f4807e81f7044d31e679ccbb1866dc3",
                 "shasum": ""
             },
             "require": {
@@ -3960,7 +3960,7 @@
                 "cache",
                 "caching"
             ],
-            "time": "2015-12-31 16:37:02"
+            "time": "2016-10-29 11:16:17"
         },
         {
             "name": "doctrine/collections",
