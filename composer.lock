@@ -492,12 +492,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/ElfSundae/holly.git",
-                "reference": "672a9e1995d44c97f338d69ccc7984888adcd35e"
+                "reference": "84f631c4bd0277cc541c54395e1b60936a1bce5c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://packagist.phpcomposer.com/files/ElfSundae/holly/672a9e1995d44c97f338d69ccc7984888adcd35e.zip",
-                "reference": "672a9e1995d44c97f338d69ccc7984888adcd35e",
+                "url": "https://packagist.phpcomposer.com/files/ElfSundae/holly/84f631c4bd0277cc541c54395e1b60936a1bce5c.zip",
+                "reference": "84f631c4bd0277cc541c54395e1b60936a1bce5c",
                 "shasum": ""
             },
             "require": {
@@ -536,7 +536,7 @@
                 "holly",
                 "laravel"
             ],
-            "time": "2016-10-29 17:50:35"
+            "time": "2016-10-31 12:20:32"
         },
         {
             "name": "elfsundae/laravel-bearychat",
@@ -3786,16 +3786,16 @@
         },
         {
             "name": "caouecs/laravel-lang",
-            "version": "3.0.17",
+            "version": "3.0.18",
             "source": {
                 "type": "git",
                 "url": "https://github.com/caouecs/Laravel-lang.git",
-                "reference": "f22feed58adaa8051918ceb86fa2d991afad63ad"
+                "reference": "7c5d9ba460165b964408114c2d6e8e32258f3873"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://packagist.phpcomposer.com/files/caouecs/Laravel-lang/f22feed58adaa8051918ceb86fa2d991afad63ad.zip",
-                "reference": "f22feed58adaa8051918ceb86fa2d991afad63ad",
+                "url": "https://packagist.phpcomposer.com/files/caouecs/Laravel-lang/7c5d9ba460165b964408114c2d6e8e32258f3873.zip",
+                "reference": "7c5d9ba460165b964408114c2d6e8e32258f3873",
                 "shasum": ""
             },
             "require-dev": {
@@ -3822,7 +3822,7 @@
                 "laravel",
                 "lpm"
             ],
-            "time": "2016-10-10 18:52:34"
+            "time": "2016-10-31 19:34:07"
         },
         {
             "name": "doctrine/annotations",
@@ -4501,16 +4501,16 @@
         },
         {
             "name": "myclabs/deep-copy",
-            "version": "1.5.4",
+            "version": "1.5.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/myclabs/DeepCopy.git",
-                "reference": "ea74994a3dc7f8d2f65a06009348f2d63c81e61f"
+                "reference": "399c1f9781e222f6eb6cc238796f5200d1b7f108"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://packagist.phpcomposer.com/files/myclabs/DeepCopy/ea74994a3dc7f8d2f65a06009348f2d63c81e61f.zip",
-                "reference": "ea74994a3dc7f8d2f65a06009348f2d63c81e61f",
+                "url": "https://packagist.phpcomposer.com/files/myclabs/DeepCopy/399c1f9781e222f6eb6cc238796f5200d1b7f108.zip",
+                "reference": "399c1f9781e222f6eb6cc238796f5200d1b7f108",
                 "shasum": ""
             },
             "require": {
@@ -4539,7 +4539,7 @@
                 "object",
                 "object graph"
             ],
-            "time": "2016-09-16 13:37:59"
+            "time": "2016-10-31 17:19:45"
         },
         {
             "name": "phpdocumentor/reflection-common",
@@ -4751,16 +4751,16 @@
         },
         {
             "name": "phpunit/php-code-coverage",
-            "version": "4.0.1",
+            "version": "4.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-code-coverage.git",
-                "reference": "5f3f7e736d6319d5f1fc402aff8b026da26709a3"
+                "reference": "6cba06ff75a1a63a71033e1a01b89056f3af1e8d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://packagist.phpcomposer.com/files/sebastianbergmann/php-code-coverage/5f3f7e736d6319d5f1fc402aff8b026da26709a3.zip",
-                "reference": "5f3f7e736d6319d5f1fc402aff8b026da26709a3",
+                "url": "https://packagist.phpcomposer.com/files/sebastianbergmann/php-code-coverage/6cba06ff75a1a63a71033e1a01b89056f3af1e8d.zip",
+                "reference": "6cba06ff75a1a63a71033e1a01b89056f3af1e8d",
                 "shasum": ""
             },
             "require": {
@@ -4810,7 +4810,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2016-07-26 14:39:29"
+            "time": "2016-11-01 05:06:24"
         },
         {
             "name": "phpunit/php-file-iterator",
