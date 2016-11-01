@@ -6,6 +6,5 @@ finder:
   path:
     - "app"
     - "database"
-    - "resources/views"
     - "routes"
     - "tests"

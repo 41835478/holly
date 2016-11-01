@@ -8,7 +8,6 @@ $finder = Finder::create()
     ->in([
         __DIR__.'/app',
         __DIR__.'/database',
-        __DIR__.'/resources/views',
         __DIR__.'/routes',
         __DIR__.'/tests',
     ]);
