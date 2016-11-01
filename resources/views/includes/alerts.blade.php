@@ -1,4 +1,4 @@
-@hasSection ('alert-container')
+@hasSection ('alerts-container')
 <?php
 $__alerts = session('alert', []);
 $__alerts['danger'] = array_merge(
@@ -21,7 +21,7 @@ foreach ($__alerts as $__alertType => $__alertMessage) {
 ?>
 <script>
   $(function () {
-    $("@yield('alert-container')").first().bootnotify("{!! $__alertMessage !!}", "{{  $__alertType }}");
+    $("@yield('alerts-container')").first().bootnotify("{!! $__alertMessage !!}", "{{  $__alertType }}");
   });
 </script>
 <?php
