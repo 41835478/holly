@@ -29,6 +29,7 @@
 <body class="@yield('body-class')">
 @else<body>
 @endif
+@include('includes.wechat-icon')
 @yield('body')
 @stack('js')
 @hasSection('baidu-analytics')
