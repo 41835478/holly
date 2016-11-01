@@ -23,7 +23,7 @@ if (is_array($__alertMessage)) {
 $__alertMessage = trim(json_encode($__alertMessage), '"');
 ?>
 $(function () {
-  $("@yield('alerts-container')").first().bootnotify("{!! $__alertMessage !!}", "{{  $__alertType }}");
+  $("@yield('alerts-container')").first().bootnotify("{!! $__alertMessage !!}", "{{  $__alertType }}", {"position": "@yield('alerts-position', 'bottom')"});
 });
 @endforeach
 </script>

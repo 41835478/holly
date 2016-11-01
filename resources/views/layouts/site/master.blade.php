@@ -12,3 +12,9 @@
 <script src="{{ asset_url('js/site.js') }}"></script>
 @include('includes.alerts')
 @endpush
+
+@section('body')
+@yield('body.header')
+@yield('body.content')
+@yield('body.footer')
+@stop
