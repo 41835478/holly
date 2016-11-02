@@ -39,12 +39,12 @@ return [
      * Google Analytics
      * https://www.google.com/analytics
      */
-    'google_analytics' => '',
+    'google_analytics' => null,
 
     /*
      * Baidu Analytics
      * http://tongji.baidu.com
      */
-    'baidu_analytics' => '',
+    'baidu_analytics' => null,
 
 ];
