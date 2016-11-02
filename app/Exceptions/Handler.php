@@ -3,11 +3,12 @@
 namespace App\Exceptions;
 
 use Exception;
+use Holly\Http\ApiResponse;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
-use Holly\Http\ApiResponse;
-use Symfony\Component\HttpKernel\Exception\HttpException;
+use Illuminate\Foundation\Http\Exceptions\MaintenanceModeException;
 use Illuminate\Validation\ValidationException;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class Handler extends ExceptionHandler
 {
@@ -57,7 +58,7 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
-        if ($this->container->isDownForMaintenance()) {
+        if ($exception instanceof MaintenanceModeException) {
             return $this->createApiResponse('服务器维护中，请稍后重试。', 503);
         }
 
