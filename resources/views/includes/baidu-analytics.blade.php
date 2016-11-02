@@ -1,4 +1,4 @@
-@hasSection('baidu-analytics')
+@hasSection ('baidu-analytics')
 <script>
   var _hmt = _hmt || [];
   (function() {

@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title>@hasSection('title')@yield('title') - {{ config('app.name') }}<?php else: ?>@yield('full_title', config('app.name'))@endif</title>
+  <title>@hasSection('title')@yield('title') - {{ config('app.name') }}<?php else: ?>@yield('full-title', config('app.name'))@endif</title>
 @hasSection('keywords')
   <meta name="keywords" content="@yield('keywords')">
 @endif
