@@ -33,6 +33,7 @@
 @include('includes.client')
 @yield('body')
 @stack('js')
+@include('includes.alerts')
 @include('includes.baidu-analytics')
 </body>
 </html>

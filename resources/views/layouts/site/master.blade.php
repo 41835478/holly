@@ -1,7 +1,7 @@
 @extends('layouts.master')
 
-@section('baidu-analytics', config('services.baidu_analytics'))
 @section('alerts-container', 'body')
+@section('baidu-analytics', config('services.baidu_analytics'))
 
 @push('css')
   <link rel="stylesheet" href="{{ asset_url('css/site.css') }}">
@@ -9,7 +9,6 @@
 
 @push('js')
 <script src="{{ asset_url('js/site.js') }}"></script>
-@include('includes.alerts')
 @endpush
 
 @section('body')
