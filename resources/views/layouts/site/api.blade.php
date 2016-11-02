@@ -1,6 +1,3 @@
-@extends('layouts.site.default')
+@extends('layouts.site.default-content')
 
 @section('body-class')touch-callout-none @append
-
-@section('header') @overwrite
-@section('footer') @overwrite
