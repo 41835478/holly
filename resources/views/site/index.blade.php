@@ -4,7 +4,7 @@
 {{-- @section('description', 'description') --}}
 
 @push('css')
-<style>
+<style type="text/css">
 .example {
   text-align: center;
   color: #e17;
