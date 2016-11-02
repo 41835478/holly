@@ -7,8 +7,10 @@
 @stop
 
 @section('content')
-<div class="content"></div>
-@stop
+<div class="container body-container">
+  @yield('content')
+</div> <!-- //.body-container -->
+@overwrite
 
 @section('footer')
 @include('includes.site.footer')

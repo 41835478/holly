@@ -1,17 +1,12 @@
-@extends('layouts.site.api')
+@extends('layouts.site.default')
 
 @section('full-title', '用户服务协议')
+@section('header-text', '用户服务协议')
 
 @section('content')
 <div class="content">
-  <center>
-    <h3>『{{ config('app.name') }}』用户服务协议</h3>
-  </center>
-  <hr>
-  <div>
-    <p>
-      Foobar
-    </p>
-  </div>
+  <p>
+    Foobar
+  </p>
 </div>
 @stop

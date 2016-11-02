@@ -12,15 +12,7 @@
 @endpush
 
 @section('body')
-@hasSection ('header')
 @yield('header')
-@endif
-
-<div class="container body-container">
 @yield('content')
-</div> <!-- //.body-container -->
-
-@hasSection('footer')
 @yield('footer')
-@endif
 @stop
