@@ -1,7 +1,6 @@
 @extends('layouts.master')
 
-@section('alerts-selector', 'body')
-@section('alerts-position', 'top')
+@section('apple-mobile-web-app-title', config('app.name').'后台')
 
 @push('css')
   <link rel="stylesheet" href="{{ asset_url('css/admin.css') }}">
