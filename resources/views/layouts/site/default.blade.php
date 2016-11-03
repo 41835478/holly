@@ -1,6 +1,7 @@
 @extends('layouts.site.master')
 
-@section('alerts-container', '.body-container')
+@section('alerts-selector', '.body-container:first')
+@section('alerts-position', 'top')
 
 @section('header')
 @include('includes.site.header')

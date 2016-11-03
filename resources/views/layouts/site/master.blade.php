@@ -1,6 +1,7 @@
 @extends('layouts.master')
 
-@section('alerts-container', 'body')
+@section('alerts-selector', 'body')
+@section('alerts-position', 'top')
 @section('baidu-analytics', config('services.baidu_analytics'))
 
 @push('css')
