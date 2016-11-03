@@ -7,7 +7,7 @@
 @push('css')
 <style type="text/css">
 .message {
-  font-size: 18px;
+  font-size: 20px;
 }
 </style>
 @endpush
