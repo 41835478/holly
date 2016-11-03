@@ -1,6 +1,6 @@
 @extends('layouts.admin.master')
 
-@section('alerts-selector', '.content-wrapper:.content:first')
+@section('alerts-selector', '.content-wrapper :first.content')
 @section('alerts-position', 'top')
 @section('body-class', 'hold-transition skin-blue sidebar-mini fixed')
 
