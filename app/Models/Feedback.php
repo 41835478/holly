@@ -2,56 +2,64 @@
 
 namespace App\Models;
 
+use App\Exceptions\InvalidInputException;
 use Carbon\Carbon;
-use Request;
 use Holly\Support\Helper;
-use App\Jobs\SendBearyChat;
+use Iatstuti\Database\Support\NullableFields;
+use Illuminate\Database\Eloquent\Model as BaseModel;
+use Request;
 
-class Feedback extends Model
+class Feedback extends BaseModel
 {
+    use NullableFields;
+
     public $timestamps = false;
+
+    protected $appends = ['platform_string'];
 
     protected $dates = ['created_at'];
 
-    protected $appends = ['platform_string'];
+    protected $casts = [
+        'user_id' => 'integer',
+        'device_id' => 'integer',
+    ];
+
+    protected $nullable = [
+        'user_id', 'device_id', 'os_version',
+        'platform', 'network', 'ip', 'contact',
+    ];
 
     public function getPlatformStringAttribute()
     {
         return Helper::iOSPlatform($this->platform);
     }
 
+    /**
+     * Create a Feedback instance.
+     *
+     * @param  array  $data
+     * @param  int  $user_id
+     * @param  int  $device_id
+     * @return static|null
+     *
+     * @throws \App\Exceptions\InvalidInputException
+     */
     public static function createFeedback($data, $user_id = null, $device_id = null)
     {
-        $data = array_filter($data);
-
-        if (! isset($data['feedback_content'])) {
-            return;
+        if (! is_string($content = array_get($data, 'feedback_content'))) {
+            throw new InvalidInputException('反馈内容不能为空！');
         }
 
-        $instance = new static;
-        $instance->user_id = $user_id;
-        $instance->device_id = $device_id;
-        $instance->os = str_limit2(array_get($data, 'os', app('AppClient')->os), 10);
-        $instance->os_version = str_limit2(array_get($data, 'os_version'), 20);
-        $instance->platform = str_limit2(array_get($data, 'platform'), 20);
-        $instance->network = str_limit2(array_get($data, 'network'), 8);
-        $instance->ip = Request::ip();
-        $instance->content = $data['feedback_content'];
-        $instance->contact = str_limit2(array_get($data, 'feedback_contact'), 100);
-        $instance->created_at = Carbon::now();
+        $contact = array_get($data, 'feedback_contact');
 
-        $instance->save();
+        $data = array_only(array_filter($data), [
+            'os', 'os_version', 'platform', 'network',
+        ]) + compact('user_id', 'device_id', 'content', 'contact') + [
+            'os' => app('client')->os,
+            'ip' => Request::ip(),
+            'created_at' => Carbon::now(),
+        ];
 
-        static::notifyNewFeedback($instance);
-
-        return $instance;
-    }
-
-    public static function notifyNewFeedback($feedback)
-    {
-        dispatch(
-            (new SendBearyChat('收到新的意见反馈！', $feedback->content, $feedback->contact))
-            ->notification('收到新的意见反馈：'.str_limit2($feedback->content, 50))
-        );
+        return static::forceCreate($data);
     }
 }
