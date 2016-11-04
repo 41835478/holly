@@ -24,7 +24,7 @@ class CreateSocialAuthsTable extends Migration
             $table->string('access_token', 520);
             $table->string('refresh_token', 520)->nullable();
             $table->string('uid', 40)->nullable();
-            // May store other vendor information, e.g. Weixin UnionID
+            // May store other vendor information, like Weixin UnionID
             $table->string('vendor', 200)->nullable();
             $table->timestamp('expires_at')->nullable();
             $table->timestamps();
