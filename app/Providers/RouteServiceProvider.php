@@ -43,26 +43,34 @@ class RouteServiceProvider extends ServiceProvider
         // If there is no "namespace" in attributes, the default namespace will be `$this->namespace.'\\'.studly_case($identifier)`.
         // The routes definitions will be placed in file "routes/{$identifer}.php".
         $routes = [
+            'global' => [
+                'namespace' => '',
+            ],
+
             'site' => [
                 'domain' => config('app.domains.site'),
                 'middleware' => 'web',
             ],
+
             'admin' => [
                 'domain' => config('app.domains.admin'),
                 'middleware' => 'web',
             ],
+
             'api' => [
                 'domain' => config('app.domains.api'),
                 'middleware' => 'api',
             ],
+
             'api-web' => [
                 'domain' => config('app.domains.site'),
                 'prefix' => 'api',
                 'namespace' => 'Site',
                 'middleware' => ['web', 'api.client'],
             ],
-            'global' => [
-                'namespace' => '',
+
+            'asset' => [
+                'domain' => config('app.domains.asset'),
             ],
         ];
 
