@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Support\Image\Templates;
+namespace App\Support\Intervention\Image\Templates;
 
 use Intervention\Image\Image;
 use Intervention\Image\Filters\FilterInterface;
