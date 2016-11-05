@@ -197,7 +197,7 @@ class Handler extends ExceptionHandler
             } elseif (403 === $status) {
                 return $this->createApiResponse($message ?: '拒绝访问（无权操作）', $status);
             } elseif (404 === $status) {
-                return $this->createApiResponse($message ?: '请求资源不存在', $status);
+                return $this->createApiResponse($message ?: '404 Not Found', $status);
             } elseif ($status >= 400 && $status < 500) {
                 return $this->createApiResponse($message ?: "{$status} 非法操作", $status);
             } else {
