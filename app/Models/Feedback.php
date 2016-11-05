@@ -41,7 +41,7 @@ class Feedback extends Model
     }
 
     /**
-     * Get the platform_string attribute.
+     * Get the `platform_string` attribute.
      *
      * @return string|null
      */
