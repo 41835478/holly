@@ -30,6 +30,8 @@ class Feedback extends Model
 
     public static function boot()
     {
+        parent::boot();
+
         static::creating(function ($instance) {
             $instance->created_at = $instance->freshTimestamp();
         });
