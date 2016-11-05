@@ -61,11 +61,16 @@ class RouteServiceProvider extends ServiceProvider
                 'namespace' => 'Site',
                 'middleware' => ['web', 'api.client'],
             ],
+            'global' => [
+                'namespace' => '',
+            ],
         ];
 
         foreach ($routes as $identifier => $attributes) {
-            $attributes['namespace'] = $this->namespace.'\\'.
-                studly_case(array_get($attributes, 'namespace', $identifier));
+            $attributes['namespace'] = rtrim(
+                $this->namespace.'\\'.studly_case(array_get($attributes, 'namespace', $identifier)),
+                '\\'
+            );
 
             Route::group(
                 $attributes,
