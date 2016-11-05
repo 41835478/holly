@@ -3,13 +3,12 @@
 namespace App\Models;
 
 use App\Exceptions\InvalidInputException;
-use Carbon\Carbon;
 use Holly\Support\Helper;
 use Iatstuti\Database\Support\NullableFields;
-use Illuminate\Database\Eloquent\Model as BaseModel;
+use Illuminate\Database\Eloquent\Model;
 use Request;
 
-class Feedback extends BaseModel
+class Feedback extends Model
 {
     use NullableFields;
 
@@ -25,9 +24,16 @@ class Feedback extends BaseModel
     ];
 
     protected $nullable = [
-        'user_id', 'device_id', 'os_version',
-        'platform', 'network', 'ip', 'contact',
+        'contact', 'user_id', 'device_id',
+        'os_version', 'platform', 'network',
     ];
+
+    public static function boot()
+    {
+        static::creating(function ($instance) {
+            $instance->created_at = $instance->freshTimestamp();
+        });
+    }
 
     public function getPlatformStringAttribute()
     {
@@ -46,7 +52,9 @@ class Feedback extends BaseModel
      */
     public static function createFeedback($data, $user_id = null, $device_id = null)
     {
-        if (! is_string($content = array_get($data, 'feedback_content'))) {
+        $content = trim(array_get($data, 'feedback_content'));
+
+        if (! is_string($content) || empty($content)) {
             throw new InvalidInputException('反馈内容不能为空！');
         }
 
@@ -57,7 +65,6 @@ class Feedback extends BaseModel
         ]) + compact('user_id', 'device_id', 'content', 'contact') + [
             'os' => app('client')->os,
             'ip' => Request::ip(),
-            'created_at' => Carbon::now(),
         ];
 
         return static::forceCreate($data);
