@@ -8,14 +8,17 @@ use Intervention\Image\Filters\FilterInterface;
 class Fit implements FilterInterface
 {
     /**
-     * The new width of the image.
+     * The width the image will be resized to after cropping out
+     * the best fitting aspect ratio.
      *
      * @var int
      */
-    protected $width = 300;
+    protected $width = 200;
 
     /**
-     * The new height of the image.
+     * The height the image will be resized to after cropping out
+     * the best fitting aspect ratio. If no height is given, method
+     * will use same value as width.
      *
      * @var int|null
      */
@@ -24,12 +27,14 @@ class Fit implements FilterInterface
     /**
      * The position where cutout will be positioned.
      *
+     * @see http://image.intervention.io/api/fit
+     *
      * @var string
      */
     protected $position = 'center';
 
     /**
-     * Keep image from being upsized.
+     * Determines whether keeping the image from being upsized.
      *
      * @var bool
      */
@@ -43,19 +48,22 @@ class Fit implements FilterInterface
      */
     public function applyFilter(Image $image)
     {
-        return $image->orientate()->fit($this->width, $this->height, function ($constraint) {
-            $this->constraintFit($constraint);
-        }, $this->position);
+        return $image->orientate()
+            ->fit($this->width, $this->height, function ($constraint) {
+                    $this->constraint($constraint);
+                }, $this->position);
     }
 
     /**
-     * Constraint the fit.
+     * Constraints the filter.
      *
      * @param  \Intervention\Image\Constraint  $constraint
      * @return void
      */
-    protected function constraintFit($constraint)
+    protected function constraint($constraint)
     {
-        $constraint->upsize();
+        if ($this->upsize) {
+            $constraint->upsize();
+        }
     }
 }

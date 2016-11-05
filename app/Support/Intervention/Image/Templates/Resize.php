@@ -12,14 +12,28 @@ class Resize implements FilterInterface
      *
      * @var int
      */
-    protected $width = 300;
+    protected $width = 200;
 
     /**
      * The new height of the image.
      *
      * @var int
      */
-    protected $height = 300;
+    protected $height = 200;
+
+    /**
+     * Determines whether constrainting the current aspect-ratio of the image.
+     *
+     * @var bool
+     */
+    protected $aspectRatio = true;
+
+    /**
+     * Determines whether keeping the image from being upsized.
+     *
+     * @var bool
+     */
+    protected $upsize = true;
 
     /**
      * Applies filter to the given image.
@@ -29,20 +43,26 @@ class Resize implements FilterInterface
      */
     public function applyFilter(Image $image)
     {
-        return $image->orientate()->resize($this->width, $this->height, function ($constraint) {
-            $this->constraintResize($constraint);
-        });
+        return $image->orientate()
+            ->resize($this->width, $this->height, function ($constraint) {
+                    $this->constraint($constraint);
+                });
     }
 
     /**
-     * Constraint the resize.
+     * Constraints the filter.
      *
      * @param  \Intervention\Image\Constraint  $constraint
      * @return void
      */
-    protected function constraintResize($constraint)
+    protected function constraint($constraint)
     {
-        $constraint->aspectRatio();
-        $constraint->upsize();
+        if ($this->aspectRatio) {
+            $constraint->aspectRatio();
+        }
+
+        if ($this->upsize) {
+            $constraint->upsize();
+        }
     }
 }
