@@ -28,6 +28,9 @@ class Feedback extends Model
         'os_version', 'platform', 'network',
     ];
 
+    /**
+     * The "booting" method of the model.
+     */
     public static function boot()
     {
         parent::boot();
@@ -37,6 +40,11 @@ class Feedback extends Model
         });
     }
 
+    /**
+     * Get the platform_string attribute.
+     *
+     * @return string|null
+     */
     public function getPlatformStringAttribute()
     {
         return Helper::iOSPlatform($this->platform);
