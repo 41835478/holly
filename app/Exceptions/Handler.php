@@ -193,13 +193,15 @@ class Handler extends ExceptionHandler
             }
 
             if (401 === $status) {
-                return $this->createApiResponse($message ?: '认证失败，请先登录！', $status);
+                return $this->createApiResponse($message ?: '认证失败，请先登录', $status);
             } elseif (403 === $status) {
-                return $this->createApiResponse($message ?: '拒绝访问（无权操作）！', $status);
+                return $this->createApiResponse($message ?: '拒绝访问（无权操作）', $status);
+            } elseif (404 === $status) {
+                return $this->createApiResponse($message ?: '请求资源不存在', $status);
             } elseif ($status >= 400 && $status < 500) {
-                return $this->createApiResponse($message ?: "[{$status}] 非法操作！", $status);
+                return $this->createApiResponse($message ?: "{$status} 非法操作", $status);
             } else {
-                return $this->createApiResponse($message ?: "[{$status}] 数据异常！", 500);
+                return $this->createApiResponse($message ?: "{$status} 数据异常", 500);
             }
         }
 
