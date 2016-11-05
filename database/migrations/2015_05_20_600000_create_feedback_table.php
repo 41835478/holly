@@ -19,16 +19,16 @@ class CreateFeedbackTable extends Migration
 
         Schema::create('feedback', function (Blueprint $table) {
             $table->increments('id');
+            $table->text('content');
+            $table->string('contact', 100)->nullable();
             $table->unsignedInteger('user_id')->nullable();
             $table->unsignedInteger('device_id')->nullable();
             $table->string('os', 10);
             $table->string('os_version', 20)->nullable();
             $table->string('platform', 20)->nullable();
             $table->string('network', 8)->nullable();
-            $table->string('ip', 45)->nullable();
-            $table->text('content');
-            $table->string('contact', 100)->nullable();
-            $table->timestamp('created_at')->nullable();
+            $table->string('ip', 45);
+            $table->timestamp('created_at')->useCurrent();
         });
     }
 
