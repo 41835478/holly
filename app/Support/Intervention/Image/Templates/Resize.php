@@ -43,10 +43,9 @@ class Resize implements FilterInterface
      */
     public function applyFilter(Image $image)
     {
-        return $image->orientate()
-            ->resize($this->width, $this->height, function ($constraint) {
-                    $this->constraint($constraint);
-                });
+        return $image->orientate()->resize($this->width, $this->height, function ($constraint) {
+            $this->constraint($constraint);
+        });
     }
 
     /**

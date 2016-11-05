@@ -48,10 +48,9 @@ class Fit implements FilterInterface
      */
     public function applyFilter(Image $image)
     {
-        return $image->orientate()
-            ->fit($this->width, $this->height, function ($constraint) {
-                    $this->constraint($constraint);
-                }, $this->position);
+        return $image->orientate()->fit($this->width, $this->height, function ($constraint) {
+            $this->constraint($constraint);
+        }, $this->position);
     }
 
     /**
