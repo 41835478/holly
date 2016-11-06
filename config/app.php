@@ -168,7 +168,7 @@ return [
          */
         Holly\Providers\HollyServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
-        Mews\Captcha\CaptchaServiceProvider::class,
+        App\Providers\CaptchaServiceProvider::class,
         SimpleSoftwareIO\QrCode\QrCodeServiceProvider::class,
         Yajra\Datatables\DatatablesServiceProvider::class,
         NotificationChannels\BearyChat\BearyChatServiceProvider::class,
