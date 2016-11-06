@@ -68,10 +68,6 @@ class RouteServiceProvider extends ServiceProvider
                 'namespace' => 'Site',
                 'middleware' => ['web', 'api.client'],
             ],
-
-            'asset' => [
-                'domain' => config('app.domains.asset'),
-            ],
         ];
 
         foreach ($routes as $identifier => $attributes) {
