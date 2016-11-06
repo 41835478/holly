@@ -16,7 +16,7 @@ return array(
     |
     */
 
-    'route' => 'images',
+    'route' => null,
 
     /*
     |--------------------------------------------------------------------------
@@ -31,7 +31,7 @@ return array(
     */
 
     'paths' => array(
-        public_path('images'),
+        storage_path('app/public/images'),
     ),
 
     /*
