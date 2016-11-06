@@ -11,7 +11,7 @@
         "elfsundae/holly": "dev-master",
         "backup-manager/laravel": "^1.1",
         "rap2hpoutre/laravel-log-viewer": "dev-master",
-        "intervention/imagecache": "^2.3",
+        "intervention/image": "^2.3",
         "mews/captcha": "^2.1",
         "simplesoftwareio/simple-qrcode": "^1.4",
         "guzzlehttp/guzzle": "~6.2",
