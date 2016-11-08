@@ -65,4 +65,24 @@ class Fit implements FilterInterface
             $constraint->upsize();
         }
     }
+
+    /**
+     * Handle dynamic method calls to set properties.
+     *
+     * @return $this
+     */
+    public function __call($method, $parameters)
+    {
+        if (! property_exists($this, $method)) {
+            throw new \InvalidArgumentException("Property '{$method}' does not exist.");
+        }
+
+        if (count($parameters) < 1) {
+            throw new \InvalidArgumentException("Method '{$method}()' requires at least one argument.");
+        }
+
+        $this->{$method} = $parameters[0];
+
+        return $this;
+    }
 }
