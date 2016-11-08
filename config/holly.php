@@ -23,8 +23,8 @@ return [
     */
 
     'cookie_domain' => [
-        'admin' => env('COOKIE_DOMAIN_ADMIN', null),
-        'api' => env('COOKIE_DOMAIN_API', null),
+        'admin' => env('SESSION_DOMAIN_ADMIN', null),
+        'api' => env('SESSION_DOMAIN_API', null),
     ],
 
     /*
@@ -34,10 +34,10 @@ return [
     */
 
     'auth' => [
-        // 'admin' => [
-        //     'guard' => 'admin',
-        //     'passwords' => 'admin_users',
-        // ],
+        'admin' => [
+            'guard' => 'admin',
+            'passwords' => 'admin_users',
+        ],
     ],
 
     /*
