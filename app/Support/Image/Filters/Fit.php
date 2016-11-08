@@ -2,8 +2,9 @@
 
 namespace App\Support\Image\Filters;
 
-use Intervention\Image\Image;
 use Intervention\Image\Filters\FilterInterface;
+use Intervention\Image\Image;
+use InvalidArgumentException;
 
 class Fit implements FilterInterface
 {
@@ -74,11 +75,11 @@ class Fit implements FilterInterface
     public function __call($method, $parameters)
     {
         if (! property_exists($this, $method)) {
-            throw new \InvalidArgumentException("Property '{$method}' does not exist.");
+            throw new InvalidArgumentException("Property '{$method}' does not exist.");
         }
 
         if (count($parameters) < 1) {
-            throw new \InvalidArgumentException("Method '{$method}()' requires one argument.");
+            throw new InvalidArgumentException("Method '{$method}()' requires one argument.");
         }
 
         $this->{$method} = $parameters[0];
