@@ -16,7 +16,7 @@ $style = [
   'line' => 'border: 0; height: 0px; border-top: 1px solid rgba(0, 0, 0, 0.1); border-bottom: 1px solid rgba(255, 255, 255, 0.3);',
 ];
 
-$fontFamily = 'font-family: Arial, \'Helvetica Neue\', Helvetica, sans-serif;';
+$fontFamily = 'font-family: \'Helvetica Neue\', Helvetica, Arial, sans-serif;';
 ?>
 
 <body style="{{ $style['body'] }} {{ $fontFamily }}">
@@ -74,7 +74,6 @@ $fontFamily = 'font-family: Arial, \'Helvetica Neue\', Helvetica, sans-serif;';
   <p style="{{ $style['paragraph-sub'] }}">
     &copy; {{ date('Y') }}
     <a style="{{ $style['anchor'] }}" href="{{ app_url() }}" target="_blank">{{ config('app.name') }}</a>
-    &nbsp;&nbsp;All rights reserved.
   </p>
 
 </body>
