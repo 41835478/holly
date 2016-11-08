@@ -12,14 +12,14 @@ class Resize implements FilterInterface
      *
      * @var int
      */
-    protected $width = 200;
+    protected $width;
 
     /**
      * The new height of the image.
      *
      * @var int
      */
-    protected $height = 200;
+    protected $height;
 
     /**
      * Determines whether constrainting the current aspect-ratio of the image.
@@ -77,7 +77,7 @@ class Resize implements FilterInterface
         }
 
         if (count($parameters) < 1) {
-            throw new \InvalidArgumentException("Method '{$method}()' requires at least one argument.");
+            throw new \InvalidArgumentException("Method '{$method}()' requires one argument.");
         }
 
         $this->{$method} = $parameters[0];

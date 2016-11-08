@@ -13,7 +13,7 @@ class Fit implements FilterInterface
      *
      * @var int
      */
-    protected $width = 200;
+    protected $width;
 
     /**
      * The height the image will be resized to after cropping out
@@ -22,7 +22,7 @@ class Fit implements FilterInterface
      *
      * @var int|null
      */
-    protected $height = null;
+    protected $height;
 
     /**
      * The position where cutout will be positioned.
@@ -78,7 +78,7 @@ class Fit implements FilterInterface
         }
 
         if (count($parameters) < 1) {
-            throw new \InvalidArgumentException("Method '{$method}()' requires at least one argument.");
+            throw new \InvalidArgumentException("Method '{$method}()' requires one argument.");
         }
 
         $this->{$method} = $parameters[0];
