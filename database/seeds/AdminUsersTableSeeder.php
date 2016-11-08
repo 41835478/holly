@@ -12,13 +12,13 @@ class AdminUsersTableSeeder extends Seeder
      */
     public function run()
     {
-        foreach ([
-                'admin@example.com' => 'Super Admin',
-            ] as $email => $username
-        ) {
-            AdminUser::firstOrCreate(compact('email'), compact('username') + [
-                'password' => bcrypt(md5('admin')),
-            ]);
-        }
+        $email = 'admin@example.com';
+        $username = 'Super Admin';
+        $password = bcrypt(md5('admin'));
+
+        AdminUser::firstOrCreate(
+            compact('email'),
+            compact('username', 'password')
+        );
     }
 }
