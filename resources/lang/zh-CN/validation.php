@@ -2,6 +2,8 @@
 
 return [
 
+    'captcha' => ':attribute 无效。',
+
     /*
     |--------------------------------------------------------------------------
     | Validation Language Lines
@@ -142,6 +144,7 @@ return [
         'time'                  => '时间',
         'available'             => '可用的',
         'size'                  => '大小',
+        'captcha' => '验证码',
     ],
 
 ];
