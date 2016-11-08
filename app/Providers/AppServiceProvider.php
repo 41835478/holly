@@ -39,9 +39,7 @@ class AppServiceProvider extends ServiceProvider
         }
 
         if (is_domain('api')) {
-            $this->app->rebinding('request', function ($app, $request) {
-                $this->hackForApiRequest($request);
-            });
+            $this->hackForApiRequest();
         }
     }
 
@@ -73,16 +71,16 @@ class AppServiceProvider extends ServiceProvider
     /**
      * Hack the current Request instance for adding "Accept: application/json" header,
      * to make `$request->expectsJson()` working for API requests.
-     *
-     * @param  \Illuminate\Http\Request  $request
      */
-    protected function hackForApiRequest($request)
+    protected function hackForApiRequest()
     {
-        if (! str_contains(($accept = $request->headers->get('Accept')), ['/json', '+json'])) {
-            $accept = 'application/json'.(empty($accept) ? '' : ',').$accept;
+        $this->app->rebinding('request', function ($app, $request) {
+            if (! str_contains(($accept = $request->headers->get('Accept')), ['/json', '+json'])) {
+                $accept = 'application/json'.(empty($accept) ? '' : ',').$accept;
 
-            $request->headers->set('Accept', $accept);
-            $request->server->set('HTTP_ACCEPT', $accept);
-        }
+                $request->headers->set('Accept', $accept);
+                $request->server->set('HTTP_ACCEPT', $accept);
+            }
+        });
     }
 }
