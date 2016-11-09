@@ -1,5 +1,6 @@
 @extends('layouts.site.default')
 
+{{-- @section('full-title', 'A long title for the homepage') --}}
 {{-- @section('keywords', 'keywords') --}}
 {{-- @section('description', 'description') --}}
 
