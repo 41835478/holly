@@ -52,8 +52,8 @@ git push origin master
 
 ## Useful Links
 
+- [DataTables](https://datatables.net)
 - [Laravel DataTables](https://datatables.yajrabox.com)
-- [Datatables](https://datatables.net)
 - [Guzzle](http://docs.guzzlephp.org/en/latest/)
 - [Goutte Client](https://github.com/FriendsOfPHP/Goutte)
 - [Intervention Image](http://image.intervention.io)
