@@ -46,10 +46,14 @@
     <!-- Menu Footer-->
     <li class="user-footer">
       <div class="pull-left">
-        <a href="/admin/profile" class="btn btn-default btn-flat">用户中心</a>
+        <a href="/admin/profile" class="btn btn-default btn-flat">
+          <i class="fa fa-user"></i> 个人中心
+        </a>
       </div>
       <div class="pull-right">
-        <a href="/logout" class="btn btn-default btn-flat">登出</a>
+        <a href="/logout" class="btn btn-default btn-flat">
+          <i class="fa fa-sign-out"></i> 退出
+        </a>
       </div>
     </li>
   </ul>
