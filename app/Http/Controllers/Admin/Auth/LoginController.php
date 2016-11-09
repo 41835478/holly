@@ -28,9 +28,11 @@ class LoginController extends Controller
     }
 
     /**
-     * Send the response after the user was authenticated.
+     * The user has been authenticated.
      *
-     * Called from AuthenticatesUsers::handleUserWasAuthenticated
+     * @param  \Illuminate\Http\Request  $request
+     * @param  mixed  $user
+     * @return mixed
      */
     protected function authenticated(Request $request, $user)
     {
