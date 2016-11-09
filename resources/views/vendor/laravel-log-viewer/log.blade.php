@@ -30,27 +30,27 @@
 
 @push('js')
 <script>
-  $(document).ready(function(){
-    $('#table-log').DataTable({
-      "serverSide": false,
-      "order": [ 1, 'desc' ],
-      "stateSave": true,
-      "stateSaveCallback": function (settings, data) {
-        window.localStorage.setItem("datatable", JSON.stringify(data));
-      },
-      "stateLoadCallback": function (settings) {
-        var data = JSON.parse(window.localStorage.getItem("datatable"));
-        if (data) data.start = 0;
-        return data;
-      }
-    });
-    $('.table-container').on('click', '.expand', function(){
-      $('#' + $(this).data('display')).toggle();
-    });
-    $('#delete-log').click(function(){
-      return confirm('Are you sure?');
-    });
+$(document).ready(function(){
+  $('#table-log').DataTable({
+    "serverSide": false,
+    "order": [ 1, 'desc' ],
+    "stateSave": true,
+    "stateSaveCallback": function (settings, data) {
+      window.localStorage.setItem("datatable", JSON.stringify(data));
+    },
+    "stateLoadCallback": function (settings) {
+      var data = JSON.parse(window.localStorage.getItem("datatable"));
+      if (data) data.start = 0;
+      return data;
+    }
   });
+  $('.table-container').on('click', '.expand', function(){
+    $('#' + $(this).data('display')).toggle();
+  });
+  $('#delete-log').click(function(){
+    return confirm('Are you sure?');
+  });
+});
 </script>
 @endpush
 
