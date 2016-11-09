@@ -60,6 +60,6 @@ class LoginController extends Controller
      */
     protected function sendLockoutResponse(Request $request)
     {
-        return api('操作太频繁，请稍后重试。', 429);
+        return api('尝试登录次数过多，请稍后再试。', 429);
     }
 }
