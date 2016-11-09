@@ -8,54 +8,53 @@
 
 @push('js')
 <script>
-  $(function() {
-    $(':input:enabled:visible:first').select();
+$(function() {
+  $(':input:enabled:visible:first').select();
 
-    $('#form').ajaxForm({
-      beforeSerialize: function($form, options) {
-        var form = $form[0];
-        if (form.password && form.password_confirmation && form.password.value.length && form.password_confirmation.value.length) {
-          options.data = {
-            password: md5(form.password.value),
-            password_confirmation: md5(form.password_confirmation.value)
-          };
+  $('#form').ajaxForm({
+    beforeSerialize: function($form, options) {
+      var form = $form[0];
+      if (form.password && form.password_confirmation && form.password.value.length && form.password_confirmation.value.length) {
+        options.data = {
+          password: md5(form.password.value),
+          password_confirmation: md5(form.password_confirmation.value)
+        };
+      }
+    },
+    beforeSubmit: function(data, form){
+      $(form).bootnotify(false);
+      for (var i = 0; i < data.length; i++) {
+        if (!data[i].value) {
+          $(form).bootnotify('请输入'+$(form).find('input[name='+data[i].name+']').attr('placeholder'), 'danger');
+          return false;
         }
-      },
-      beforeSubmit: function(data, form){
-        $(form).bootnotify(false);
-        for (var i = 0; i < data.length; i++) {
-          if (!data[i].value) {
-            $(form).bootnotify('请输入'+$(form).find('input[name='+data[i].name+']').attr('placeholder'), 'danger');
-            return false;
+      }
+
+      $(form).find('button[type=submit]').prop('disabled', true);
+      $(form).spin();
+    },
+    success: function(data, status, xhr, form){
+      $(form).spin(false);
+      if (data.code == 1) {
+        $(form).bootnotifyJSON(data).delay(1000, function(){
+          if (data.url !== undefined) {
+            window.location.replace(data.url);
           }
-        }
-
-        $(form).find('button[type=submit]').prop('disabled', true);
-        $(form).spin();
-      },
-      success: function(data, status, xhr, form){
-        $(form).spin(false);
-        if (data.code == 1) {
-          $(form).bootnotifyJSON(data).delay(1000, function(){
-            if (data.url !== undefined) {
-              window.location.replace(data.url);
-            }
-          });
-        } else {
-          $(form).bootnotifyJSON(data);
-          $(form).find('button[type=submit]').prop('disabled', false);
-          $('a.captcha').refreshCaptcha();
-        }
+        });
+      } else {
+        $(form).bootnotifyJSON(data);
+        $(form).find('button[type=submit]').prop('disabled', false);
+        $('a.captcha').refreshCaptcha();
       }
-    });
-
-    $("html").keydown(function(e) {
-      if (e.keyCode == 13) {
-        $('#form').submit();
-      }
-    });
-
+    }
   });
+
+  $("html").keydown(function(e) {
+    if (e.keyCode == 13) {
+      $('#form').submit();
+    }
+  });
+});
 </script>
 @endpush
 

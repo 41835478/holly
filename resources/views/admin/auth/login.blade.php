@@ -8,49 +8,49 @@
 
 @push('js')
 <script>
-  $(function() {
-    $(':input:enabled:visible:first').select();
+$(function() {
+  $(':input:enabled:visible:first').select();
 
-    $('#login-form').ajaxForm({
-      beforeSerialize: function($form, options) {
-        var form = $form[0];
-        if (form.password && form.password.value.length) {
-          options.data = {
-            password: md5(form.password.value)
-          };
-        }
-      },
-      beforeSubmit: function(data, form) {
-        $(form).bootnotify(false);
-        for (var i = 0; i < data.length; i++) {
-          if (!data[i].value) {
-            $(form).bootnotify('请输入' + $(form).find('input[name=' + data[i].name + ']').attr('placeholder'), 'danger');
-            return false;
-          }
-        }
-
-        $(form).find('button[type=submit]').prop('disabled', true);
-        $(form).spin();
-      },
-      success: function(data, status, xhr, form) {
-        $(form).spin(false);
-        if (data.code == 1) {
-          $(form).bootnotifyJSON(data).delay(1000, function() {
-            window.location.replace(data.url !== undefined ? data.url : '/');
-          });
-        } else {
-          $(form).bootnotifyJSON(data);
-          $(form).find('button[type=submit]').prop('disabled', false);
+  $('#login-form').ajaxForm({
+    beforeSerialize: function($form, options) {
+      var form = $form[0];
+      if (form.password && form.password.value.length) {
+        options.data = {
+          password: md5(form.password.value)
+        };
+      }
+    },
+    beforeSubmit: function(data, form) {
+      $(form).bootnotify(false);
+      for (var i = 0; i < data.length; i++) {
+        if (!data[i].value) {
+          $(form).bootnotify('请输入' + $(form).find('input[name=' + data[i].name + ']').attr('placeholder'), 'danger');
+          return false;
         }
       }
-    });
 
-    $("html").keydown(function(e) {
-      if (e.keyCode == 13) {
-        $('#login-form').submit();
+      $(form).find('button[type=submit]').prop('disabled', true);
+      $(form).spin();
+    },
+    success: function(data, status, xhr, form) {
+      $(form).spin(false);
+      if (data.code == 1) {
+        $(form).bootnotifyJSON(data).delay(1000, function() {
+          window.location.replace(data.url !== undefined ? data.url : '/');
+        });
+      } else {
+        $(form).bootnotifyJSON(data);
+        $(form).find('button[type=submit]').prop('disabled', false);
       }
-    });
+    }
   });
+
+  $("html").keydown(function(e) {
+    if (e.keyCode == 13) {
+      $('#login-form').submit();
+    }
+  });
+});
 </script>
 @endpush
 
