@@ -16,9 +16,7 @@
     <li>
       <ul class="menu">
         <li><a href="#" target="_blank"><i class="fa fa-fw fa-apple text-black"></i> App Store</a></li>
-        {{-- @can('manage-system-log') --}}
         <li><a href="/log" target="_blank"><i class="fa fa-fw fa-lock text-red"></i> Log Viewer</a></li>
-        {{-- @endcan --}}
       </ul>
     </li>
     {{-- <li class="footer"><a href="#">See All Messages</a></li> --}}
@@ -30,18 +28,18 @@
   <!-- Menu Toggle Button -->
   <a href="#" class="dropdown-toggle" data-toggle="dropdown">
     <!-- The user image in the navbar-->
-    {{-- <img src="{{ Auth::user()->avatar }}" class="user-image" alt="User Image"> --}}
+    <img src="{{ Auth::user()->avatar }}" class="user-image" alt="User Image">
     <!-- hidden-xs hides the username on small devices so only the image appears.-->
-    {{-- <span class="hidden-xs">{{ Auth::user()->username }}</span> --}}
+    <span class="hidden-xs">{{ Auth::user()->username }}</span>
   </a>
   <ul class="dropdown-menu">
     <!-- The user image in the menu -->
     <li class="user-header">
-      {{-- <img src="{{ Auth::user()->avatar }}" class="img-circle" alt="User Image"> --}}
+      <img src="{{ Auth::user()->avatar }}" class="img-circle" alt="User Image">
       <p>
-        {{-- {{ Auth::user()->username }} --}}
+        {{ Auth::user()->username }}
         <small>
-          {{-- {{ Auth::user()->email }} --}}
+          {{ Auth::user()->email }}
         </small>
       </p>
     </li>
