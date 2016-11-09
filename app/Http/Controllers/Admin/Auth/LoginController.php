@@ -8,9 +8,7 @@ use Illuminate\Http\Request;
 
 class LoginController extends Controller
 {
-    use AuthenticatesUsers {
-        logout as traitLogout;
-    }
+    use AuthenticatesUsers;
 
     /**
      * Where to redirect users after login / registration.
@@ -61,18 +59,5 @@ class LoginController extends Controller
     protected function sendLockoutResponse(Request $request)
     {
         return api('操作太频繁，请稍后重试。', 429);
-    }
-
-    /**
-     * Log the user out of the application.
-     *
-     * @param  Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function logout(Request $request)
-    {
-        $this->traitLogout($request);
-
-        return redirect('/login')->with('alert.success', '注销成功！');
     }
 }
