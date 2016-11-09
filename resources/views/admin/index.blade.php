@@ -10,15 +10,15 @@
 
 @push('js')
 <script>
-$(function () {
-  $('.stat-box').click(function (e) {
-    e.preventDefault();
-    var url = $(this).children('a').attr('href');
-    if (url) {
-      location.href = url;
-    }
+  $(function () {
+    $('.stat-box').click(function (e) {
+      e.preventDefault();
+      var url = $(this).children('a').attr('href');
+      if (url) {
+        location.href = url;
+      }
+    });
   });
-});
 </script>
 @endpush
 
