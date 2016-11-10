@@ -1,4 +1,4 @@
-<header class="main-header"><!-- Main Header -->
+<header class="main-header fh-fixedHeader"><!-- Main Header -->
   <a href="/" class="logo"><!-- Logo -->
     <span class="logo-mini"><b>{{ config('app.name') }}</b></span><!-- mini logo for sidebar mini 50x50 pixels -->
     <span class="logo-lg"><b>{{ config('app.name') }}</b></span><!-- logo for regular state and mobile devices -->
