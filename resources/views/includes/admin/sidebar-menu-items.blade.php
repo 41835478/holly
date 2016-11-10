@@ -23,7 +23,7 @@
     <li class="{{ active_if('admin/users') }}">
       <a href="/admin/users"><i class="fa fa-fw fa-users"></i> 管理员列表</a>
     </li>
-    <li class="{{ active_if('admin/profile') }}">
+    <li class="{{ active_if('admin/profile', 'admin/profile/*') }}">
       <a href="/admin/profile"><i class="fa fa-fw fa-user"></i> 用户资料</a>
     </li>
   </ul>
