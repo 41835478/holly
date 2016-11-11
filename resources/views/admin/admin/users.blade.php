@@ -38,13 +38,10 @@ $(function() {
     {title: '创建日期', data: 'created_at'}
     @if (Auth::user()->isSuperAdmin())
     ,{title: '操作', name:'action', orderable: false, searchable: false, data: function(data) {
-      var html = '<div class="btn-group"> \
-        <button type="button" class="btn btn-info user-action-edit"><i class="fa fa-edit"></i></button>';
-      if (data.id !== {{ Auth::id() }}) {
-        html += '<button type="button" class="btn btn-danger user-action-delete"><i class="fa fa-trash"></i></button>';
-      }
-      html += '</div>';
-      return html;
+      return '<div class="btn-group" role="group"> \
+        <button type="button" class="btn btn-info user-action-edit"><i class="fa fa-edit"></i></button> \
+        <button type="button" class="btn btn-danger user-action-delete"><i class="fa fa-trash"></i></button> \
+        </div>';
     }}
     @endif
     ]
