@@ -167,7 +167,7 @@ return [
          * Package Service Providers...
          */
         Holly\Providers\HollyServiceProvider::class,
-        Intervention\Image\ImageServiceProvider::class,
+        Intervention\Image\ImageServiceProviderLaravel5::class,
         App\Providers\CaptchaServiceProvider::class,
         SimpleSoftwareIO\QrCode\QrCodeServiceProvider::class,
         Yajra\Datatables\DatatablesServiceProvider::class,
