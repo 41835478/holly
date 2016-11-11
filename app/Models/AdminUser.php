@@ -134,7 +134,7 @@ class AdminUser extends Authenticatable
                 return false;
             }
 
-            $filename = static::AVATAR_DIRECTORY.'/'.md5($image).'.'.$file->extension();
+            $filename = static::AVATAR_DIRECTORY.'/'.$this->id.'-'.md5($image).'.'.$file->extension();
 
             if ($this->getFilesystem()->put($filename, $image)) {
                 $this->setAvatarPath($filename);
