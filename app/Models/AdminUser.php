@@ -97,9 +97,9 @@ class AdminUser extends Authenticatable
         }
 
         if ($path !== $this->avatar_path) {
-            if ($this->avatar_path) {
-                $this->getFilesystem()->delete($this->avatar_path);
-            }
+            // if ($this->avatar_path) {
+            //     $this->getFilesystem()->delete($this->avatar_path);
+            // }
 
             $this->avatar_path = $path;
         }
