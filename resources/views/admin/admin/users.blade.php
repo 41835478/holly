@@ -84,34 +84,7 @@ $(function() {
         });
       }
     });
-
-  $('#create-user-form').ajaxForm({
-    beforeSerialize: function($form, options) {
-      var form = $form[0];
-      if (form.password && form.password.value.length) {
-        options.data = {
-          password: md5(form.password.value)
-        };
-      }
-    },
-    beforeSubmit: function(data, form) {
-      $(form).find('button[type=submit]').prop('disabled', true);
-      $(form).bootnotify(false);
-      $(form).spin();
-    },
-    success: function(data, status, xhr, form) {
-      $(form).bootnotifyJSON(data);
-      if (data.code == 1) {
-        usersTable.ajax.reload();
-      }
-    },
-    complete: function(xhr, status, form) {
-      $(form).spin(false);
-      $(form).find('button[type=submit]').prop('disabled', false);
-    }
-  });
-
-});
+})
 </script>
 @endpush
 
@@ -123,59 +96,10 @@ $(function() {
         <h3 class="box-title">管理员列表</h3>
       </div>
       <div class="box-body">
-        <table id="users-table" class="table table-bordered table-striped dt-responsive nowrap" style="width:100%"></table>
+        <table id="users-table" class="table table-bordered table-striped dt-responsive nowrap" style="width:100%">
+        </table>
       </div>
     </div>
   </div>
 </div>
-
-@can('create', \App\Models\AdminUser::class)
-<div class="row">
-  <div class="col-md-6">
-    <!-- general form elements -->
-    <div class="box box-danger">
-      <div class="box-header with-border">
-        <h3 class="box-title">新增管理员</h3>
-      </div><!-- /.box-header -->
-      <!-- form start -->
-      <form id="create-user-form" action="/admin/user/create" method="POST" role="form">
-        <div class="box-body">
-
-          <div class="form-group">
-            <div class="input-group">
-              <div class="input-group-addon">
-                <span class="fa fa-envelope"></span>
-              </div>
-              <input type="email" name="email" class="form-control" placeholder="邮箱">
-            </div><!-- /.input group -->
-          </div>
-
-          <div class="form-group">
-            <div class="input-group">
-              <div class="input-group-addon">
-                <span class="fa fa-user"></span>
-              </div>
-              <input type="text" name="username" class="form-control" placeholder="用户名">
-            </div><!-- /.input group -->
-          </div>
-
-          <div class="form-group">
-            <div class="input-group">
-              <div class="input-group-addon">
-                <span class="fa fa-lock"></span>
-              </div>
-              <input type="text" name="password" class="form-control" placeholder="密码">
-            </div><!-- /.input group -->
-          </div>
-
-        </div><!-- /.box-body -->
-
-        <div class="box-footer">
-          <button type="submit" class="btn btn-primary">提交</button>
-        </div>
-      </form>
-    </div><!-- /.box -->
-  </div><!--/.col -->
-</div>
-@endcan
 @stop

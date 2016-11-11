@@ -19,6 +19,11 @@ class UserController extends Controller
         return Datatables::of(AdminUser::query())->make(true);
     }
 
+    public function showCreateUser()
+    {
+        return view('admin.admin.create-user');
+    }
+
     public function createUser(Request $request)
     {
         $this->validate($request, [
