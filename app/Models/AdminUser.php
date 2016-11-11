@@ -35,18 +35,6 @@ class AdminUser extends Authenticatable
     ];
 
     /**
-     * The "booting" method of the model.
-     */
-    protected static function boot()
-    {
-        parent::boot();
-
-        static::deleting(function ($user) {
-            $user->removeAvatar();
-        });
-    }
-
-    /**
      * Create an admin user.
      *
      * @param  array  $data
