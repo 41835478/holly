@@ -2,43 +2,40 @@
 
 namespace App\Models;
 
-use Illuminate\Auth\Authenticatable;
-use Illuminate\Auth\Passwords\CanResetPassword;
-use Illuminate\Foundation\Auth\Access\Authorizable;
-use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
-use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
-use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
-use Illuminate\Notifications\Notifiable;
-use App\Notifications\ResetPassword as ResetPasswordNotification;
-use Holly\Support\Helper;
-use Image;
+use App\Notifications\ResetPassword;
+use App\Support\Image\Filters\Fit;
 use Exception;
+use Holly\Support\Helper;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Storage;
+use Intervention\Image\Facades\Image;
 
-class AdminUser extends Model implements
-    AuthenticatableContract,
-    AuthorizableContract,
-    CanResetPasswordContract
+class AdminUser extends Authenticatable
 {
-    use Authenticatable, Authorizable, CanResetPassword, Notifiable;
+    use Notifiable;
 
     /**
-     * The avatar width or height.
+     * The avatar size.
      */
-    const AVATAR_SIZE = 300;
+    const AVATAR_SIZE = 200;
 
     /**
      * The directory stores all admin users' avatars.
      */
-    const AVATAR_DIRECTORY = 'storage/admin-avatar';
+    const AVATAR_DIRECTORY = 'admin-avatar';
 
-    protected $hidden = ['password', 'remember_token', 'avatar_path'];
+    protected $appends = [
+        'super_admin', 'avatar',
+    ];
 
-    protected $appends = ['super_admin', 'avatar'];
+    protected $hidden = [
+        'password', 'remember_token', 'avatar_path',
+    ];
 
     /**
      * The "booting" method of the model.
-     *
-     * @return void
      */
     protected static function boot()
     {
@@ -47,6 +44,21 @@ class AdminUser extends Model implements
         static::deleting(function ($user) {
             $user->removeAvatar();
         });
+    }
+
+    /**
+     * Create an admin user.
+     *
+     * @param  array  $data
+     * @return static
+     */
+    public static function createUser($data)
+    {
+        return static::forceCreate([
+            'email' => mb_strtolower(trim($data['email'])),
+            'password' => bcrypt($data['password']),
+            'username' => trim($data['username']),
+        ]);
     }
 
     /**
@@ -60,7 +72,21 @@ class AdminUser extends Model implements
     }
 
     /**
-     * Indicate the user is super admin.
+     * Get the `avatar` attribute.
+     *
+     * @return string
+     */
+    public function getAvatarAttribute()
+    {
+        if (! is_null($this->avatar_path)) {
+            return asset_url($this->getFilesystem()->url($this->avatar_path));
+        }
+
+        return Helper::gravatar($this->email, static::AVATAR_SIZE);
+    }
+
+    /**
+     * Determines whether the user is a super admin.
      *
      * @return bool
      */
@@ -70,21 +96,7 @@ class AdminUser extends Model implements
     }
 
     /**
-     * Get the `avatar` attribute.
-     *
-     * @return string
-     */
-    public function getAvatarAttribute()
-    {
-        if ($this->avatar_path) {
-            return asset_url($this->avatar_path);
-        }
-
-        return Helper::gravatar($this->email, static::AVATAR_SIZE);
-    }
-
-    /**
-     * Set `avatar_path` for user.
+     * Set the `avatar_path`.
      *
      * @param  string|null  $path
      * @return $this
@@ -98,7 +110,7 @@ class AdminUser extends Model implements
 
         if ($path !== $this->avatar_path) {
             if ($this->avatar_path) {
-                @unlink(public_path($this->avatar_path));
+                $this->getFilesystem()->delete($this->avatar_path);
             }
 
             $this->avatar_path = $path;
@@ -118,69 +130,32 @@ class AdminUser extends Model implements
     }
 
     /**
-     * Remove user's avatar file, and use the Gravatar.
-     *
-     * @return void
-     */
-    public function useDefaultAvatar()
-    {
-        $this->removeAvatar();
-    }
-
-    /**
-     * Upload avatar file for user.
+     * Set user's avatar with an uploaded file.
      *
      * @param  \Illuminate\Http\UploadedFile  $file
      * @return bool
      */
-    public function uploadAvatar($file)
+    public function setAvatarWithUploadedFile(UploadedFile $file)
     {
-        if (! $file->isValid()) {
-            return false;
+        if ($file->isValid()) {
+            try {
+                $image = Image::make($file)
+                    ->filter((new Fit)->width(static::AVATAR_SIZE))
+                    ->encode();
+            } catch (Exception $e) {
+                return false;
+            }
+
+            $filename = static::AVATAR_DIRECTORY.'/'.md5($image).'.'.$file->extension();
+
+            if ($this->getFilesystem()->put($filename, $image)) {
+                $this->setAvatarPath($filename);
+
+                return true;
+            }
         }
 
-        try {
-            $avatarPath = $this->getAvatarDirectory().'/'.$this->createFilenameForUploadedFile($file);
-
-            Image::make($file)
-                ->resize(static::AVATAR_SIZE, null, function ($constraint) {
-                    $constraint->aspectRatio();
-                    $constraint->upsize();
-                })
-                ->save(public_path($avatarPath));
-
-            $this->setAvatarPath($avatarPath);
-        } catch (Exception $e) {
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
-     * Get the avatars directory.
-     *
-     * @return string
-     */
-    protected function getAvatarDirectory()
-    {
-        $path = public_path(static::AVATAR_DIRECTORY);
-        if (! file_exists($path)) {
-            mkdir($path, 0775, true);
-        }
-
-        return static::AVATAR_DIRECTORY;
-    }
-
-    /**
-     * Create a filename for uploaded file instance.
-     *
-     * @param  \Illuminate\Http\UploadedFile  $file
-     * @return string
-     */
-    protected function createFilenameForUploadedFile($file)
-    {
-        return $this->id.str_random().'.'.$file->extension();
+        return false;
     }
 
     /**
@@ -191,6 +166,16 @@ class AdminUser extends Model implements
      */
     public function sendPasswordResetNotification($token)
     {
-        $this->notify(new ResetPasswordNotification($token));
+        $this->notify(new ResetPassword($token));
+    }
+
+    /**
+     * Get the Filesystem instance.
+     *
+     * @return \Illuminate\Contracts\Filesystem\Filesystem
+     */
+    protected function getFilesystem()
+    {
+        return Storage::disk('public');
     }
 }
