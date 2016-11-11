@@ -38,7 +38,7 @@ $(function() {
       <div class="box-header with-border">
         <h3 class="box-title">新增管理员</h3>
       </div>
-      <form id="create-user-form" action="/admin/user/create" method="POST" role="form">
+      <form id="create-user-form" action="" method="POST" role="form">
         <div class="box-body">
 
           <div class="form-group">
