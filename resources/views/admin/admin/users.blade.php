@@ -2,11 +2,22 @@
 
 @section('title', '管理员列表')
 
+@push('css')
+<style type="text/css">
+  .table .user-avatar {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+  }
+</style>
+@endpush
+
 @push('js')
 <script>
 $(function() {
   var usersTable = $('#users-table').DataTable({
     ajax: '/admin/users-data',
+    fixedHeader: true,
     columns: [
     {title: 'ID', data: 'id'},
     {title: '头像', data: 'avatar', orderable: false, searchable: false,
@@ -14,7 +25,7 @@ $(function() {
       if (type === 'display') {
         if (data) {
           return "<a href='" + data + "' data-lightbox='user-avatar-" + row.id + "'> \
-            <img src='" + data + "' class='img-circle' style='width:28px;height:28px;'> \
+            <img src='" + data + "' class='user-avatar'> \
             </a>";
         } else {
           return "";
@@ -26,32 +37,29 @@ $(function() {
     {title: 'Email', data: 'email'},
     {title: '创建日期', data: 'created_at'}
     @if (Auth::user()->isSuperAdmin())
-    ,{title: 'Action', name:'action', orderable: false, searchable: false, data: function(data) {
-      return '<div class="btn-group"> \
-        <button type="button" class="btn btn-info users-action users-action-edit"><i class="fa fa-edit"></i></button> \
-        <button type="button" class="btn btn-danger users-action users-action-delete">删除</button> \
-        </div>';
+    ,{title: '操作', name:'action', orderable: false, searchable: false, data: function(data) {
+      var html = '<div class="btn-group"> \
+        <button type="button" class="btn btn-info user-action-edit"><i class="fa fa-edit"></i></button>';
+      if (data.id !== {{ Auth::id() }}) {
+        html += '<button type="button" class="btn btn-danger user-action-delete"><i class="fa fa-trash"></i></button>';
+      }
+      html += '</div>';
+      return html;
     }}
     @endif
     ]
   });
 
-  $('#users-table').on('click', '.users-action', function() {
-      // var row = usersTable.row($(this).closest('tr'));
-      // Fixed: 折叠后 closest('tr') 找不到对应的行
-      // https://www.datatables.net/forums/discussion/29875/datatable-responsive-row-collapse-problem
-      var row = usersTable.row($(this).closest('tr').prev('.parent').length ? $(this).closest('tr').prev('.parent') : $(this).closest('tr'));
-
-      var data = row.data();
+  $('#users-table').on('click', 'button[class*="user-action"]', function() {
+      var data = usersTable.row($(this).dataTableRow()).data();
       var className = $(this).attr('class');
-      if (className.indexOf('users-action-edit') > -1) {
+      if (className.indexOf('user-action-edit') > -1) {
         location.href = '/admin/profile/' + data.id;
-      } else if (className.indexOf('users-action-delete') > -1) {
+      } else if (className.indexOf('user-action-delete') > -1) {
         bootbox.dialog({
-          title: '<i class="icon fa fa-warning"></i> 警告',
-          message: '<strong>确定删除管理员「'+ data.username +'」（'+ data.email +'）吗?</strong>',
+          title: '<i class="fa fa-warning"></i> 警告',
+          message: '确定要删除管理员 <strong>'+ data.username +'</strong>（'+ data.email +'） 吗？',
           className: 'modal-danger',
-          backdrop: true,
           buttons: {
             success: {
               label: '确定删除',
@@ -63,7 +71,7 @@ $(function() {
                     if (json.code == 1) {
                       usersTable.ajax.reload();
                     } else {
-                      $('#users-list').bootnotifyJSON(json, {position:"top"});
+                      $('#users-list').bootnotifyJSON(json, {position: "top"});
                     }
                   });
               }
@@ -108,7 +116,6 @@ $(function() {
 @endpush
 
 @section('content')
-
 <div class="row">
   <div class="col-xs-12">
     <div class="box box-primary" id="users-list">
@@ -116,7 +123,7 @@ $(function() {
         <h3 class="box-title">管理员列表</h3>
       </div>
       <div class="box-body">
-        <table id="users-table" class="table table-bordered table-striped nowrap" style="width:100%"></table>
+        <table id="users-table" class="table table-bordered table-striped dt-responsive nowrap" style="width:100%"></table>
       </div>
     </div>
   </div>
@@ -171,5 +178,4 @@ $(function() {
   </div><!--/.col -->
 </div>
 @endcan
-
 @stop
