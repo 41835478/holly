@@ -7,10 +7,10 @@ use App\Support\Image\Filters\Fit;
 use Exception;
 use Holly\Support\Helper;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Http\UploadedFile;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class AdminUser extends Authenticatable
 {
@@ -27,11 +27,11 @@ class AdminUser extends Authenticatable
     const AVATAR_DIRECTORY = 'admin-avatar';
 
     protected $appends = [
-        'super_admin', 'avatar',
+        'super_admin',
     ];
 
     protected $hidden = [
-        'password', 'remember_token', 'avatar_path',
+        'password', 'remember_token',
     ];
 
     /**
@@ -60,20 +60,6 @@ class AdminUser extends Authenticatable
     }
 
     /**
-     * Get the `avatar` attribute.
-     *
-     * @return string
-     */
-    public function getAvatarAttribute()
-    {
-        if (! is_null($this->avatar_path)) {
-            return asset_url($this->getFilesystem()->url($this->avatar_path));
-        }
-
-        return Helper::gravatar($this->email, static::AVATAR_SIZE);
-    }
-
-    /**
      * Determines whether the user is a super admin.
      *
      * @return bool
@@ -84,63 +70,71 @@ class AdminUser extends Authenticatable
     }
 
     /**
-     * Set the `avatar_path`.
+     * Get the `avatar` attribute.
      *
-     * @param  string|null  $path
-     * @return $this
+     * @return string
      */
-    public function setAvatarPath($path)
+    public function getAvatarAttribute($value)
     {
-        if (! is_null($path)) {
-            $path = trim($path, '/');
-            $path = empty($path) ? null : $path;
+        if (! is_null($value)) {
+            return asset_url($this->getFilesystem()->url($value));
         }
 
-        if ($path !== $this->avatar_path) {
-            // if ($this->avatar_path) {
-            //     $this->getFilesystem()->delete($this->avatar_path);
-            // }
+        return Helper::gravatar($this->email, static::AVATAR_SIZE);
+    }
 
-            $this->avatar_path = $path;
+    /**
+     * Set the 'avatar' attribute.
+     *
+     * @param  string  $value
+     */
+    public function setAvatarAttribute($value)
+    {
+        if (! is_null($value)) {
+            $value = trim($value, '/');
+            if (empty($value)) {
+                $value = null;
+            }
         }
 
-        return $this;
+        $this->attributes['avatar'] = $value;
     }
 
     /**
      * Use the default avatar.
-     *
-     * @return $this
      */
     public function useDefaultAvatar()
     {
-        return $this->setAvatarPath(null);
+        $this->avatar = null;
     }
 
     /**
-     * Store the uploaded file as user's avatar.
+     * Store the given file as user's avatar.
      *
-     * @param  \Illuminate\Http\UploadedFile  $file
+     * @param  mixed  $file
      * @return bool
      */
-    public function storeAvatarFile(UploadedFile $file)
+    public function storeAvatarFile($file)
     {
-        if ($file->isValid()) {
-            try {
-                $image = Image::make($file)
-                    ->filter((new Fit)->width(static::AVATAR_SIZE))
-                    ->encode();
-            } catch (Exception $e) {
-                return false;
-            }
+        if ($file instanceof UploadedFile && ! $file->isValid()) {
+            return false;
+        }
 
-            $filename = static::AVATAR_DIRECTORY.'/'.$this->id.'-'.md5($image).'.'.$file->extension();
+        try {
+            $image = Image::make($file)
+            ->filter((new Fit)->width(static::AVATAR_SIZE))
+            ->encode();
+        } catch (Exception $e) {
+            return false;
+        }
 
-            if ($this->getFilesystem()->put($filename, $image)) {
-                $this->setAvatarPath($filename);
+        $filename = static::AVATAR_DIRECTORY.'/'.
+            $this->id.'-'.md5($image).'.'.$file->extension();
 
-                return true;
-            }
+        if ($this->getFilesystem()->put($filename, $image)) {
+            $this->avatar = $filename;
+
+            return true;
         }
 
         return false;
