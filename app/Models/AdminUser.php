@@ -130,12 +130,12 @@ class AdminUser extends Authenticatable
     }
 
     /**
-     * Set user's avatar with an uploaded file.
+     * Store the uploaded file as user's avatar.
      *
      * @param  \Illuminate\Http\UploadedFile  $file
      * @return bool
      */
-    public function setAvatarWithUploadedFile(UploadedFile $file)
+    public function storeAvatarFile(UploadedFile $file)
     {
         if ($file->isValid()) {
             try {
