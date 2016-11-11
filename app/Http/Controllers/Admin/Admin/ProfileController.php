@@ -40,7 +40,7 @@ class ProfileController extends Controller
         }
 
         if ($request->input('use_default_avatar')) {
-            $user->removeAvatar();
+            $user->useDefaultAvatar();
         }
 
         if ($avatar = $request->file('avatar')) {

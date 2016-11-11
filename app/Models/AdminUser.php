@@ -108,11 +108,11 @@ class AdminUser extends Authenticatable
     }
 
     /**
-     * Remove user's avatar file, and set `avatar_path` to null.
+     * Use the default avatar.
      *
      * @return $this
      */
-    public function removeAvatar()
+    public function useDefaultAvatar()
     {
         return $this->setAvatarPath(null);
     }
