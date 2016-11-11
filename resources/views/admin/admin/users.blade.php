@@ -19,7 +19,7 @@ $(function() {
     ajax: '/admin/users-data',
     fixedHeader: true,
     columns: [
-    {title: 'ID', data: 'id'},
+    {title: 'ID', data: 'id', searchable: false},
     {title: '头像', data: 'avatar', orderable: false, searchable: false,
     render: function(data, type, row, meta) {
       if (type === 'display') {
@@ -35,7 +35,7 @@ $(function() {
     }},
     {title: '用户名', data: 'username'},
     {title: 'Email', data: 'email'},
-    {title: '创建日期', data: 'created_at'}
+    {title: '创建日期', data: 'created_at', searchable: false}
     @if (Auth::user()->isSuperAdmin())
     ,{title: '操作', name:'action', orderable: false, searchable: false, data: function(data) {
       return '<div class="btn-group" role="group"> \
