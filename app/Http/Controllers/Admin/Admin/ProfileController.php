@@ -39,7 +39,7 @@ class ProfileController extends Controller
             $user->password = bcrypt($password);
         }
 
-        if ($request->input('use_gravatar')) {
+        if ($request->input('use_default_avatar')) {
             $user->removeAvatar();
         }
 

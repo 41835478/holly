@@ -5,8 +5,8 @@
 @push('css')
 <style type="text/css">
   .table .user-avatar {
-    width: 25px;
-    height: 25px;
+    width: 28px;
+    height: 28px;
     border-radius: 50%;
   }
 </style>
