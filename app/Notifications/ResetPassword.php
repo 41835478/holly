@@ -49,7 +49,7 @@ class ResetPassword extends Notification implements ShouldQueue
     public function toMail($notifiable)
     {
         $resetURL = app_url(
-            'password/reset/'.urlencode($this->token),
+            'password/reset/'.$this->token,
             null,
             ($notifiable instanceof AdminUser) ? 'admin' : 'site'
         );
