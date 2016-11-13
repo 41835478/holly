@@ -38,7 +38,8 @@ elixir((mix) => {
     .scripts(getScripts([
         './node_modules/holly-packages/admin-lte/dist/js/AdminLTE.js',
         './node_modules/jquery-slimscroll/jquery.slimscroll.js',
-        './node_modules/holly-packages/datatables.net/dist/js/dataTables-responsive-bs.js',
+        './node_modules/holly-packages/datatables/dist/js/dataTables-responsive-bs.js',
+        'dataTable.defaults.js',
         './node_modules/blueimp-md5/js/md5.js'
       ]),
       'public/js/admin.js'
