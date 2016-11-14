@@ -30,13 +30,13 @@ class Builder extends BaseBuilder
     }
 
     /**
-     * Create a new "static" column that can not be ordered, searched, or exported.
+     * Add a "static" column that can not be ordered, searched, or exported.
      *
      * @param  string  $name
      * @param  array  $attributes
-     * @return \Yajra\Datatables\Html\Column
+     * @return $this
      */
-    public function newStaticColumn($name, array $attributes = [])
+    public function addStatic($name, array $attributes = [])
     {
         $attributes = array_merge([
             'defaultContent' => '',
@@ -51,20 +51,6 @@ class Builder extends BaseBuilder
             'footer'         => '',
         ], $attributes);
 
-        return new Column($attributes);
-    }
-
-    /**
-     * Add a "static" column.
-     *
-     * @param  string  $name
-     * @param  array  $attributes
-     * @return $this
-     */
-    public function addStatic($name, array $attributes = [])
-    {
-        $this->collection->push($this->newStaticColumn($name, $attributes));
-
-        return $this;
+        return $this->addColumn($attributes);
     }
 }
