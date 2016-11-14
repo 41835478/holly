@@ -82,10 +82,7 @@
 
 @task('db-backup')
     cd "{{ $path }}"
-    php artisan db:backup --database=mysql \
-        --destination=local \
-        --compression=gzip \
-        --destinationPath=`date +\%Y-%m-%d__%H:%M:%S.sql`
+    php artisan db-backup
 @endtask
 
 @task('up')
