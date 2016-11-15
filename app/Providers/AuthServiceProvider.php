@@ -25,8 +25,6 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        Gate::define('manage-system-log', function ($user) {
-            return $user instanceof \App\Models\AdminUser && $user->isSuperAdmin();
-        });
+        //
     }
 }
