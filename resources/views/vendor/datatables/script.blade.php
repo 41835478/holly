@@ -1,1 +1,1 @@
-(function(window,$){window.LaravelDataTables=window.LaravelDataTables||{};window.LaravelDataTables["%1$s"]=$("#%1$s").DataTable(%2$s);})(window,jQuery);
+(function(window,$){window.DataTables=window.DataTables||{};window.DataTables["%1$s"]=$("#%1$s").DataTable(%2$s);})(window,jQuery);
