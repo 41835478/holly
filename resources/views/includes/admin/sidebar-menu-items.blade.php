@@ -20,9 +20,11 @@
 <li class="treeview {{ active_if('admin/*') }}">
   <a href="#"><i class="fa fa-fw fa-lock"></i> 管理员<i class="fa fa-fw fa-angle-left pull-right"></i></a>
   <ul class="treeview-menu">
+    @can('manager', 'App\Models\AdminUser')
     <li class="{{ active_if('admin/users') }}">
       <a href="/admin/users"><i class="fa fa-fw fa-users"></i> 管理员列表</a>
     </li>
+    @endcan
     @can('create', 'App\Models\AdminUser')
     <li class="{{ active_if('admin/user/create') }}">
       <a href="/admin/user/create"><i class="fa fa-fw fa-user-plus"></i> 新增管理员</a>

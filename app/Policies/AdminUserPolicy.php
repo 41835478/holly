@@ -16,6 +16,11 @@ class AdminUserPolicy
         }
     }
 
+    public function manager(AdminUser $user)
+    {
+        return $user->isSuperAdmin();
+    }
+
     public function create(AdminUser $user)
     {
         return $user->isSuperAdmin();

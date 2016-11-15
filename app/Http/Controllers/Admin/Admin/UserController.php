@@ -2,21 +2,16 @@
 
 namespace App\Http\Controllers\Admin\Admin;
 
+use App\DataTables\AdminUsersDataTable;
 use App\Http\Controllers\Controller;
 use App\Models\AdminUser;
 use Illuminate\Http\Request;
-use Yajra\Datatables\Facades\Datatables;
 
 class UserController extends Controller
 {
-    public function showUsers()
+    public function users(AdminUsersDataTable $dataTable)
     {
-        return view('admin.admin.users');
-    }
-
-    public function getUsersData()
-    {
-        return Datatables::of(AdminUser::query())->make(true);
+        return $dataTable->render('admin.admin.users');
     }
 
     public function showCreateUser()

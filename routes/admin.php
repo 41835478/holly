@@ -19,8 +19,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('log', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
 
     Route::group(['namespace' => 'Admin', 'prefix' => 'admin'], function () {
-        Route::get('users', 'UserController@showUsers');
-        Route::get('users-data', 'UserController@getUsersData');
+        Route::get('users', 'UserController@users')
+            ->middleware('can:manager,App\Models\AdminUser');
         Route::get('user/create', 'UserController@showCreateUser')
             ->middleware('can:create,App\Models\AdminUser');
         Route::post('user/create', 'UserController@createUser')
