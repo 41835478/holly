@@ -17,7 +17,7 @@
                 if (json.code == 1) {
                   table.ajax.reload();
                 } else {
-                  $('#adminUsersTable').closest('.box').bootnotifyJSON(json, {position: "top"});
+                  $('#adminUsersTable').closest('.box').bootnotifyApi(json, {position: "top"});
                 }
             });
           }

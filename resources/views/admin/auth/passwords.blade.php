@@ -36,13 +36,13 @@ $(function() {
     success: function(data, status, xhr, form){
       $(form).spin(false);
       if (data.code == 1) {
-        $(form).bootnotifyJSON(data).delay(1000, function(){
+        $(form).bootnotifyApi(data).delay(1000, function(){
           if (data.url !== undefined) {
             window.location.replace(data.url);
           }
         });
       } else {
-        $(form).bootnotifyJSON(data);
+        $(form).bootnotifyApi(data);
         $(form).find('button[type=submit]').prop('disabled', false);
         $('a.captcha').refreshCaptcha();
       }

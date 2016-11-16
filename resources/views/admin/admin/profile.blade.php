@@ -44,7 +44,7 @@ $(function() {
       $(form).spin();
     },
     success: function(data, status, xhr, form) {
-      $(form).bootnotifyJSON(data);
+      $(form).bootnotifyApi(data);
       if (data.user) {
         user = data.user;
         updateUserInfo();

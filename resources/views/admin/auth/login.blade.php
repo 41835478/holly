@@ -35,11 +35,11 @@ $(function() {
     success: function(data, status, xhr, form) {
       $(form).spin(false);
       if (data.code == 1) {
-        $(form).bootnotifyJSON(data).delay(1000, function() {
+        $(form).bootnotifyApi(data).delay(1000, function() {
           window.location.replace(data.url !== undefined ? data.url : '/');
         });
       } else {
-        $(form).bootnotifyJSON(data);
+        $(form).bootnotifyApi(data);
         $(form).find('button[type=submit]').prop('disabled', false);
       }
     }

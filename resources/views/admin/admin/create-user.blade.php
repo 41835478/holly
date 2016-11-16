@@ -20,7 +20,7 @@ $(function() {
       $(form).spin();
     },
     success: function(data, status, xhr, form) {
-      $(form).bootnotifyJSON(data);
+      $(form).bootnotifyApi(data);
     },
     complete: function(xhr, status, form) {
       $(form).spin(false);
