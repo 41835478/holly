@@ -112,9 +112,6 @@ HTML;
      */
     protected function getBuilderParameters()
     {
-        return [
-            'searching' => false,
-            'ordering' => false,
-        ];
+        return [];
     }
 }
