@@ -3,9 +3,17 @@
 namespace App\Support\Datatables\Services;
 
 use Yajra\Datatables\Services\DataTable as BaseDataTable;
+use App\Support\Datatables\Html\Builder as HtmlBuilder;
 
 abstract class DataTable extends BaseDataTable
 {
+    /**
+     * The Html Builder instance.
+     *
+     * @var \App\Support\Datatables\Html\Builder
+     */
+    protected $htmlBuilder;
+
     /**
      * Get Datatables Html Builder instance.
      *
@@ -13,7 +21,17 @@ abstract class DataTable extends BaseDataTable
      */
     public function builder()
     {
-        return app('App\Support\Datatables\Html\Builder')
+        return $this->htmlBuilder ?: $this->htmlBuilder = $this->getHtmlBuilder();
+    }
+
+    /**
+     * Get the Html Builder instance.
+     *
+     * @return \App\Support\Datatables\Html\Builder
+     */
+    protected function getHtmlBuilder()
+    {
+        return app(HtmlBuilder::class)
             ->setTableAttribute('id', preg_replace('#datatable$#i', 'Table', camel_case(class_basename($this))));
     }
 
