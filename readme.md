@@ -59,6 +59,6 @@ git push origin master
 - [Intervention Image](http://image.intervention.io)
 - [jQuery Form](http://malsup.com/jquery/form/)
 - [Simple QrCode](https://www.simplesoftware.io/docs/simple-qrcode/zh)
-- [Sweet Alert](http://t4t5.github.io/sweetalert/)
+- [SweetAlert2](https://github.com/limonte/sweetalert2)
 
 [Configure Supervisor]: https://laravel.com/docs/queues#supervisor-configuration

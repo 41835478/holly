@@ -48,7 +48,8 @@ elixir((mix) => {
         './node_modules/holly-packages/bootnotify/dist/bootnotify-api.js',
         './node_modules/holly-packages/icheck/js/icheck.js',
         './node_modules/holly-packages/icheck/icheck-demo.js',
-        './node_modules/sweetalert/dist/sweetalert.min.js'
+        './node_modules/es6-promise/dist/es6-promise.auto.js',
+        './node_modules/holly-packages/sweetalert2/dist/js/sweetalert2.js'
       ]),
       'public/js/admin.js'
     )
