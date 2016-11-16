@@ -40,7 +40,15 @@ elixir((mix) => {
         './node_modules/jquery-slimscroll/jquery.slimscroll.js',
         './node_modules/holly-packages/datatables/dist/js/dataTables-responsive-bs.js',
         'dataTable.defaults.js',
-        './node_modules/blueimp-md5/js/md5.js'
+        './node_modules/blueimp-md5/js/md5.js',
+        './node_modules/holly-packages/utilities/captcha.js',
+        './node_modules/holly-packages/utilities/captcha_link.js',
+        './node_modules/holly-packages/lightbox2/dist/js/lightbox.js',
+        './node_modules/holly-packages/bootbox/dist/bootbox.js',
+        './node_modules/holly-packages/bootnotify/dist/bootnotify-api.js',
+        './node_modules/holly-packages/icheck/js/icheck.js',
+        './node_modules/holly-packages/icheck/icheck-demo.js',
+        './node_modules/sweetalert/dist/sweetalert.min.js'
       ]),
       'public/js/admin.js'
     )
@@ -59,19 +67,11 @@ elixir((mix) => {
 function getScripts(scripts) {
   return [
     './node_modules/jquery/dist/jquery.js',
-    './node_modules/sprintf-js/src/sprintf.js',
     './node_modules/bootstrap/dist/js/bootstrap.js',
     './node_modules/holly-packages/utilities/csrf_token.js',
-    './node_modules/holly-packages/utilities/captcha.js',
-    './node_modules/holly-packages/utilities/captcha_link.js',
-    './node_modules/holly-packages/fastclick/dist/fastclick.js',
-    './node_modules/holly-packages/bootbox/dist/bootbox.js',
-    './node_modules/bootnotify/bootnotify.js',
+    './node_modules/jquery-form/jquery.form.js',
     './node_modules/spin.js/spin.js',
     './node_modules/spin.js/jquery.spin.js',
-    './node_modules/jquery-form/jquery.form.js',
-    './node_modules/holly-packages/icheck/js/icheck.js',
-    './node_modules/holly-packages/icheck/icheck-demo.js',
-    './node_modules/holly-packages/lightbox2/dist/js/lightbox.js'
+    './node_modules/holly-packages/fastclick/dist/fastclick.js'
   ].concat(scripts);
 }
