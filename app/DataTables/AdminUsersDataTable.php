@@ -64,11 +64,11 @@ HTML;
         $html = '<div class="btn-group" role="group">';
 
         if (Auth::user()->can('update', $user)) {
-            $html .= '<a type="button" class="btn btn-info user-action-edit" href="/admin/profile/'.$user->id.'"><i class="fa fa-edit"></i></a>';
+            $html .= '<button type="button" class="btn btn-info admin-user-action-edit"><i class="fa fa-edit"></i></button>';
         }
 
         if (Auth::user()->can('delete', $user)) {
-            $html .= '<button type="button" class="btn btn-danger user-action-delete"><i class="fa fa-trash"></i></button>';
+            $html .= '<button type="button" class="btn btn-danger admin-user-action-delete"><i class="fa fa-trash"></i></button>';
         }
 
         $html .= '</div>';
