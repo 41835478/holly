@@ -3,6 +3,10 @@
   -webkit-touch-callout: none;
 }
 
+button:focus {
+  outline:0 !important;
+}
+
 .break-word, .btn, span {
   white-space: normal !important;
   -ms-word-break: break-all;
