@@ -39,8 +39,8 @@ class Kernel extends HttpKernel
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
             // 'throttle:60,1',
             'bindings',
-            // 'api.client',
-            // 'api.token',
+            'api.client',
+            'api.token',
             'api.profile',
         ],
     ];
