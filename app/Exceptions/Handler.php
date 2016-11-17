@@ -195,7 +195,7 @@ class Handler extends ExceptionHandler
             } elseif (403 === $status) {
                 $message = '无权操作，拒绝访问';
             } elseif (404 === $status) {
-                $message = '数据不存在';
+                $message = '404 Not Found';
             } else {
                 $message = "非法操作 [{$status}]";
             }
