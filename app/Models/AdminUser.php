@@ -26,10 +26,20 @@ class AdminUser extends Authenticatable
      */
     const AVATAR_DIRECTORY = 'admin-avatar';
 
+    /**
+     * The accessors to append to the model's array form.
+     *
+     * @var array
+     */
     protected $appends = [
         'super_admin',
     ];
 
+    /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array
+     */
     protected $hidden = [
         'password', 'remember_token',
     ];
