@@ -188,21 +188,19 @@ class Handler extends ExceptionHandler
     {
         if ($this->container['request']->expectsJson()) {
             $status = $e->getStatusCode();
-            if (empty($message = $e->getMessage())) {
-                $message = false;
-            }
+            $message = $e->getMessage();
 
             if (401 === $status) {
-                return $this->createApiResponse($message ?: '认证失败，请先登录', $status);
+                $message = '认证失败，请先登录';
             } elseif (403 === $status) {
-                return $this->createApiResponse($message ?: '拒绝访问（无权操作）', $status);
+                $message = '无权操作，拒绝访问';
             } elseif (404 === $status) {
-                return $this->createApiResponse($message ?: '404 Not Found', $status);
-            } elseif ($status >= 400 && $status < 500) {
-                return $this->createApiResponse($message ?: "{$status} 非法操作", $status);
+                $message = '数据不存在';
             } else {
-                return $this->createApiResponse($message ?: "{$status} 数据异常", 500);
+                $message = "非法操作 [{$status}]";
             }
+
+            return $this->createApiResponse($message, $status);
         }
 
         return parent::renderHttpException($e);
