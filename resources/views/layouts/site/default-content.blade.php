@@ -5,5 +5,5 @@
 
 @section('content')
 <div class="content">
-</div> <!-- //.content -->
+</div>
 @stop

@@ -10,7 +10,7 @@
 @section('content')
 <div class="container body-container">
   @yield('content')
-</div> <!-- //.body-container -->
+</div>
 @overwrite
 
 @section('footer')

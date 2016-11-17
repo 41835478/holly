@@ -14,18 +14,10 @@
 </style>
 @endpush
 
-@push('js')
-<script>
-$(function () {
-  console.log('Welcome!');
-});
-</script>
-@endpush
-
 @section('content')
 <div class="content">
   <div class="example">
     <h1>Welcome</h1>
-  </div> <!-- //.example -->
-</div> <!-- //.content -->
+  </div>
+</div>
 @stop
