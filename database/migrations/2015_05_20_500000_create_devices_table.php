@@ -26,7 +26,7 @@ class CreateDevicesTable extends Migration
             $table->string('platform', 20);
             $table->string('model', 20)->nullable();
             $table->string('name', 150)->nullable();
-            $table->boolean('is_jailbroken')->default(0);
+            $table->boolean('jailbroken')->default(0);
             $table->string('carrier', 20)->nullable();
             $table->string('locale', 20)->nullable();
             $table->string('network', 8)->nullable();

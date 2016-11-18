@@ -23,8 +23,6 @@ class CreateDeviceAppsTable extends Migration
             $table->string('identifier', 191);
             $table->string('version', 20);
             $table->string('channel', 20);
-
-            $table->index(['device_id', 'identifier']);
         });
     }
 

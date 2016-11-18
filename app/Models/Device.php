@@ -2,60 +2,124 @@
 
 namespace App\Models;
 
-use Carbon\Carbon;
-use Request;
 use Holly\Support\Helper;
+use Iatstuti\Database\Support\NullableFields;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Request;
 
 class Device extends Model
 {
-    /**
-     * The current device which matches current app client.
-     */
-    protected static $currentDevice = false;
+    use NullableFields;
 
+    /**
+     * The accessors to append to the model's array form.
+     *
+     * @var array
+     */
+    protected $appends = [
+        'platform_string', 'push_enabled',
+    ];
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'tdid', 'did', 'os', 'os_version', 'platform', 'model', 'name',
+        'jailbroken', 'carrier', 'locale', 'network', 'ssid',
+        'push_token', 'idfa', 'idfv', 'screen_width', 'screen_height',
+        'screen_scale', 'timezone_gmt',
+    ];
+
+    /**
+     * The attributes that should be mutated to dates.
+     *
+     * @var array
+     */
     protected $dates = ['last_login_at'];
 
-    protected $appends = ['platform_string', 'push_enabled'];
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'jailbroken' => 'boolean',
+        'screen_width' => 'integer',
+        'screen_height' => 'integer',
+        'screen_scale' => 'float',
+        'timezone_gmt' => 'integer',
+        'login_count' => 'integer',
+    ];
 
-    protected $fillable = ['tdid'];
+    /**
+     * The attributes that should be saved as null when empty.
+     *
+     * @var array
+     */
+    protected $nullable = [
+        'did', 'model', 'name', 'carrier', 'locale', 'network', 'ssid',
+        'push_token', 'idfa', 'idfv', 'last_login_ip', 'registered_ip',
+    ];
 
+    /**
+     * The model's attributes.
+     *
+     * @var array
+     */
+    protected $attributes = [
+        'jailbroken' => 0,
+        'screen_width' => 0,
+        'screen_height' => 0,
+        'screen_scale' => 0,
+        'timezone_gmt' => 0,
+        'login_count' => 0,
+    ];
+
+    /**
+     * The device that matches the current app client.
+     *
+     * @var static|bool
+     */
+    protected static $clientDevice = false;
+
+    /**
+     * Get the `platform_string` attribute.
+     *
+     * @return string|null
+     */
     public function getPlatformStringAttribute()
     {
         return Helper::iOSPlatform($this->platform);
     }
 
+    /**
+     * Get the `push_enabled` attribute.
+     *
+     * @return bool
+     */
     public function getPushEnabledAttribute()
     {
-        return $this->push_token ? 1 : 0;
+        return ! is_null($this->push_token);
     }
 
+    /**
+     * Find a Device instance.
+     *
+     * @param  string  $tdid
+     * @return static|null
+     */
     public static function findByTdid($tdid)
     {
         return ! empty($tdid) ? static::where('tdid', $tdid)->first() : null;
     }
 
     /**
-     * Get the current Device instance.
-     */
-    public static function getCurrentDevice()
-    {
-        if (false === static::$currentDevice) {
-            static::$currentDevice = static::findByTdid(app('AppClient')->tdid);
-        }
-
-        return static::$currentDevice;
-    }
-
-    /**
-     * Get the id for the current Device instance.
-     */
-    public static function getCurrentDeviceId()
-    {
-        return ($device = static::getCurrentDevice()) ? $device->id : null;
-    }
-
-    /**
-     * Fetch device_id for the given tdid.
+     * Fetch device id for the given tdid.
+     *
+     * @param  string  $tdid
+     * @return int|null
      */
     public static function fetchDeviceIdForTdid($tdid)
     {
@@ -63,107 +127,118 @@ class Device extends Model
     }
 
     /**
-     * Fetch device_id for the current app client.
+     * Get the device for the current app client.
+     *
+     * @return static|null
      */
-    public static function fetchCurrentDeviceId()
+    public static function getClientDevice()
     {
-        return static::fetchDeviceIdForTdid(app('AppClient')->tdid);
+        if (false === static::$clientDevice) {
+            static::$clientDevice = static::findByTdid(app('client')->tdid);
+        }
+
+        return static::$clientDevice;
+    }
+
+    /**
+     * Set the device for the current app client.
+     *
+     * @param  static  $device
+     * @return static
+     */
+    public static function setClientDevice($device)
+    {
+        return static::$clientDevice = $device;
+    }
+
+    /**
+     * Get the id for the client device.
+     *
+     * @return int|null
+     */
+    public static function getClientDeviceId()
+    {
+        if ($device = static::getClientDevice()) {
+            return $device->id;
+        }
     }
 
     /**
      * Update or create a Device instance.
      *
-     * @param  array  $deviceInfo
+     * @param  array  $data
      * @return static
+     *
+     * @throws \Symfony\Component\HttpKernel\Exception\HttpException
      */
-    public static function touchDevice($deviceInfo)
+    public static function touchDevice(array $data)
     {
-        if (! is_array($deviceInfo)) {
-            return;
+        $tdid = array_get($data, 'tdid');
+
+        if (empty($tdid) || $tdid !== app('client')->tdid) {
+            abort(403);
         }
 
-        $deviceInfo = array_filter($deviceInfo);
+        $device = static::firstOrNew(compact('tdid'));
 
-        if (empty($deviceInfo['tdid']) ||
-            $deviceInfo['tdid'] !== app('AppClient')->tdid) {
-            return;
-        }
-
-        $device = static::firstOrNew(array_only($deviceInfo, 'tdid'));
-
-        $device->acid = str_limit2($deviceInfo['acid'], 40);
-        $device->os = str_limit2($deviceInfo['os'], 10);
-        $device->os_version = str_limit2($deviceInfo['os_version'], 20);
-        $device->platform = str_limit2($deviceInfo['platform'], 20);
-        $device->model = str_limit2(array_get($deviceInfo, 'model'), 20);
-        $device->name = str_limit2(array_get($deviceInfo, 'name'), 150);
-        $device->is_jailbroken = (bool) array_get($deviceInfo, 'jailbroken') ? 1 : 0;
-        $device->carrier = str_limit2(array_get($deviceInfo, 'carrier'), 16);
-        $device->locale = str_limit2(array_get($deviceInfo, 'locale'), 16);
-        $device->network = str_limit2(array_get($deviceInfo, 'network'), 8);
-        $device->ssid = str_limit2(array_get($deviceInfo, 'ssid'), 30);
-        if (! empty($deviceInfo['push_token'])) {
-            $device->push_token = str_limit2($deviceInfo['push_token'], 64);
-        }
-        $device->did = str_limit2(array_get($deviceInfo, 'did'), 40);
-        $device->idfa = str_limit2(array_get($deviceInfo, 'idfa'), 40);
-        $device->idfv = str_limit2(array_get($deviceInfo, 'idfv'), 40);
-        $screen_width = 0;
-        $screen_height = 0;
-        if (isset($deviceInfo['screen_size']) && str_contains($deviceInfo['screen_size'], 'x')) {
-            $screenSize = explode('x', $deviceInfo['screen_size']);
+        if (isset($data['screen_size']) && str_contains($data['screen_size'], 'x')) {
+            $screenSize = explode('x', $data['screen_size']);
             if (count($screenSize) == 2) {
-                $screen_width = intval($screenSize[0]);
-                $screen_height = intval($screenSize[1]);
+                $data['screen_width'] = (int) $screenSize[0];
+                $data['screen_height'] = (int) $screenSize[1];
             }
         }
-        $device->screen_width = $screen_width;
-        $device->screen_height = $screen_height;
-        $device->screen_scale = (float) array_get($deviceInfo, 'screen_scale', 0);
-        $device->timezone_gmt = (int) array_get($deviceInfo, 'timezone_gmt', 0);
+
+        $device->fill($data);
+
+        $device->login_count++;
+        $device->last_login_at = $this->freshTimestamp();
+        $device->last_login_ip = Request::ip();
 
         if (! $device->exists) {
-            $device->login_count = 1;
-            $device->registered_ip = Request::ip();
-        } else {
-            $device->login_count++;
+            $device->registered_ip = $device->last_login_ip;
         }
-
-        $device->last_login_at = Carbon::now();
-        $device->last_login_ip = Request::ip();
 
         $device->save();
 
-        static::$currentDevice = $device;
-
-        return $device;
+        return static::setClientDevice($device);
     }
 
-    public static function updatePushTokenForTdid($tdid, $pushToken = null)
+    /**
+     * Update push token for the device.
+     *
+     * @param  string  $tdid
+     * @param  string|null $push_token
+     * @return bool
+     */
+    public static function updatePushTokenForTdid($tdid, $push_token = null)
     {
-        $pushToken = ! empty($pushToken) ? str_limit2($pushToken, 64) : null;
-
-        return static::where('tdid', $tdid)->update(['push_token' => $pushToken]);
+        return static::where('tdid', $tdid)->update(compact('push_token'));
     }
 
+    /**
+     * Get DeviceApp models.
+     *
+     * @return \Illuminate\Support\Collection
+     */
     public function getDeviceApps()
     {
         return DeviceApp::findByDeviceId($this->id);
     }
 
-    public function getUsers($withTrashed = false)
-    {
-        return User::whereIn('id', function ($query) use ($withTrashed) {
-            $query->select('user_id')->from('user_devices')->where('device_id', $this->id);
+    // public function getUsers($withTrashed = false)
+    // {
+    //     return User::whereIn('id', function ($query) use ($withTrashed) {
+    //         $query->select('user_id')->from('user_devices')->where('device_id', $this->id);
 
-            if (! $withTrashed) {
-                $query->where('deleted_at', null);
-            }
-        })->get();
-    }
+    //         if (! $withTrashed) {
+    //             $query->where('deleted_at', null);
+    //         }
+    //     })->get();
+    // }
 
-    public function getDeviceUsers($withTrashed = false)
-    {
-        return UserDevice::findByUserDevice(null, $this->id, $withTrashed);
-    }
+    // public function getDeviceUsers($withTrashed = false)
+    // {
+    //     return UserDevice::findByUserDevice(null, $this->id, $withTrashed);
+    // }
 }
