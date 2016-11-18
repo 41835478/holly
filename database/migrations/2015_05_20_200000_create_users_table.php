@@ -23,8 +23,8 @@ class CreateUsersTable extends Migration
             $table->string('phone', 20)->nullable()->unique();
             $table->string('password', 60)->nullable();
             $table->string('username', 12)->nullable();
-            $table->string('avatar_path', 300)->nullable();
-            $table->string('small_avatar_path', 300)->nullable();
+            $table->string('avatar', 300)->nullable();
+            $table->string('original_avatar', 300)->nullable();
             $table->unsignedInteger('status')->default(1);
             $table->unsignedInteger('login_count')->default(0);
             $table->timestamp('last_login_at')->nullable();

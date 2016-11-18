@@ -2,159 +2,113 @@
 
 namespace App\Models;
 
-use Carbon\Carbon;
-use Illuminate\Auth\Authenticatable;
-use Illuminate\Auth\Passwords\CanResetPassword;
-use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
-use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
-use Illuminate\Http\UploadedFile;
-use Illuminate\Notifications\Notifiable;
-use GuzzleHttp\Client as HttpClient;
-use App\Events\UserVIPChanged;
-use Holly\Support\Helper;
-use Request;
-use Image;
+use App\Support\Image\Filters\Fit;
 use Exception;
+use GuzzleHttp\Client as HttpClient;
+use Holly\Support\Helper;
+use Iatstuti\Database\Support\NullableFields;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Request;
+use Illuminate\Support\Facades\Storage;
+use Intervention\Image\Facades\Image;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
-class User extends Model implements AuthenticatableContract, CanResetPasswordContract
+class User extends Authenticatable
 {
-    use Authenticatable, CanResetPassword, Notifiable;
+    use Notifiable, NullableFields;
 
-    const STATUS_GUEST = 0;
+    /**
+     * The user status.
+     */
     const STATUS_NORMAL = 1;
-    const STATUS_FORBIDDEN = 2;
 
     /**
      * The directory stores all users' avatars.
      */
-    const AVATAR_DIRECTORY = 'storage/avatar';
+    const AVATAR_DIRECTORY = 'avatars';
 
-    public $timestamps = false;
+    /**
+     * The avatar size.
+     */
+    const AVATAR_SIZE = 200;
+    const ORIGINAL_AVATAR_SIZE = 960;
 
-    public static $filterAttributes = true;
-
-    protected $appends = [
-        'avatar', 'small_avatar', 'is_guest', 'is_forbidden',
-        'is_vip', 'vip_days',
-    ];
-
+    /**
+     * The attributes that should be visible in arrays.
+     *
+     * @var array
+     */
     protected $visible = [
-        'id', 'email', 'phone', 'username', 'status', 'vip_expired_at',
-        'avatar', 'small_avatar', 'vip_days',
+        'id', 'email', 'phone', 'username', 'avatar', 'original_avatar', 'status',
     ];
 
-    protected $dates = [
-        'registered_at', 'last_login_at', 'vip_expired_at',
+    /**
+     * The attributes that should be mutated to dates.
+     *
+     * @var array
+     */
+    protected $dates = ['last_login_at'];
+
+    /**
+     * The attributes that should be saved as null when empty.
+     *
+     * @var array
+     */
+    protected $nullable = [
+        'email', 'phone', 'username', 'avatar', 'original_avatar',
+        'last_login_ip', 'registered_ip',
     ];
 
+    /**
+     * The model's attributes.
+     *
+     * @var array
+     */
     protected $attributes = [
-        'status' => 1, // STATUS_NORMAL
+        'status' => 1,
         'login_count' => 0,
     ];
 
-    protected static function boot()
-    {
-        parent::boot();
-
-        static::saving(function ($user) {
-            if ($user->vip_expired_at && $user->vip_expired_at->isPast()) {
-                $user->vip_expired_at = null;
-            }
-        });
-
-        static::updated(function ($user) {
-            $user->checkAndFireVIPChangedEvent();
-        });
-    }
-
-    public function getAvatarAttribute()
-    {
-        if ($this->avatar_path) {
-            return asset_url($this->avatar_path);
-        } elseif ($this->email) {
-            return Helper::gravatar($this->email, 400);
-        }
-    }
-
-    public function getSmallAvatarAttribute()
-    {
-        if ($this->small_avatar_path) {
-            return asset_url($this->small_avatar_path);
-        } elseif ($this->email) {
-            return Helper::gravatar($this->email, 200);
-        }
-    }
-
-    public function getIsGuestAttribute()
-    {
-        return $this->status === static::STATUS_GUEST;
-    }
-
-    public function getIsForbiddenAttribute()
-    {
-        return ($this->status & static::STATUS_FORBIDDEN) === static::STATUS_FORBIDDEN;
-    }
-
-    public function getIsVipAttribute()
-    {
-        return (bool) $this->vip_expired_at;
-    }
-
-    public function getVipDaysAttribute()
-    {
-        if ($this->vip_expired_at && $this->vip_expired_at->isFuture()) {
-            return (int) ceil($this->vip_expired_at->diffInHours() / 24);
-        }
-
-        return 0;
-    }
-
-    public function setVipExpiredAtAttribute($value)
-    {
-        if ($value && $value->isPast()) {
-            $value = null;
-        }
-
-        if ($value) {
-            $value = $this->fromDateTime($value);
-        }
-
-        $this->attributes['vip_expired_at'] = $value;
-    }
-
-    public static function findExpiredVipUsers($count = 10)
-    {
-        return static::whereNotNull('vip_expired_at')
-            ->where('vip_expired_at', '<=', (string) Carbon::now())
-            ->take($count)
-            ->get();
-    }
-
     /**
-     * Create a new User.
+     * Get the `avatar` attribute.
      *
-     * @return \App\Models\User
+     * @return string|null
      */
-    public static function newUser()
+    public function getAvatarAttribute($value)
     {
-        $user = new static;
-        $user->registered_ip = Request::ip();
-        $user->registered_at = Carbon::now();
-
-        return $user;
+        if (! is_null($value)) {
+            return asset_url($this->getFilesystem()->url($value));
+        } elseif (! is_null($this->email)) {
+            return Helper::gravatar($this->email, static::AVATAR_SIZE);
+        }
     }
 
     /**
-     * Update user login information.
+     * Get the `original_avatar` attribute.
+     *
+     * @return string|null
+     */
+    public function getOriginalAvatarAttribute($value)
+    {
+        if (! is_null($value)) {
+            return asset_url($this->getFilesystem()->url($value));
+        } elseif (! is_null($this->email)) {
+            return Helper::gravatar($this->email, static::ORIGINAL_AVATAR_SIZE);
+        }
+    }
+
+    /**
+     * Update login info.
      *
      * @param  bool  $save
      * @return $this
      */
-    public function updateLoginInfo($save = false)
+    public function updateLoginInfo($save = true)
     {
-        $this->last_login_ip = Request::ip();
-        $this->last_login_at = Carbon::now();
         $this->login_count++;
+        $this->last_login_at = $this->freshTimestamp();
+        $this->last_login_ip = Request::ip();
 
         if ($save) {
             $this->save();
@@ -163,143 +117,48 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
         return $this;
     }
 
+    // public function updateUserInfoWithSocialUser($social, $user, $save = false)
+    // {
+    //     $this->updateAvatarFromUrl(SocialAuth::getAvatarFromSocialUser($social, $user));
+
+    //     $this->username = str_limit2(SocialAuth::getUsernameFromSocialUser($social, $user), 10);
+
+    //     if ($save) {
+    //         $this->save();
+    //     }
+    // }
+
     /**
-     * Check whether the user's VIP has expired.
+     * Store the given file as user's avatar.
      *
-     * @param  bool  $save
+     * @param  mixed  $file
      * @return bool
      */
-    public function checkVIP($save = false)
+    public function storeAvatarFile($file)
     {
-        if ($this->vip_expired_at) {
-            if ($this->vip_expired_at->isPast()) {
-                $this->vip_expired_at = null;
-            }
-
-            if ($save && $this->getOriginal('vip_expired_at') !== $this->attributes['vip_expired_at']) {
-                $this->save();
-            }
+        if ($this->storeAvatarFileAs($file, 'avatar') &&
+            $this->storeAvatarFileAs($file, 'original_avatar')) {
+            return true;
         }
 
-        return $this->is_vip;
-    }
-
-    public function joinVIP($days)
-    {
-        if ($days) {
-            $this->vip_expired_at = with(
-                $this->vip_expired_at ?
-                $this->vip_expired_at->copy() :
-                Carbon::now()
-            )->addDays($days);
-
-            return $this->save();
-        }
+        $this->avatar = $this->original_avatar = null;
 
         return false;
     }
 
-    public function cancelVIP()
-    {
-        $this->vip_expired_at = null;
-
-        return $this->save();
-    }
-
     /**
-     * Check if the user's VIP status changed, and fire the UserVIPChanged event.
-     */
-    protected function checkAndFireVIPChangedEvent()
-    {
-        if ($this->isDirty('vip_expired_at')) {
-            $old = $this->getOriginal('vip_expired_at');
-            if (! is_null($old)) {
-                $old = $this->asDateTime($old);
-            }
-
-            event(new UserVIPChanged($this, $old));
-        }
-    }
-
-    public function updateUserInfoWithSocialUser($social, $user, $save = false)
-    {
-        $this->updateAvatarFromUrl(SocialAuth::getAvatarFromSocialUser($social, $user));
-
-        $this->username = str_limit2(SocialAuth::getUsernameFromSocialUser($social, $user), 10);
-
-        if ($save) {
-            $this->save();
-        }
-    }
-
-    /**
-     * Upload avatar file for user.
-     *
-     * @param  \Illuminate\Http\UploadedFile  $file
-     * @return bool
-     */
-    public function uploadAvatar($file)
-    {
-        return $this->makeAvatar($file);
-    }
-
-    /**
-     * Make avatar files.
-     *
-     * @param  mixed  $image @see http://image.intervention.io/api/make
-     * @return bool
-     */
-    protected function makeAvatar($image)
-    {
-        if ($image instanceof UploadedFile && ! $image->isValid()) {
-            return false;
-        }
-
-        $avatarPath = $this->getAvatarDirectory().'/';
-        $smallAvatarPath = $this->getAvatarDirectory().'/';
-
-        if ($image instanceof UploadedFile) {
-            $avatarPath .= $this->createFilenameForUploadedFile($image, 'jpg');
-            $smallAvatarPath .= $this->createFilenameForUploadedFile($image, 'jpg');
-        } else {
-            $avatarPath .= $this->createFilename('jpg');
-            $smallAvatarPath .= $this->createFilename('jpg');
-        }
-
-        try {
-            Image::make($image)->save(public_path($avatarPath), 60);
-
-            Image::make($image)->fit(200, 200, function ($constraint) {
-                $constraint->upsize();
-            }, 'center')
-            ->save(public_path($smallAvatarPath), 60);
-        } catch (Exception $e) {
-            return false;
-        }
-
-        $this->avatar_path = $avatarPath;
-        $this->small_avatar_path = $smallAvatarPath;
-
-        return true;
-    }
-
-    /**
-     * Update user's avatar from a remote URL.
+     * Store user's avatar from an image URL.
      *
      * @param  string  $url
      * @return bool
      */
-    public function updateAvatarFromUrl($url = null)
+    public function storeAvatarFromUrl($url)
     {
-        if (empty($url)) {
-            return false;
-        }
-
         $tmpfile = tmpfile();
 
         try {
-            $response = (new HttpClient)->get($url, [
-                'timeout' => 10,
+            with(new HttpClient)->get($url, [
+                'timeout' => 15,
                 'connect_timeout' => 5,
                 'sink' => $tmpfile,
             ]);
@@ -309,92 +168,88 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
             return false;
         }
 
-        $makeAvatar = $this->makeAvatar($tmpfile);
+        $stored = $this->storeAvatarFile($tmpfile);
 
         fclose($tmpfile);
 
-        return $makeAvatar;
+        return $stored;
     }
 
     /**
-     * Get the avatars directory.
+     * Store avatar file for the given attribute.
      *
-     * @return string
+     * @param  mixed  $file
+     * @param  string  $attribute
+     * @return string|null
      */
-    protected function getAvatarDirectory()
+    protected function storeAvatarFileAs($file, $attribute)
     {
-        // 根目录下的每个文件夹放100个子文件夹，每个子文件夹放1000个用户的头像文件
-        // e.g. 892997 => 8/5c , 129003994 => 50a/3
+        $sizeProperty = strtoupper($attribute).'_SIZE';
 
-        $div = $this->id / 100000;
-        $rootDir = dechex($div);
-        $subDir = dechex(($div - intval($div)) * 100);
+        if ($image = $this->encodeAvatarImage($file, static::{$sizeProperty})) {
+            $filename = $this->getFullFilename(
+                md5(str_random(100)).$file->extension(),
+                static::AVATAR_DIRECTORY
+            );
 
-        $directory = static::AVATAR_DIRECTORY."/$rootDir/$subDir";
+            if ($this->getFilesystem()->put($filename, $image)) {
+                return $this->{$attributes} = $filename;
+            }
+        }
+    }
 
-        $path = public_path($directory);
-        if (! file_exists($path)) {
-            mkdir($path, 0775, true);
+    /**
+     * Encode avatar image file.
+     *
+     * @param  mixed  $file
+     * @param  int  $size
+     * @return string|false
+     */
+    protected function encodeAvatarImage($file, $size)
+    {
+        if ($file instanceof UploadedFile && ! $file->isValid()) {
+            return false;
         }
 
-        return $directory;
-    }
-
-    /**
-     * Create a filename for uploaded file instance.
-     *
-     * @param  \Illuminate\Http\UploadedFile  $file
-     * @return string
-     */
-    protected function createFilenameForUploadedFile($file, $defaultExtension = '')
-    {
-        $extension = $file->extension();
-        $extension = ! empty($extension) ? $extension : $defaultExtension;
-
-        return $this->createFilename().(empty($extension) ? '' : '.'.$extension);
-    }
-
-    protected function createFilename($extension = '')
-    {
-        return $this->id.'-'.str_random().(empty($extension) ? '' : '.'.$extension);
-    }
-
-    /**
-     * Get the extended image path.
-     * e.g. 'path/to/file.jpg' to 'path/to/sm-file.jpg'.
-     *
-     * @param  string  $path
-     * @param  string  $extended
-     * @return string
-     */
-    protected function getExtendedImagePath($path, $extend = 'sm-')
-    {
-        if (is_null($path)) {
-            return;
+        try {
+            $image = Image::make($file)
+                ->filter((new Fit)->width($size))
+                ->encode();
+        } catch (Exception $e) {
+            return false;
         }
 
-        $appendPosition = strrpos($path, '/');
-        $appendPosition = (false === $appendPosition) ? 0 : $appendPosition + 1;
-
-        return substr_replace($path, $extend, $appendPosition, 0);
+        return $image;
     }
 
     /**
-     * Get user's social auth.
+     * Get the full filename.
      *
-     * @param  string|int  $social
-     * @return \Illuminate\Database\Eloquent\Collection|\App\Models\SocialAuth
+     * @param  string  $filename
+     * @param  string  $baseDir
+     * @return string
      */
-    public function getSocials($social = null)
+    protected function getFullFilename($filename, $baseDir = 'images')
     {
-        return SocialAuth::findByUser($this, $social);
+        return trim($baseDir.'/'.date('Y/m/').$filename, '/');
     }
 
-    public function getUserDevices($withTrashed = false)
+    /**
+     * Get the Filesystem instance.
+     *
+     * @return \Illuminate\Contracts\Filesystem\Filesystem
+     */
+    protected function getFilesystem()
     {
-        return UserDevice::findByUserDevice($this->id, null, $withTrashed);
+        return Storage::disk('public');
     }
 
+    /**
+     * Get user's devices.
+     *
+     * @param  bool  $withTrashed
+     * @return \Illuminate\Support\Collection
+     */
     public function getDevices($withTrashed = false)
     {
         return Device::whereIn('id', function ($query) use ($withTrashed) {
@@ -404,15 +259,5 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
                 $query->where('deleted_at', null);
             }
         })->get();
-    }
-
-    public function getOrders($withTrashed = false)
-    {
-        return Order::findByUser($this->id, $withTrashed);
-    }
-
-    public function getPromotions($sku = null)
-    {
-        return Promotion::findByUser($this->id, $sku);
     }
 }
