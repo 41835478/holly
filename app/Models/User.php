@@ -184,9 +184,9 @@ class User extends Authenticatable
      */
     protected function storeAvatarFileAs($file, $attribute)
     {
-        $sizeProperty = strtoupper($attribute).'_SIZE';
+        $size = constant('static::'.strtoupper($attribute).'_SIZE');
 
-        if ($image = $this->encodeAvatarImage($file, static::{$sizeProperty})) {
+        if ($image = $this->encodeAvatarImage($file, $size)) {
             $filename = $this->getFullFilename(
                 md5(str_random(100)).$file->extension(),
                 static::AVATAR_DIRECTORY
