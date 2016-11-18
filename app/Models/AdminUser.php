@@ -119,8 +119,8 @@ class AdminUser extends Authenticatable
 
         try {
             $image = Image::make($file)
-            ->filter((new Fit)->width(static::AVATAR_SIZE))
-            ->encode();
+                ->filter((new Fit)->width(static::AVATAR_SIZE))
+                ->encode();
         } catch (Exception $e) {
             return false;
         }
