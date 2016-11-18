@@ -6,6 +6,7 @@ use App\Notifications\ResetPassword;
 use App\Support\Image\Filters\Fit;
 use Exception;
 use Holly\Support\Helper;
+use Iatstuti\Database\Support\NullableFields;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Storage;
@@ -14,7 +15,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class AdminUser extends Authenticatable
 {
-    use Notifiable;
+    use Notifiable, NullableFields;
 
     /**
      * The avatar size.
@@ -31,18 +32,21 @@ class AdminUser extends Authenticatable
      *
      * @var array
      */
-    protected $appends = [
-        'super_admin',
-    ];
+    protected $appends = ['super_admin'];
 
     /**
      * The attributes that should be hidden for arrays.
      *
      * @var array
      */
-    protected $hidden = [
-        'password', 'remember_token',
-    ];
+    protected $hidden = ['password', 'remember_token'];
+
+    /**
+     * The attributes that should be saved as null when empty.
+     *
+     * @var array
+     */
+    protected $nullable = ['avatar'];
 
     /**
      * Create an admin user.
@@ -91,23 +95,6 @@ class AdminUser extends Authenticatable
         }
 
         return Helper::gravatar($this->email, static::AVATAR_SIZE);
-    }
-
-    /**
-     * Set the 'avatar' attribute.
-     *
-     * @param  string  $value
-     */
-    public function setAvatarAttribute($value)
-    {
-        if (! is_null($value)) {
-            $value = trim($value, '/');
-            if (empty($value)) {
-                $value = null;
-            }
-        }
-
-        $this->attributes['avatar'] = $value;
     }
 
     /**
