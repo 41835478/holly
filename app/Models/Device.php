@@ -226,6 +226,17 @@ class Device extends Model
         return DeviceApp::findByDeviceId($this->id);
     }
 
+    /**
+     * Get UserDevice models.
+     *
+     * @param  bool  $withTrashed
+     * @return mixed
+     */
+    public function getDeviceUsers($withTrashed = false)
+    {
+        return UserDevice::findByUserDevice(null, $this->id, $withTrashed);
+    }
+
     // public function getUsers($withTrashed = false)
     // {
     //     return User::whereIn('id', function ($query) use ($withTrashed) {
@@ -235,10 +246,5 @@ class Device extends Model
     //             $query->where('deleted_at', null);
     //         }
     //     })->get();
-    // }
-
-    // public function getDeviceUsers($withTrashed = false)
-    // {
-    //     return UserDevice::findByUserDevice(null, $this->id, $withTrashed);
     // }
 }
