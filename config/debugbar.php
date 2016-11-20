@@ -135,7 +135,7 @@ return [
             'data' => false,    //Note: Can slow down the application, because the data can be quite large..
         ],
         'route' => [
-            'label' => true  // show complete route on bar
+            'label' => false  // show complete route on bar
         ],
         'logs' => [
             'file' => null
