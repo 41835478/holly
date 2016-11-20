@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-use Carbon\Carbon;
 use App\Exceptions\InvalidInputException;
+use Illuminate\Database\Eloquent\Model;
 
 class SocialAuth extends Model
 {
@@ -23,6 +23,11 @@ class SocialAuth extends Model
 
     protected $dates = ['expires_at'];
 
+    /**
+     * Get the `social` attribute.
+     *
+     * @return string
+     */
     public function getSocialAttribute()
     {
         return static::socialFromSocialType($this->social_type);
@@ -39,6 +44,11 @@ class SocialAuth extends Model
         return $query->where('social_type', static::toSocialType($social));
     }
 
+    /**
+     * Get all socials.
+     *
+     * @return array
+     */
     public static function allSocials()
     {
         return [
@@ -214,7 +224,7 @@ class SocialAuth extends Model
         }
 
         if ($expires_in = array_get($credentials, 'expires_in')) {
-            $this->expires_at = Carbon::now()->addSeconds($expires_in);
+            $this->expires_at = $this->freshTimestamp()->addSeconds($expires_in);
         } else {
             $this->expires_at = null;
         }
