@@ -15,12 +15,27 @@ class SocialAuth extends Model
     const SOCIAL_WEIXIN = 'weixin';
     const SOCIAL_QQ = 'qq';
 
+    /**
+     * The accessors to append to the model's array form.
+     *
+     * @var array
+     */
     protected $appends = ['social'];
 
+    /**
+     * The attributes that should be visible in arrays.
+     *
+     * @var array
+     */
     protected $visible = [
         'social', 'access_token', 'refresh_token', 'uid', 'expires_at',
     ];
 
+    /**
+     * The attributes that should be mutated to dates.
+     *
+     * @var array
+     */
     protected $dates = ['expires_at'];
 
     /**
