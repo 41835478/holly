@@ -51,7 +51,7 @@ class AppServiceProvider extends ServiceProvider
      */
     protected function registerClient()
     {
-        $this->app->singleton('client', function ($app) {
+        $this->app->singleton('client', function () {
             return new Client;
         });
 
