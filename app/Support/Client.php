@@ -33,27 +33,20 @@ class Client extends BaseClient
      *
      * @example `Mozilla/5.0 (iPhone; CPU iPhone OS 8_4 like Mac OS X) AppleWebKit/600.1.4 (KHTML, like Gecko) Mobile/12H143 _ua(eyJuZXQiOiJXaUZpIiwib3MiOiJpT1MiLCJhcHBWIjoiMC4xLjIiLCJvc1YiOiI4LjQiLCJhcHAiOiJndXBpYW8iLCJhcHBDIjoiRGVidWciLCJ0ZGlkIjoiaDNiYjFmNTBhYzBhMzdkYmE4ODhlMTgyNjU3OWJkZmZmIiwiYWNpZCI6IjIxZDNmYmQzNDNmMjViYmI0MzU2ZGEyMmJmZjUxZDczZjg0YWQwNmQiLCJsb2MiOiJ6aF9DTiIsInBmIjoiaVBob25lNywxIn0)`
      *
-     * @param  string  $userAgent
-     * @return bool
+     * @return array
      */
-    protected function parseApiClient($userAgent)
+    protected function parseApiClient()
     {
-        if ($info = $this->getApiClientInfo($userAgent)) {
-            if (true === $this->setApiClientAttributes($info)) {
-                return true;
-            }
-        }
-
-        $this->resetApiClientAttributes();
-
-        return false;
+        return $this->getApiClientAttributes(
+            $this->getApiClientInfo($this->agent->getUserAgent())
+        );
     }
 
     /**
      * Get API client information from the User-Agent.
      *
      * @param  string  $userAgent
-     * @return array|null
+     * @return array
      */
     protected function getApiClientInfo($userAgent)
     {
@@ -64,51 +57,58 @@ class Client extends BaseClient
                 }
             }
         }
+
+        return [];
     }
 
     /**
-     * Set API client attributes.
+     * Get API client attributes.
      *
      * @param  array  $info
-     * @return bool
+     * @return array
      */
-    protected function setApiClientAttributes($info)
+    protected function getApiClientAttributes($info)
     {
         $info = array_filter($info);
+        $data = [];
 
         if (
-            ($this->os = array_get($info, 'os')) &&
-            ($this->osVersion = array_get($info, 'osV')) &&
-            ($this->platform = array_get($info, 'pf')) &&
-            ($this->locale = array_get($info, 'loc')) &&
-            ($this->network = array_get($info, 'net')) &&
-            ($this->app = array_get($info, 'app')) &&
-            ($this->appVersion = array_get($info, 'appV')) &&
-            ($this->appChannel = array_get($info, 'appC')) &&
-            ($this->tdid = array_get($info, 'tdid'))
+            ($data['os'] = array_get($info, 'os')) &&
+            ($data['osVersion'] = array_get($info, 'osV')) &&
+            ($data['platform'] = array_get($info, 'pf')) &&
+            ($data['locale'] = array_get($info, 'loc')) &&
+            ($data['network'] = array_get($info, 'net')) &&
+            ($data['app'] = array_get($info, 'app')) &&
+            ($data['appVersion'] = array_get($info, 'appV')) &&
+            ($data['appChannel'] = array_get($info, 'appC')) &&
+            ($data['tdid'] = array_get($info, 'tdid'))
         ) {
-            if ($this->os == 'iPhone OS') {
-                $this->os = 'iOS';
+            if ($data['os'] === 'iPhone OS') {
+                $data['os'] = 'iOS';
             }
 
-            $this->isIOS = ($this->os == 'iOS');
-            $this->isAndroid = ($this->os == 'Android');
+            $data['isIOS'] = $data['os'] === 'iOS';
+            $data['isAndroid'] = $data['os'] === 'Android';
 
-            $this->isAppStoreChannel = ($this->appChannel === 'App Store');
-            $this->isDebugChannel = ($this->appChannel === 'Debug');
-            $this->isAdHocChannel = ($this->appChannel === 'Ad Hoc');
-            $this->isInHouseChannel = ($this->appChannel === 'In House');
+            $data['isAppStoreChannel'] = $data['appChannel'] === 'App Store';
+            $data['isDebugChannel'] = $data['appChannel'] === 'Debug';
+            $data['isAdHocChannel'] = $data['appChannel'] === 'Ad Hoc';
+            $data['isInHouseChannel'] = $data['appChannel'] === 'In House';
 
-            $this->isAppStoreReviewing = (
-                $this->isIOS &&
-                $this->isAppStoreChannel &&
-                $this->appVersion === config('var.ios.app_store_reviewing_version')
+            $data['isAppStoreReviewing'] = (
+                $data['isIOS'] &&
+                $data['isAppStoreChannel'] &&
+                $data['appVersion'] === config('var.ios.app_store_reviewing_version')
             );
 
-            return true;
+            $data['isApiClient'] = true;
+
+            return array_filter($data);
         }
 
-        return false;
+        $this->resetApiClientAttributes();
+
+        return [];
     }
 
     /**
