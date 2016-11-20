@@ -42,6 +42,10 @@ return [
                 'url' => 'itms-services://?action=download-manifest&url=https%3A%2F%2Fips.pre.im%2Fapp%2Fplist%2F'.'b41d3e2a0dcd635f56eb236e2c801ef8',
             ],
         ],
+
+        // The iOS app version which is being reviewed by the App Store Reviewing Team.
+        // After reviewing approved, you can change it to a non-existent version.
+        'app_store_reviewing_version' => env('IOS_APP_STORE_REVIEWING_VERSION', null),
     ],
 
     /*
