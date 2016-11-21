@@ -17,7 +17,7 @@ class AdminUser extends Authenticatable
     /**
      * The avatar size.
      */
-    const AVATAR_SIZE = 200;
+    const AVATAR_SIZE = 120;
 
     /**
      * The directory stores all admin users' avatars.
