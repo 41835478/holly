@@ -65,7 +65,6 @@ trait ImageStorage
      */
     protected function getImageEncodingFormat($identifier = null)
     {
-        return;
     }
 
     /**
