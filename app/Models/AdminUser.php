@@ -3,19 +3,15 @@
 namespace App\Models;
 
 use App\Notifications\ResetPassword;
-use App\Support\Image\Filters\Fit;
-use Exception;
+use App\Traits\ImageStorage;
 use Holly\Support\Helper;
 use Iatstuti\Database\Support\NullableFields;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Support\Facades\Storage;
-use Intervention\Image\Facades\Image;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class AdminUser extends Authenticatable
 {
-    use Notifiable, NullableFields;
+    use Notifiable, ImageStorage, NullableFields;
 
     /**
      * The avatar size.
@@ -92,7 +88,7 @@ class AdminUser extends Authenticatable
     public function getAvatarAttribute($value)
     {
         if (! is_null($value)) {
-            return asset_url($this->getFilesystem()->url($value));
+            return $this->getAssetUrl($value, 'avatar');
         }
 
         return Helper::gravatar($this->email, static::AVATAR_SIZE);
@@ -124,28 +120,24 @@ class AdminUser extends Authenticatable
      */
     public function storeAvatarFile($file)
     {
-        if ($file instanceof UploadedFile && ! $file->isValid()) {
-            return false;
-        }
-
-        try {
-            $image = Image::make($file)
-                ->filter((new Fit)->width(static::AVATAR_SIZE))
-                ->encode();
-        } catch (Exception $e) {
-            return false;
-        }
-
-        $filename = static::AVATAR_DIRECTORY.'/'.
-            $this->id.'-'.md5($image).'.'.$file->extension();
-
-        if ($this->getFilesystem()->put($filename, $image)) {
-            $this->avatar = $filename;
+        if ($path = $this->storeImageFile($file, 'avatar')) {
+            $this->avatar = $path;
 
             return true;
         }
 
         return false;
+    }
+
+    /**
+     * Get image directory for the given attribute.
+     *
+     * @param  string  $attribute
+     * @return string
+     */
+    protected function getImageDirectory($attribute)
+    {
+        return static::AVATAR_DIRECTORY;
     }
 
     /**
@@ -157,15 +149,5 @@ class AdminUser extends Authenticatable
     public function sendPasswordResetNotification($token)
     {
         $this->notify(new ResetPassword($token));
-    }
-
-    /**
-     * Get the Filesystem instance.
-     *
-     * @return \Illuminate\Contracts\Filesystem\Filesystem
-     */
-    protected function getFilesystem()
-    {
-        return Storage::disk('public');
     }
 }
