@@ -4,8 +4,8 @@ namespace App\Traits;
 
 use App\Support\Image\Filters\Fit;
 use Exception;
+use Holly\Support\Helper;
 use Intervention\Image\Image;
-use Symfony\Component\HttpFoundation\File\MimeType\ExtensionGuesser;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 trait ImageStorage
@@ -38,7 +38,7 @@ trait ImageStorage
         }
 
         $path = trim($this->getImageDirectory($attribute), '/').'/'.
-            md5((string) $image).$this->getFileExtensionForMIME($image->mime());
+            md5((string) $image).Helper::fileExtensionForMimeType($image->mime());
 
         if ($this->getFilesystem($attribute)->put($path, (string) $image)) {
             return $path;
@@ -78,7 +78,6 @@ trait ImageStorage
      */
     protected function getImageFormat($attribute)
     {
-
     }
 
     /**
@@ -118,24 +117,5 @@ trait ImageStorage
     protected function getImageDirectory($attribute)
     {
         return 'images/'.date('Y/m');
-    }
-
-    /**
-     * Get file extension for image.
-     *
-     * @param  string  $mime
-     * @return string|null
-     */
-    protected function getFileExtensionForMIME($mime)
-    {
-        $extension = ExtensionGuesser::getInstance()->guess($mime);
-
-        if ($extension === 'jpeg') {
-            $extension = 'jpg';
-        }
-
-        if (! empty($extension)) {
-            return '.'.$extension;
-        }
     }
 }
