@@ -2,6 +2,7 @@
 
 namespace App\Exceptions;
 
+use App\Jobs\SendBearyChat;
 use Exception;
 use Holly\Http\ApiResponse;
 use Illuminate\Auth\AuthenticationException;
