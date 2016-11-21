@@ -73,28 +73,59 @@ class User extends Authenticatable
     /**
      * Get the `avatar` attribute.
      *
+     * @param  string|null  $value
      * @return string|null
      */
     public function getAvatarAttribute($value)
     {
-        if (! is_null($value)) {
-            return asset_url($this->getFilesystem()->url($value));
-        } elseif (! is_null($this->email)) {
-            return Helper::gravatar($this->email, static::AVATAR_SIZE);
-        }
+        return $this->getAvatarValue('avatar', $value);
+    }
+
+    /**
+     * Set the `avatar` attribute.
+     *
+     * @param  string|null  $value
+     */
+    public function setAvatarAttribute($value)
+    {
+        $this->attributes['avatar'] = $value;
     }
 
     /**
      * Get the `original_avatar` attribute.
      *
+     * @param  string|null  $value
      * @return string|null
      */
     public function getOriginalAvatarAttribute($value)
     {
+        return $this->getAvatarValue('original_avatar', $value);
+    }
+
+    /**
+     * Set the `original_avatar` attribute.
+     *
+     * @param  string|null  $value
+     */
+    public function setOriginalAvatarAttribute($value)
+    {
+        $this->attributes['original_avatar'] = $value;
+    }
+
+    /**
+     * Get value for avatar.
+     *
+     * @param  string  $attribute
+     * @param  string|null  $value
+     * @return string|null
+     */
+    protected function getAvatarValue($attribute, $value)
+    {
         if (! is_null($value)) {
             return asset_url($this->getFilesystem()->url($value));
-        } elseif (! is_null($this->email)) {
-            return Helper::gravatar($this->email, static::ORIGINAL_AVATAR_SIZE);
+        } elseif (! is_null($this->email) &&
+            ($size = constant('static::'.strtoupper($attribute).'_SIZE'))) {
+            return Helper::gravatar($this->email, $size);
         }
     }
 
