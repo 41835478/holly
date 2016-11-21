@@ -86,6 +86,7 @@ class AdminUser extends Authenticatable
     /**
      * Get the `avatar` attribute.
      *
+     * @param  string|null  $value
      * @return string
      */
     public function getAvatarAttribute($value)
@@ -95,6 +96,16 @@ class AdminUser extends Authenticatable
         }
 
         return Helper::gravatar($this->email, static::AVATAR_SIZE);
+    }
+
+    /**
+     * Set the `avatar` attribute.
+     *
+     * @param string|null $value
+     */
+    public function setAvatarAttribute($value)
+    {
+        $this->attributes['avatar'] = $value;
     }
 
     /**
