@@ -11,7 +11,7 @@ use Illuminate\Notifications\Notifiable;
 
 class AdminUser extends Authenticatable
 {
-    use Notifiable, ImageStorage, NullableFields;
+    use NullableFields, Notifiable, ImageStorage;
 
     /**
      * The avatar size.
