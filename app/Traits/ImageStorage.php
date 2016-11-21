@@ -13,13 +13,13 @@ trait ImageStorage
     use AssetHelper;
 
     /**
-     * Store image file for the given attribute.
+     * Store image file for the given identifier.
      *
      * @param  mixed  $file
-     * @param  string  $attribute
+     * @param  string  $identifier
      * @return string|null  The stored path
      */
-    protected function storeImageFile($file, $attribute)
+    protected function storeImageFile($file, $identifier)
     {
         if ($file instanceof UploadedFile && ! $file->isValid()) {
             return;
@@ -28,80 +28,80 @@ trait ImageStorage
         try {
             $image = app('image')
                 ->make($file)
-                ->filter($this->getImageFilter($attribute))
+                ->filter($this->getImageFilter($identifier))
                 ->encode(
-                    $this->getImageFormat($attribute),
-                    $this->getImageQuality($attribute)
+                    $this->getImageFormat($identifier),
+                    $this->getImageQuality($identifier)
                 );
         } catch (Exception $e) {
             return;
         }
 
-        $path = trim($this->getImageDirectory($attribute), '/').'/'.
+        $path = trim($this->getImageDirectory($identifier), '/').'/'.
             md5((string) $image).Helper::fileExtensionForMimeType($image->mime());
 
-        if ($this->getFilesystem($attribute)->put($path, (string) $image)) {
+        if ($this->getFilesystem($identifier)->put($path, (string) $image)) {
             return $path;
         }
     }
 
     /**
-     * Get image filter for the given attribute.
+     * Get image filter for the given identifier.
      *
      * @see http://image.intervention.io/api/filter
      *
-     * @param  string  $attribute
+     * @param  string  $identifier
      */
-    protected function getImageFilter($attribute)
+    protected function getImageFilter($identifier)
     {
-        return (new Fit)->width($this->getImageSize($attribute));
+        return (new Fit)->width($this->getImageSize($identifier));
     }
 
     /**
-     * Get the disk name of Filesystem for the given attribute.
+     * Get the disk name of Filesystem for the given identifier.
      *
-     * @param  string|null  $attribute
+     * @param  string|null  $identifier
      * @return string
      */
-    protected function getFilesystemDisk($attribute = null)
+    protected function getFilesystemDisk($identifier = null)
     {
         return 'public';
     }
 
     /**
-     * Get image format for the given attribute.
+     * Get image format for the given identifier.
      *
      * @see http://image.intervention.io/api/encode
      *
-     * @param  string  $attribute
+     * @param  string  $identifier
      * @return string|null
      */
-    protected function getImageFormat($attribute)
+    protected function getImageFormat($identifier)
     {
     }
 
     /**
-     * Get image quality for the given attribute.
+     * Get image quality for the given identifier.
      *
      * @see http://image.intervention.io/api/encode
      *
-     * @param  string  $attribute
+     * @param  string  $identifier
      * @return int
      */
-    protected function getImageQuality($attribute)
+    protected function getImageQuality($identifier)
     {
         return 90;
     }
 
     /**
-     * Get image size for the given attribute.
+     * Get image size for the given identifier.
      *
-     * @param  string  $attribute
+     * @param  string  $identifier
      * @return int
      */
-    protected function getImageSize($attribute)
+    protected function getImageSize($identifier)
     {
-        if (defined($constant = 'static::'.strtoupper($attribute).'_SIZE')) {
+        if (defined($constant = 'static::'.strtoupper($identifier).'_SIZE')) {
             return constant($constant);
         }
 
@@ -109,12 +109,12 @@ trait ImageStorage
     }
 
     /**
-     * Get image directory for the given attribute.
+     * Get image directory for the given identifier.
      *
-     * @param  string  $attribute
+     * @param  string  $identifier
      * @return string
      */
-    protected function getImageDirectory($attribute)
+    protected function getImageDirectory($identifier)
     {
         return 'images/'.date('Y/m');
     }
