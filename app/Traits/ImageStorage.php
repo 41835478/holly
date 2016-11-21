@@ -1,15 +1,17 @@
 <?php
 
-namespace App\Support\Eloquent\Traits;
+namespace App\Traits;
 
 use App\Support\Image\Filters\Fit;
-use Illuminate\Support\Facades\Storage;
+use Exception;
 use Intervention\Image\Image;
 use Symfony\Component\HttpFoundation\File\MimeType\ExtensionGuesser;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 trait ImageStorage
 {
+    use AssetHelper;
+
     /**
      * Store image file for the given attribute.
      *
@@ -31,15 +33,15 @@ trait ImageStorage
                     $this->getImageFormat($attribute),
                     $this->getImageQuality($attribute)
                 );
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return;
         }
 
-        $filename = trim($this->getImageDirectory($attribute), '/').'/'.
+        $path = trim($this->getImageDirectory($attribute), '/').'/'.
             md5((string) $image).$this->getFileExtensionForMIME($image->mime());
 
-        if (Storage::disk($this->getFilesystemDisk($attribute))->put($filename, (string) $image)) {
-            return $filename;
+        if ($this->getFilesystem($attribute)->put($path, (string) $image)) {
+            return $path;
         }
     }
 
@@ -58,10 +60,10 @@ trait ImageStorage
     /**
      * Get the disk name of Filesystem for the given attribute.
      *
-     * @param  string  $attribute
+     * @param  string|null  $attribute
      * @return string
      */
-    protected function getFilesystemDisk($attribute)
+    protected function getFilesystemDisk($attribute = null)
     {
         return 'public';
     }
@@ -76,7 +78,7 @@ trait ImageStorage
      */
     protected function getImageFormat($attribute)
     {
-        return null;
+
     }
 
     /**
@@ -100,7 +102,11 @@ trait ImageStorage
      */
     protected function getImageSize($attribute)
     {
-        return constant('static::'.strtoupper($attribute).'_SIZE') ?: 200;
+        if (defined($constant = 'static::'.strtoupper($attribute).'_SIZE')) {
+            return constant($constant);
+        }
+
+        return 1024;
     }
 
     /**
