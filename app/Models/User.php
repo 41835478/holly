@@ -3,20 +3,15 @@
 namespace App\Models;
 
 use App\Support\Image\Filters\Fit;
-use Exception;
-use GuzzleHttp\Client as HttpClient;
-use Holly\Support\Helper;
+use App\Traits\ImageStorage;
 use Iatstuti\Database\Support\NullableFields;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Request;
-use Illuminate\Support\Facades\Storage;
-use Intervention\Image\Facades\Image;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class User extends Authenticatable
 {
-    use Notifiable, NullableFields;
+    use NullableFields, ImageStorage, Notifiable;
 
     /**
      * The user status.
@@ -26,7 +21,7 @@ class User extends Authenticatable
     /**
      * The directory stores all users' avatars.
      */
-    const AVATAR_DIRECTORY = 'avatars';
+    const AVATAR_DIRECTORY = 'avatar';
 
     /**
      * The avatar size.
@@ -78,7 +73,7 @@ class User extends Authenticatable
      */
     public function getAvatarAttribute($value)
     {
-        return $this->getAvatarValue('avatar', $value);
+        return $this->getAssetUrl($value, 'avatar');
     }
 
     /**
@@ -99,7 +94,7 @@ class User extends Authenticatable
      */
     public function getOriginalAvatarAttribute($value)
     {
-        return $this->getAvatarValue('original_avatar', $value);
+        return $this->getAssetUrl($value, 'original_avatar');
     }
 
     /**
@@ -110,23 +105,6 @@ class User extends Authenticatable
     public function setOriginalAvatarAttribute($value)
     {
         $this->attributes['original_avatar'] = $value;
-    }
-
-    /**
-     * Get value for avatar.
-     *
-     * @param  string  $attribute
-     * @param  string|null  $value
-     * @return string|null
-     */
-    protected function getAvatarValue($attribute, $value)
-    {
-        if (! is_null($value)) {
-            return asset_url($this->getFilesystem()->url($value));
-        } elseif (! is_null($this->email) &&
-            ($size = constant('static::'.strtoupper($attribute).'_SIZE'))) {
-            return Helper::gravatar($this->email, $size);
-        }
     }
 
     /**
@@ -167,112 +145,43 @@ class User extends Authenticatable
      */
     public function storeAvatarFile($file)
     {
-        if ($this->storeAvatarFileAs($file, 'avatar') &&
-            $this->storeAvatarFileAs($file, 'original_avatar')) {
-            return true;
+        if (is_string($file) && filter_var($file, FILTER_VALIDATE_URL) !== false) {
+            $file = app('image')->make($file);
         }
 
-        $this->avatar = $this->original_avatar = null;
+        if (($avatar = $this->storeImageFile($file, 'avatar')) &&
+            ($original_avatar = $this->storeImageFile($file, 'original_avatar'))
+        ) {
+            $this->avatar = $avatar;
+            $this->original_avatar = $original_avatar;
+
+            return true;
+        }
 
         return false;
     }
 
     /**
-     * Store user's avatar from an image URL.
+     * Get image filter.
      *
-     * @param  string  $url
-     * @return bool
+     * @see http://image.intervention.io/api/filter
+     *
+     * @param  string|null  $identifier
      */
-    public function storeAvatarFromUrl($url)
+    protected function getImageFilter($identifier = null)
     {
-        $tmpfile = tmpfile();
-
-        try {
-            with(new HttpClient)->get($url, [
-                'timeout' => 15,
-                'connect_timeout' => 5,
-                'sink' => $tmpfile,
-            ]);
-        } catch (Exception $e) {
-            fclose($tmpfile);
-
-            return false;
-        }
-
-        $stored = $this->storeAvatarFile($tmpfile);
-
-        fclose($tmpfile);
-
-        return $stored;
+        return (new Fit)->width(constant('static::'.strtoupper($identifier).'_SIZE'));
     }
 
     /**
-     * Store avatar file for the given attribute.
+     * Get image directory for the given attribute.
      *
-     * @param  mixed  $file
      * @param  string  $attribute
-     * @return string|null
-     */
-    protected function storeAvatarFileAs($file, $attribute)
-    {
-        $size = constant('static::'.strtoupper($attribute).'_SIZE');
-
-        if ($image = $this->encodeAvatarImage($file, $size)) {
-            $filename = $this->getFullFilename(
-                md5(str_random(100)).$file->extension(),
-                static::AVATAR_DIRECTORY
-            );
-
-            if ($this->getFilesystem()->put($filename, $image)) {
-                return $this->{$attributes} = $filename;
-            }
-        }
-    }
-
-    /**
-     * Encode avatar image file.
-     *
-     * @param  mixed  $file
-     * @param  int  $size
-     * @return string|false
-     */
-    protected function encodeAvatarImage($file, $size)
-    {
-        if ($file instanceof UploadedFile && ! $file->isValid()) {
-            return false;
-        }
-
-        try {
-            $image = Image::make($file)
-                ->filter((new Fit)->width($size))
-                ->encode();
-        } catch (Exception $e) {
-            return false;
-        }
-
-        return $image;
-    }
-
-    /**
-     * Get the full filename.
-     *
-     * @param  string  $filename
-     * @param  string  $baseDir
      * @return string
      */
-    protected function getFullFilename($filename, $baseDir = 'images')
+    protected function getImageDirectory($attribute)
     {
-        return trim($baseDir.'/'.date('Y/m/').$filename, '/');
-    }
-
-    /**
-     * Get the Filesystem instance.
-     *
-     * @return \Illuminate\Contracts\Filesystem\Filesystem
-     */
-    protected function getFilesystem()
-    {
-        return Storage::disk('public');
+        return static::AVATAR_DIRECTORY.'/'.dechex((int) date('Y') - 2010).'/'.dechex(date('W'));
     }
 
     /**
