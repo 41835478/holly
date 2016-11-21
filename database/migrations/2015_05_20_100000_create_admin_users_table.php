@@ -20,9 +20,9 @@ class CreateAdminUsersTable extends Migration
         Schema::create('admin_users', function (Blueprint $table) {
             $table->increments('id');
             $table->string('email', 100)->unique();
-            $table->string('password', 60);
             $table->string('username', 12);
             $table->string('avatar', 300)->nullable();
+            $table->string('password', 60);
             $table->rememberToken();
             $table->timestamps();
         });
