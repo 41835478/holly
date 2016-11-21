@@ -46,7 +46,7 @@ class Handler extends ExceptionHandler
 
         $this->container['log']->error($exception, $requestInfo);
 
-        $this->notifyException($exception, $requestInfo);
+        // $this->notifyException($exception, $requestInfo);
     }
 
     /**
@@ -117,15 +117,15 @@ class Handler extends ExceptionHandler
     protected function notifyException(Exception $exception, $requestInfo = null)
     {
         if (app()->environment('production')) {
-            // dispatch(
-            //     (new SendBearyChat)
-            //     ->client('server')
-            //     ->text('New Exception!')
-            //     ->notification('New Exception: '.get_class($exception))
-            //     ->markdown(false)
-            //     ->add(str_limit($exception, 1300), get_class($exception), null, '#a0a0a0')
-            //     ->add(str_limit(string_value($requestInfo), 1300), 'Request Info', null, '#e67f0a')
-            // );
+            dispatch(
+                (new SendBearyChat)
+                ->client('server')
+                ->text('New Exception!')
+                ->notification('New Exception: '.get_class($exception))
+                ->markdown(false)
+                ->add(str_limit($exception, 1300), get_class($exception), null, '#a0a0a0')
+                ->add(str_limit(string_value($requestInfo), 1300), 'Request Info', null, '#e67f0a')
+            );
         }
     }
 
