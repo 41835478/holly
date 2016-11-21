@@ -47,7 +47,7 @@ class Handler extends ExceptionHandler
 
         $this->container['log']->error($exception, $requestInfo);
 
-        // $this->notifyException($exception, $requestInfo);
+        $this->notifyException($exception, $requestInfo);
     }
 
     /**
@@ -189,7 +189,6 @@ class Handler extends ExceptionHandler
     {
         if ($this->container['request']->expectsJson()) {
             $status = $e->getStatusCode();
-            $message = $e->getMessage();
 
             if (401 === $status) {
                 $message = '认证失败，请先登录';
