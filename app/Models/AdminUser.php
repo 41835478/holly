@@ -139,7 +139,7 @@ class AdminUser extends Authenticatable
      */
     protected function getImageFilter($identifier = null)
     {
-        return (new Fit)->width($this->getImageSize($identifier));
+        return (new Fit)->width(static::AVATAR_SIZE);
     }
 
     /**

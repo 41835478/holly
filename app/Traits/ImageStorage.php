@@ -54,22 +54,7 @@ trait ImageStorage
      */
     protected function getImageFilter($identifier = null)
     {
-        return (new Resize)->width($this->getImageSize($identifier));
-    }
-
-    /**
-     * Get image size.
-     *
-     * @param  string|null  $identifier
-     * @return int
-     */
-    protected function getImageSize($identifier = null)
-    {
-        if (! is_null($identifier) && defined($constant = 'static::'.strtoupper($identifier).'_SIZE')) {
-            return constant($constant);
-        }
-
-        return 1024;
+        return (new Resize)->width(1024);
     }
 
     /**
