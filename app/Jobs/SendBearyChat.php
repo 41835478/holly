@@ -40,7 +40,7 @@ class SendBearyChat implements ShouldQueue
             $this->text($message);
 
             if (func_num_args() > 1) {
-                if (is_bool($markdown = func_get_arg(1))) {
+                if (is_bool(func_get_arg(1))) {
                     $this->markdown(func_get_arg(1));
 
                     if (func_num_args() > 2) {
