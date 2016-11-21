@@ -104,17 +104,4 @@ trait ImageStorage
     {
         return md5($image).Helper::fileExtensionForMimeType($image->mime(), '.');
     }
-
-    /**
-     * Get the disk name of Filesystem.
-     *
-     * @see AssetHelper::getFilesystem()
-     *
-     * @param  string|null  $identifier
-     * @return string
-     */
-    protected function getFilesystemDisk($identifier = null)
-    {
-        return 'public';
-    }
 }

@@ -14,9 +14,7 @@ trait AssetHelper
      */
     protected function getFilesystem($identifier = null)
     {
-        return Storage::disk(
-            method_exists($this, 'getFilesystemDisk') ? $this->getFilesystemDisk($identifier) : null
-        );
+        return Storage::disk($this->getFilesystemDisk($identifier));
     }
 
     /**
@@ -37,5 +35,16 @@ trait AssetHelper
         }
 
         return asset_url($this->getFilesystem($identifier)->url($path));
+    }
+
+    /**
+     * Get disk name for filesystem.
+     *
+     * @param  string|null  $identifier
+     * @return string|null
+     */
+    protected function getFilesystemDisk($identifier = null)
+    {
+        return 'public';
     }
 }
