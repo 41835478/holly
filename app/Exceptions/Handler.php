@@ -101,7 +101,7 @@ class Handler extends ExceptionHandler
             'URL' => $request->fullUrl(),
         ];
 
-        if ($this->container->runningInConsole()) {
+        if (app()->runningInConsole()) {
             $info['Command'] = implode(' ', $request->server('argv', []));
         }
 
@@ -116,7 +116,7 @@ class Handler extends ExceptionHandler
      */
     protected function notifyException(Exception $exception, $requestInfo = null)
     {
-        if ($this->container->environment('production')) {
+        if (app()->environment('production')) {
             // dispatch(
             //     (new SendBearyChat)
             //     ->client('server')
