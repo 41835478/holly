@@ -2,7 +2,7 @@
 
 namespace App\Traits;
 
-use App\Support\Image\Filters\Fit;
+use App\Support\Image\Filters\Resize;
 use Exception;
 use Holly\Support\Helper;
 use Intervention\Image\Image;
@@ -13,13 +13,13 @@ trait ImageStorage
     use AssetHelper;
 
     /**
-     * Store image file for the given identifier.
+     * Store image file.
      *
      * @param  mixed  $file
-     * @param  string  $identifier
+     * @param  string|null  $identifier
      * @return string|null  The stored path
      */
-    protected function storeImageFile($file, $identifier)
+    protected function storeImageFile($file, $identifier = null)
     {
         if ($file instanceof UploadedFile && ! $file->isValid()) {
             return;
@@ -30,8 +30,8 @@ trait ImageStorage
                 ->make($file)
                 ->filter($this->getImageFilter($identifier))
                 ->encode(
-                    $this->getImageFormat($identifier),
-                    $this->getImageQuality($identifier)
+                    $this->getImageEncodingFormat($identifier),
+                    $this->getImageEncodingQuality($identifier)
                 );
         } catch (Exception $e) {
             return;
@@ -46,62 +46,26 @@ trait ImageStorage
     }
 
     /**
-     * Get image filter for the given identifier.
+     * Get image filter.
      *
      * @see http://image.intervention.io/api/filter
      *
-     * @param  string  $identifier
+     * @param  string|null  $identifier
      */
-    protected function getImageFilter($identifier)
+    protected function getImageFilter($identifier = null)
     {
-        return (new Fit)->width($this->getImageSize($identifier));
+        return (new Resize)->width($this->getImageSize($identifier));
     }
 
     /**
-     * Get the disk name of Filesystem for the given identifier.
+     * Get image size.
      *
      * @param  string|null  $identifier
-     * @return string
-     */
-    protected function getFilesystemDisk($identifier = null)
-    {
-        return 'public';
-    }
-
-    /**
-     * Get image format for the given identifier.
-     *
-     * @see http://image.intervention.io/api/encode
-     *
-     * @param  string  $identifier
-     * @return string|null
-     */
-    protected function getImageFormat($identifier)
-    {
-    }
-
-    /**
-     * Get image quality for the given identifier.
-     *
-     * @see http://image.intervention.io/api/encode
-     *
-     * @param  string  $identifier
      * @return int
      */
-    protected function getImageQuality($identifier)
+    protected function getImageSize($identifier = null)
     {
-        return 90;
-    }
-
-    /**
-     * Get image size for the given identifier.
-     *
-     * @param  string  $identifier
-     * @return int
-     */
-    protected function getImageSize($identifier)
-    {
-        if (defined($constant = 'static::'.strtoupper($identifier).'_SIZE')) {
+        if (! is_null($identifier) && defined($constant = 'static::'.strtoupper($identifier).'_SIZE')) {
             return constant($constant);
         }
 
@@ -109,13 +73,52 @@ trait ImageStorage
     }
 
     /**
-     * Get image directory for the given identifier.
+     * Get image encoding format.
      *
-     * @param  string  $identifier
+     * @see http://image.intervention.io/api/encode
+     *
+     * @param  string|null  $identifier
+     * @return string|null
+     */
+    protected function getImageEncodingFormat($identifier = null)
+    {
+        return;
+    }
+
+    /**
+     * Get image encoding quality.
+     *
+     * @see http://image.intervention.io/api/encode
+     *
+     * @param  string|null  $identifier
+     * @return int
+     */
+    protected function getImageEncodingQuality($identifier = null)
+    {
+        return 90;
+    }
+
+    /**
+     * Get image directory.
+     *
+     * @param  string|null  $identifier
      * @return string
      */
-    protected function getImageDirectory($identifier)
+    protected function getImageDirectory($identifier = null)
     {
         return 'images/'.date('Y/m');
+    }
+
+    /**
+     * Get the disk name of Filesystem.
+     *
+     * @see AssetHelper::getFilesystem()
+     *
+     * @param  string|null  $identifier
+     * @return string
+     */
+    protected function getFilesystemDisk($identifier = null)
+    {
+        return 'public';
     }
 }
