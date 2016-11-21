@@ -192,7 +192,7 @@ class Device extends Model
         $device->fill($data);
 
         $device->login_count++;
-        $device->last_login_at = $this->freshTimestamp();
+        $device->last_login_at = $device->freshTimestamp();
         $device->last_login_ip = Request::ip();
 
         if (! $device->exists) {
