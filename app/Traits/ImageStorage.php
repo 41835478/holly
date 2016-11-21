@@ -5,7 +5,6 @@ namespace App\Traits;
 use App\Support\Image\Filters\Resize;
 use Exception;
 use Holly\Support\Helper;
-use Intervention\Image\Image;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 trait ImageStorage
