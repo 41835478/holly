@@ -89,7 +89,7 @@ trait ImageStorage
      */
     protected function getImageDirectory($identifier = null)
     {
-        return 'images/'.dechex((int)date('Y')-2010).'/'.dechex(date('W'));
+        return 'images/'.dechex((int) date('Y') - 2010).'/'.dechex(date('W'));
     }
 
     /**
