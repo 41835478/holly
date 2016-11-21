@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Notifications\ResetPassword;
+use App\Support\Image\Filters\Fit;
 use App\Traits\ImageStorage;
 use Holly\Support\Helper;
 use Iatstuti\Database\Support\NullableFields;
@@ -127,6 +128,18 @@ class AdminUser extends Authenticatable
         }
 
         return false;
+    }
+
+    /**
+     * Get image filter.
+     *
+     * @see http://image.intervention.io/api/filter
+     *
+     * @param  string|null  $identifier
+     */
+    protected function getImageFilter($identifier = null)
+    {
+        return (new Fit)->width($this->getImageSize($identifier));
     }
 
     /**
