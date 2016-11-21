@@ -149,7 +149,7 @@ class User extends Authenticatable
             $file = app('image')->make($file);
         }
 
-        if (($avatar = $this->storeImageFile($file, 'avatar')) &&
+        if (($avatar = $this->storeImageFile(clone $file, 'avatar')) &&
             ($original_avatar = $this->storeImageFile($file, 'original_avatar'))
         ) {
             $this->avatar = $avatar;
