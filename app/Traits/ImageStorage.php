@@ -37,10 +37,9 @@ trait ImageStorage
             return;
         }
 
-        $path = trim($this->getImageDirectory($identifier), '/').'/'.
-            md5((string) $image).Helper::fileExtensionForMimeType($image->mime());
+        $path = trim(trim($this->getImageDirectory($identifier), '/').'/'.trim($this->getImageFilename($image, $identifier), '/'), '/');
 
-        if ($this->getFilesystem($identifier)->put($path, (string) $image)) {
+        if ($path && $this->getFilesystem($identifier)->put($path, $image)) {
             return $path;
         }
     }
@@ -84,7 +83,7 @@ trait ImageStorage
     }
 
     /**
-     * Get image directory.
+     * Get image output directory.
      *
      * @param  string|null  $identifier
      * @return string
@@ -92,6 +91,18 @@ trait ImageStorage
     protected function getImageDirectory($identifier = null)
     {
         return 'images/'.date('Y/m');
+    }
+
+    /**
+     * Get image output filename.
+     *
+     * @param  \Intervention\Image\Image  $image
+     * @param  string|null  $identifier
+     * @return string
+     */
+    protected function getImageFilename($image, $identifier = null)
+    {
+        return md5($image).Helper::fileExtensionForMimeType($image->mime(), '.');
     }
 
     /**
