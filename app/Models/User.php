@@ -27,7 +27,7 @@ class User extends Authenticatable
      * The avatar size.
      */
     const AVATAR_SIZE = 200;
-    const ORIGINAL_AVATAR_SIZE = 960;
+    const ORIGINAL_AVATAR_SIZE = 640;
 
     /**
      * The attributes that should be visible in arrays.
