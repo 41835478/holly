@@ -237,14 +237,20 @@ class Device extends Model
         return UserDevice::findByUserDevice(null, $this->id, $withTrashed);
     }
 
-    // public function getUsers($withTrashed = false)
-    // {
-    //     return User::whereIn('id', function ($query) use ($withTrashed) {
-    //         $query->select('user_id')->from('user_devices')->where('device_id', $this->id);
+    /**
+     * Get users to this device.
+     *
+     * @param  bool  $withTrashed
+     * @return \Illuminate\Support\Collection
+     */
+    public function getUsers($withTrashed = false)
+    {
+        return User::whereIn('id', function ($query) use ($withTrashed) {
+            $query->select('user_id')->from('user_devices')->where('device_id', $this->id);
 
-    //         if (! $withTrashed) {
-    //             $query->where('deleted_at', null);
-    //         }
-    //     })->get();
-    // }
+            if (! $withTrashed) {
+                $query->where('deleted_at', null);
+            }
+        })->get();
+    }
 }

@@ -126,16 +126,23 @@ class User extends Authenticatable
         return $this;
     }
 
-    // public function updateUserInfoWithSocialUser($social, $user, $save = false)
-    // {
-    //     $this->updateAvatarFromUrl(SocialAuth::getAvatarFromSocialUser($social, $user));
+    /**
+     * Update user info from social user.
+     *
+     * @param  mixed  $social
+     * @param  array  $user
+     * @param  bool  $save
+     */
+    public function updateUserInfoWithSocialUser($social, $user, $save = false)
+    {
+        $this->storeAvatarFile(SocialAuth::getAvatarFromSocialUser($social, $user));
 
-    //     $this->username = str_limit2(SocialAuth::getUsernameFromSocialUser($social, $user), 10);
+        $this->username = str_limit2(SocialAuth::getUsernameFromSocialUser($social, $user), 10);
 
-    //     if ($save) {
-    //         $this->save();
-    //     }
-    // }
+        if ($save) {
+            $this->save();
+        }
+    }
 
     /**
      * Store the given file as user's avatar.
