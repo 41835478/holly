@@ -58,7 +58,7 @@
         ],
         "post-update-cmd": [
             "Illuminate\\Foundation\\ComposerScripts::postUpdate",
-            "php artisan generate-ide-helpers",
+            "php artisan ide-helper:generate-helpers",
             "php artisan optimize"
         ]
     },

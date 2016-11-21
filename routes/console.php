@@ -1,11 +1,16 @@
 <?php
 
-Artisan::command('generate-ide-helpers', function () {
+Artisan::command('ide-helper:generate-helpers', function () {
     if ($this->laravel->bound('command.ide-helper.generate')) {
-        $this->call('clear-compiled');
         $this->call('ide-helper:generate');
         $this->call('ide-helper:models', ['-R' => true, '-N' => true]);
     }
+})->describe('Generate IDE helper files');
+
+Artisan::command('ide-helpers', function () {
+    $this->call('clear-compiled');
+    $this->call('ide-helper:generate-helpers');
+    $this->call('optimize');
 })->describe('Generate IDE helper files');
 
 Artisan::command('db-backup', function () {
