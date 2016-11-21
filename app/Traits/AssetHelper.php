@@ -24,10 +24,14 @@ trait AssetHelper
      *
      * @param  string  $path
      * @param  string|null  $identifier
-     * @return string
+     * @return string|null
      */
     protected function getAssetUrl($path, $identifier = null)
     {
+        if (empty($path)) {
+            return null;
+        }
+
         if (filter_var($path, FILTER_VALIDATE_URL) !== false) {
             return $path;
         }
