@@ -29,7 +29,7 @@ trait AssetHelper
     protected function getAssetUrl($path, $identifier = null)
     {
         if (empty($path)) {
-            return null;
+            return;
         }
 
         if (filter_var($path, FILTER_VALIDATE_URL) !== false) {
