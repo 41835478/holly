@@ -101,7 +101,7 @@ class AdminUser extends Authenticatable
     /**
      * Set the `avatar` attribute.
      *
-     * @param string|null $value
+     * @param  string|null  $value
      */
     public function setAvatarAttribute($value)
     {
