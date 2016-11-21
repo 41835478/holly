@@ -3,7 +3,6 @@
 namespace App\Support\Datatables\Html;
 
 use Yajra\Datatables\Html\Builder as BaseBuilder;
-use Yajra\Datatables\Html\Column;
 
 class Builder extends BaseBuilder
 {
