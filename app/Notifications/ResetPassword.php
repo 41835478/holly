@@ -21,8 +21,6 @@ class ResetPassword extends Notification implements ShouldQueue
 
     /**
      * Create a new notification instance.
-     *
-     * @return void
      */
     public function __construct($token)
     {
@@ -48,14 +46,10 @@ class ResetPassword extends Notification implements ShouldQueue
      */
     public function toMail($notifiable)
     {
-        $resetURL = app_url(
-            'password/reset/'.$this->token,
-            null,
-            ($notifiable instanceof AdminUser) ? 'admin' : 'site'
-        );
+        $domain = ($notifiable instanceof AdminUser) ? 'admin' : 'site';
 
         return (new MailMessage)
             ->subject('重置密码')
-            ->action('重置密码', $resetURL);
+            ->action('重置密码', app_url('password/reset/'.$this->token, null, $domain));
     }
 }
