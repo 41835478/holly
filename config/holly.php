@@ -88,16 +88,4 @@ return [
         'rating' => 'pg',
     ],
 
-    /*
-    |--------------------------------------------------------------------------
-    | App Store reviewing version
-    |--------------------------------------------------------------------------
-    |
-    | The iOS app version which is being reviewed by the App Store Reviewing Team.
-    | After reviewing approved, you can change it to a non-existent version.
-    |
-    */
-
-    'app_store_reviewing_version' => env('IOS_REVIEWING_APP_VERSION', null),
-
 ];
