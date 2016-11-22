@@ -47,7 +47,7 @@ class Handler extends ExceptionHandler
 
         $this->container['log']->error($exception, $requestInfo);
 
-        $this->notifyException($exception, $requestInfo);
+        // $this->notifyException($exception, $requestInfo);
     }
 
     /**
