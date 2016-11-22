@@ -2,12 +2,14 @@
 
 namespace App\Support\Image\Filters;
 
+use App\Traits\MagicPropertySetter;
 use Intervention\Image\Filters\FilterInterface;
 use Intervention\Image\Image;
-use InvalidArgumentException;
 
 class Fit implements FilterInterface
 {
+    use MagicPropertySetter;
+
     /**
      * The width the image will be resized to after cropping out
      * the best fitting aspect ratio.
@@ -65,25 +67,5 @@ class Fit implements FilterInterface
         if ($this->upsize) {
             $constraint->upsize();
         }
-    }
-
-    /**
-     * Handle dynamic method calls to set properties.
-     *
-     * @return $this
-     */
-    public function __call($method, $parameters)
-    {
-        if (! property_exists($this, $method)) {
-            throw new InvalidArgumentException("Property '{$method}' does not exist.");
-        }
-
-        if (count($parameters) < 1) {
-            throw new InvalidArgumentException("Method '{$method}()' requires one argument.");
-        }
-
-        $this->{$method} = $parameters[0];
-
-        return $this;
     }
 }
