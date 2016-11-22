@@ -167,6 +167,7 @@ return [
          * Package Service Providers...
          */
         Holly\Providers\HollyServiceProvider::class,
+        Vinkla\Hashids\HashidsServiceProvider::class,
         Intervention\Image\ImageServiceProviderLaravel5::class,
         App\Providers\CaptchaServiceProvider::class,
         SimpleSoftwareIO\QrCode\QrCodeServiceProvider::class,

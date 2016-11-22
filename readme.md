@@ -53,6 +53,8 @@ git push origin master
 
 ## Useful Links
 
+- [Hashids](https://github.com/ivanakimov/hashids.php)
+- [Optimus id transformation](https://github.com/jenssegers/optimus)
 - [DataTables](https://datatables.net)
 - [Laravel DataTables](https://datatables.yajrabox.com)
 - [Guzzle](http://docs.guzzlephp.org/en/latest/)
