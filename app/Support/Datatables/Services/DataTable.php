@@ -8,13 +8,6 @@ use App\Support\Datatables\Html\Builder as HtmlBuilder;
 abstract class DataTable extends BaseDataTable
 {
     /**
-     * The Html Builder instance.
-     *
-     * @var \App\Support\Datatables\Html\Builder
-     */
-    protected $htmlBuilder;
-
-    /**
      * Get Datatables Html Builder instance.
      *
      * @return \App\Support\Datatables\Html\Builder
