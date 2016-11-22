@@ -29,9 +29,9 @@ Or you may want to keep the holly-app up to date for your application with Git:
 ```sh
 git clone path/to/your/app/repo.git myapp
 cd myapp
-git remote add holly git@github.com:ElfSundae/holly-app.git
-git fetch holly
-git merge holly/master
+git remote add upstream git@git.coding.net:ElfSundae/holly-app.git
+git fetch upstream
+git merge upstream/master
 git push origin master
 ```
 
