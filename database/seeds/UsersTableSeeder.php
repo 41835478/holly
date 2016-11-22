@@ -13,16 +13,13 @@ class UsersTableSeeder extends Seeder
     public function run()
     {
         foreach ([
-                123456 => [
-                    'email' => 'test@example.com',
-                    'username' => 'Test User',
-                ],
-                520000 => [
-                    'email' => 'test1@example.com',
-                    'username' => 'Test1 User',
-                ],
-            ] as $id => $attributes
-        ) {
+
+            655300 => [
+                'email' => 'test@example.com',
+                'username' => 'Test User',
+            ],
+
+        ] as $id => $attributes) {
             User::firstOrCreate(compact('id'), $attributes);
         }
     }
