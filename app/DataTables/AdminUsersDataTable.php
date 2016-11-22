@@ -98,7 +98,7 @@ HTML;
     {
         return [
             'id' => ['title' => 'ID'],
-            'avatar' => ['title' => '头像', 'orderable' => false, 'searchable' => false, 'exportable' => false],
+            'avatar' => $this->staticColumnAttributes('avatar', ['title' => '头像']),
             'username' => ['title' => '用户名'],
             'email' => ['title' => '邮箱'],
             'created_at' => ['title' => '创建日期'],
