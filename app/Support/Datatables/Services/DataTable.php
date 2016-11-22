@@ -29,28 +29,6 @@ abstract class DataTable extends BaseDataTable
     }
 
     /**
-     * Get filename for export.
-     *
-     * @return string
-     */
-    protected function filename()
-    {
-        return preg_replace('#datatable$#i', '', class_basename($this)).'-'.date('Ymdhis');
-    }
-
-    /**
-     * Get default builder parameters.
-     *
-     * @return array
-     */
-    protected function getBuilderParameters()
-    {
-        return [
-            'order' => [[0, 'desc']],
-        ];
-    }
-
-    /**
      * Return attributes for a "static" column that can not be ordered, searched, nor exported.
      *
      * @param  string  $name
@@ -71,5 +49,27 @@ abstract class DataTable extends BaseDataTable
             'printable'      => true,
             'footer'         => '',
         ], $attributes);
+    }
+
+    /**
+     * Get filename for export.
+     *
+     * @return string
+     */
+    protected function filename()
+    {
+        return preg_replace('#datatable$#i', '', class_basename($this)).'-'.date('Ymdhis');
+    }
+
+    /**
+     * Get default builder parameters.
+     *
+     * @return array
+     */
+    protected function getBuilderParameters()
+    {
+        return [
+            'order' => [[0, 'desc']],
+        ];
     }
 }
