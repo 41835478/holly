@@ -21,7 +21,7 @@
 You can create a holly-app based project using the Composer `create-project` command:
 
 ```sh
-composer create-project elfsundae/holly-app myapp
+composer create-project elfsundae/holly-app:dev-master myapp
 ```
 
 Or you may want to keep the holly-app up to date for your application with Git:
