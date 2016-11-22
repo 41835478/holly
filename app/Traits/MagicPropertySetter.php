@@ -2,8 +2,6 @@
 
 namespace App\Traits;
 
-use InvalidArgumentException;
-
 trait MagicPropertySetter
 {
     /**
