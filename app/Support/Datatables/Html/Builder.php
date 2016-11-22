@@ -27,29 +27,4 @@ class Builder extends BaseBuilder
     {
         return $this->setTableAttribute('id', $id);
     }
-
-    /**
-     * Add a "static" column that can not be ordered, searched, or exported.
-     *
-     * @param  string  $name
-     * @param  array  $attributes
-     * @return $this
-     */
-    public function addStatic($name, array $attributes = [])
-    {
-        $attributes = array_merge([
-            'defaultContent' => '',
-            'data'           => $name,
-            'name'           => $name,
-            'title'          => $this->getQualifiedTitle($name),
-            'render'         => null,
-            'orderable'      => false,
-            'searchable'     => false,
-            'exportable'     => false,
-            'printable'      => true,
-            'footer'         => '',
-        ], $attributes);
-
-        return $this->addColumn($attributes);
-    }
 }

@@ -49,4 +49,27 @@ abstract class DataTable extends BaseDataTable
             'order' => [[0, 'desc']],
         ];
     }
+
+    /**
+     * Return attributes for a "static" column that can not be ordered, searched, nor exported.
+     *
+     * @param  string  $name
+     * @param  array  $attributes
+     * @return $this
+     */
+    protected function staticColumnAttributes($name, array $attributes = [])
+    {
+        return array_merge([
+            'defaultContent' => '',
+            'data'           => $name,
+            'name'           => $name,
+            'title'          => $this->builder()->getQualifiedTitle($name),
+            'render'         => null,
+            'orderable'      => false,
+            'searchable'     => false,
+            'exportable'     => false,
+            'printable'      => true,
+            'footer'         => '',
+        ], $attributes);
+    }
 }
