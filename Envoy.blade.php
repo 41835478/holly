@@ -37,6 +37,8 @@
         composer install --no-scripts --no-dev --no-interaction --profile
         composer run-script post-root-package-install
         composer run-script post-create-project-cmd
+        echo "====== Cloned repository! Please edit .env file."
+        exit 0
     fi
 
     cd "{{ $path }}"
