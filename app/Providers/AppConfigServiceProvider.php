@@ -7,16 +7,6 @@ use Illuminate\Support\ServiceProvider;
 class AppConfigServiceProvider extends ServiceProvider
 {
     /**
-     * Bootstrap the application services.
-     *
-     * @return void
-     */
-    public function boot()
-    {
-        //
-    }
-
-    /**
      * Register the application services.
      *
      * @return void
@@ -27,7 +17,7 @@ class AppConfigServiceProvider extends ServiceProvider
             $this->configureDefaults();
         }
 
-        $this->configureForRequest($this->app['request']);
+        $this->configureForCurrentRequest();
     }
 
     /**
@@ -53,13 +43,12 @@ class AppConfigServiceProvider extends ServiceProvider
     }
 
     /**
-     * Configure app for the given request.
-     *
-     * @param  \Illuminate\Http\Request  $request
+     * Configure app for the current request.
      */
-    protected function configureForRequest($request)
+    protected function configureForCurrentRequest()
     {
         $config = $this->app['config'];
+        $request = $this->app['request'];
 
         $identifier = array_search($request->getHost(), $config['app.domains']);
 
