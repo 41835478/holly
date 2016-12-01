@@ -12,12 +12,11 @@ class ApiServiceProvider extends ServiceProvider
      * Bootstrap the service provider.
      *
      * @param  \Illuminate\Contracts\Routing\ResponseFactory  $response
-     * @return void
      */
     public function boot(ResponseFactory $response)
     {
-        $response->macro('api', function ($data = null, $code = null, $headers = [], $options = 0) {
-            return new ApiResponse($data, $code, $headers, $options);
+        $response->macro('api', function (...$args) {
+            return new ApiResponse(...$args);
         });
     }
 }
