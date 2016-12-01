@@ -160,16 +160,16 @@ class Helper
     public static function gravatar($email, $size = 100, $default = null, $rating = null)
     {
         if (is_null($default)) {
-            $default = config('holly.gravatar.default');
+            $default = config('services.gravatar.default');
         }
         if (is_null($rating)) {
-            $rating = config('holly.gravatar.rating');
+            $rating = config('services.gravatar.rating');
         }
 
         $query = http_build_query(compact('size', 'default', 'rating'));
 
         return app('url')->assetFrom(
-            config('holly.gravatar.host', 'http://gravatar.com/avatar'),
+            config('services.gravatar.host', 'http://gravatar.com/avatar'),
             md5(strtolower(trim($email))).'?'.$query
         );
     }

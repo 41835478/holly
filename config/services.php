@@ -36,13 +36,28 @@ return [
     ],
 
     /*
+     * Gravatar
+     *
+     * Configurations for `App\Support\Helper::gravatar()`.
+     */
+    'gravatar' => [
+        'host' => 'http://cdn.v2ex.com/gravatar',
+        // 'host' => 'http://gravatar.css.network/avatar',
+        'default' => 'identicon',
+        'rating' => 'pg',
+    ],
+
+
+    /*
      * Google Analytics
+     *
      * https://www.google.com/analytics
      */
     'google_analytics' => null,
 
     /*
      * Baidu Analytics
+     *
      * http://tongji.baidu.com
      */
     'baidu_analytics' => null,
