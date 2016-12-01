@@ -1,4 +1,4 @@
-# holly-app
+# Holly
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/ElfSundae/holly.svg?style=flat-square)](https://packagist.org/packages/elfsundae/holly)
 [![Build Status](https://img.shields.io/travis/ElfSundae/holly/master.svg?style=flat-square)](https://travis-ci.org/ElfSundae/holly)
@@ -7,6 +7,8 @@
 [![Quality Score](https://img.shields.io/scrutinizer/g/ElfSundae/holly.svg?style=flat-square)](https://scrutinizer-ci.com/g/ElfSundae/holly)
 
 **:warning: Work In Progress**
+
+An app framework built with [Laravel][].
 
 <!-- MarkdownTOC -->
 
@@ -64,4 +66,5 @@ git push origin master
 - [Simple QrCode](https://www.simplesoftware.io/docs/simple-qrcode/zh)
 - [SweetAlert2](https://github.com/limonte/sweetalert2)
 
+[Laravel]: https://laravel.com
 [Configure Supervisor]: https://laravel.com/docs/queues#supervisor-configuration
