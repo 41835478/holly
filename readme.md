@@ -2,7 +2,7 @@
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/ElfSundae/holly.svg?style=flat-square)](https://packagist.org/packages/elfsundae/holly)
 [![Build Status](https://img.shields.io/travis/ElfSundae/holly/master.svg?style=flat-square)](https://travis-ci.org/ElfSundae/holly)
-[![StyleCI](https://styleci.io/repos/70921317/shield)](https://styleci.io/repos/70921317)
+[![StyleCI](https://styleci.io/repos/70877647/shield)](https://styleci.io/repos/70877647)
 [![SensioLabsInsight](https://img.shields.io/sensiolabs/i/73870987-572f-4825-af66-2fc6efaebb5d.svg?style=flat-square)](https://insight.sensiolabs.com/projects/73870987-572f-4825-af66-2fc6efaebb5d)
 [![Quality Score](https://img.shields.io/scrutinizer/g/ElfSundae/holly.svg?style=flat-square)](https://scrutinizer-ci.com/g/ElfSundae/holly)
 
