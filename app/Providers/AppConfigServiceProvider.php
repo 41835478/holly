@@ -4,7 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 
-class ConfigServiceProvider extends ServiceProvider
+class AppConfigServiceProvider extends ServiceProvider
 {
     /**
      * Bootstrap the application services.
