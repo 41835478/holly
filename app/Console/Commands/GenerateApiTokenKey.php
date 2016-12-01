@@ -18,7 +18,7 @@ class GenerateApiTokenKey extends Command
      *
      * @var string
      */
-    protected $description = 'Set the API Token key';
+    protected $description = 'Set the api token key';
 
     /**
      * Execute the console command.
