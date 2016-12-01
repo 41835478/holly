@@ -24,16 +24,16 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        if ($this->app['config']['app.debug']) {
-            $this->registerServicesForDebugging();
+        if ($this->app->isLocal()) {
+            $this->registerServices($this->getProvidersForLocalEnvironment());
         }
 
         if ($this->app->runningInConsole()) {
-            $this->registerServicesForConsole();
+            $this->registerServices($this->getProvidersForConsole());
         }
 
         if (is_domain('admin')) {
-            $this->registerServicesForAdmin();
+            $this->registerServices($this->getProvidersForAdminSite());
         }
 
         if (is_domain('api')) {
@@ -42,28 +42,53 @@ class AppServiceProvider extends ServiceProvider
     }
 
     /**
-     * Register services for debugging.
+     * Register services.
+     *
+     * @param  string|array  $services
+     * @return void
      */
-    protected function registerServicesForDebugging()
+    protected function registerServices($services)
     {
-        $this->app->register(\Barryvdh\Debugbar\ServiceProvider::class);
-        $this->app->register(\Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class);
+        foreach ((array) $services as $value) {
+            $this->app->register($value);
+        }
     }
 
     /**
-     * Register services for console.
+     * Get the services provided for local environment.
+     *
+     * @return array
      */
-    protected function registerServicesForConsole()
+    protected function getProvidersForLocalEnvironment()
     {
-        $this->app->register(\BackupManager\Laravel\Laravel5ServiceProvider::class);
+        return [
+            'Barryvdh\Debugbar\ServiceProvider',
+            'Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider',
+        ];
     }
 
     /**
-     * Register services for admin.
+     * Get the services provided for console.
+     *
+     * @return array
      */
-    protected function registerServicesForAdmin()
+    protected function getProvidersForConsole()
     {
-        $this->app->register(\Rap2hpoutre\LaravelLogViewer\LaravelLogViewerServiceProvider::class);
+        return [
+            'BackupManager\Laravel\Laravel5ServiceProvider',
+        ];
+    }
+
+    /**
+     * Get the services provided for admin site.
+     *
+     * @return array
+     */
+    protected function getProvidersForAdminSite()
+    {
+        return [
+            'Rap2hpoutre\LaravelLogViewer\LaravelLogViewerServiceProvider',
+        ];
     }
 
     /**
