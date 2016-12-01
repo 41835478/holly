@@ -4,7 +4,7 @@ namespace App\Exceptions;
 
 use App\Jobs\SendBearyChat;
 use Exception;
-use Holly\Http\ApiResponse;
+use App\Http\ApiResponse;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Foundation\Http\Exceptions\MaintenanceModeException;
@@ -135,7 +135,7 @@ class Handler extends ExceptionHandler
      *
      * @param  mixed  $message
      * @param  int  $code
-     * @return \Holly\Http\ApiResponse
+     * @return \App\Http\ApiResponse
      */
     protected function createApiResponse($message = null, $code = null)
     {
@@ -156,7 +156,7 @@ class Handler extends ExceptionHandler
      * Create an API response for the given exception.
      *
      * @param  \Exception  $e
-     * @return \Holly\Http\ApiResponse
+     * @return \App\Http\ApiResponse
      */
     protected function convertExceptionToApiResponse(Exception $e)
     {

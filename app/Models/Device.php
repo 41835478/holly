@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use Holly\Support\Helper;
+use App\Support\Helper;
 use Iatstuti\Database\Support\NullableFields;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Request;

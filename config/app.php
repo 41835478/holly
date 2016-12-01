@@ -166,10 +166,8 @@ return [
         /*
          * Package Service Providers...
          */
-        Holly\Providers\HollyServiceProvider::class,
         Vinkla\Hashids\HashidsServiceProvider::class,
         Intervention\Image\ImageServiceProviderLaravel5::class,
-        App\Providers\CaptchaServiceProvider::class,
         SimpleSoftwareIO\QrCode\QrCodeServiceProvider::class,
         Yajra\Datatables\DatatablesServiceProvider::class,
         NotificationChannels\BearyChat\BearyChatServiceProvider::class,
@@ -177,9 +175,13 @@ return [
         /*
          * Application Service Providers...
          */
+        App\Providers\ConfigServiceProvider::class,
+        App\Providers\ApiServiceProvider::class,
         App\Providers\AppServiceProvider::class,
         App\Providers\AuthServiceProvider::class,
         // App\Providers\BroadcastServiceProvider::class,
+        App\Providers\CaptchaServiceProvider::class,
+        App\Providers\ClientServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 

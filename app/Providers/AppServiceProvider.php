@@ -4,7 +4,7 @@ namespace App\Providers;
 
 use App\Support\Client;
 use Carbon\Carbon;
-use Holly\Providers\AppServiceProvider as ServiceProvider;
+use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -25,9 +25,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        parent::register();
-
-        $this->registerClient();
 
         if ($this->app['config']['app.debug']) {
             $this->registerServicesForDebugging();
@@ -44,18 +41,6 @@ class AppServiceProvider extends ServiceProvider
         if (is_domain('api')) {
             $this->hackForApiRequest();
         }
-    }
-
-    /**
-     * Register the Client.
-     */
-    protected function registerClient()
-    {
-        $this->app->singleton('client', function () {
-            return new Client;
-        });
-
-        $this->app->alias('client', Client::class);
     }
 
     /**

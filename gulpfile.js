@@ -8,7 +8,7 @@ elixir.config.sourcemaps = false;
 
 Elixir.extend('rev', function(src) {
   Elixir.mixins.exec(
-    'php artisan holly:assets',
+    'php artisan assets:version',
     new Elixir.GulpPaths().src(src, this.config.publicPath).src.path
   );
 });

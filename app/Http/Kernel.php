@@ -60,8 +60,8 @@ class Kernel extends HttpKernel
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'csrf' => \App\Http\Middleware\VerifyCsrfToken::class,
-        'api.client' => \Holly\Http\Middleware\CheckForApiClient::class,
+        'api.client' => \App\Http\Middleware\CheckForApiClient::class,
         'api.token' => \App\Http\Middleware\VerifyApiToken::class,
-        'api.profile' => \Holly\Http\Middleware\AddDebugbarDataToApiResponse::class,
+        'api.profile' => \App\Http\Middleware\AddDebugbarDataToApiResponse::class,
     ];
 }

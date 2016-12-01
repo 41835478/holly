@@ -2,7 +2,8 @@
 
 namespace App\Support;
 
-use Holly\Support\Client as BaseClient;
+use Illuminate\Support\Fluent;
+use Jenssegers\Agent\Agent;
 
 /**
  * The app client.
@@ -26,8 +27,134 @@ use Holly\Support\Client as BaseClient;
  * @property bool isInHouseChannel
  * @property bool isAppStoreReviewing
  */
-class Client extends BaseClient
+class Client extends Fluent
 {
+    /**
+     * The Agent instance.
+     *
+     * @var \Jenssegers\Agent\Agent
+     */
+    protected $agent;
+
+    /**
+     * Create a new Client instance.
+     *
+     * @param  array|object  $attributes
+     */
+    public function __construct($attributes = [])
+    {
+        $this->setAgent(app('agent'));
+
+        parent::__construct($attributes);
+    }
+
+    /**
+     * Merge new data into the current attributes.
+     *
+     * @param  array  ...$data
+     * @return $this
+     */
+    public function add(array ...$data)
+    {
+        $this->attributes = array_replace($this->attributes, ...$data);
+
+        return $this;
+    }
+
+    /**
+     * Check the version of the given property in the User-Agent.
+     *
+     * @param  string  $propertyName
+     * @return string|float|false
+     *
+     * @see \Jenssegers\Agent\Agent::version()
+     */
+    public function version($propertyName, $type = Agent::VERSION_TYPE_STRING)
+    {
+        $version = $this->agent->version($propertyName, $type);
+
+        return is_string($version) ? str_replace(['_', '+'], '.', $version) : $version;
+    }
+
+    /**
+     * Get the Agent instance.
+     *
+     * @return \Jenssegers\Agent\Agent
+     */
+    public function agent()
+    {
+        return $this->agent;
+    }
+
+    /**
+     * Set the Agent instance.
+     *
+     * @param  \Jenssegers\Agent\Agent  $agent
+     * @return $this
+     */
+    public function setAgent(Agent $agent)
+    {
+        $this->agent = $agent;
+
+        return $this->parseAgent();
+    }
+
+    /**
+     * Set the User-Agent to be used.
+     *
+     * @param  string  $userAgent
+     * @return $this
+     */
+    public function setUserAgent($userAgent = null)
+    {
+        $this->agent->setUserAgent($userAgent);
+
+        return $this->parseAgent();
+    }
+
+    /**
+     * Parse Agent information.
+     *
+     * @return $this
+     */
+    public function parseAgent()
+    {
+        $this->add(
+            $this->parseCommonClient(),
+            $this->parseApiClient()
+        );
+    }
+
+    /**
+     * Parse common client.
+     *
+     * @return array
+     */
+    protected function parseCommonClient()
+    {
+        $info = [
+            'os' => $this->agent->platform(),
+            'osVersion' => $this->version($this->agent->platform()),
+            'platform' => $this->agent->device(),
+            'locale' => head($this->agent->languages()),
+        ];
+
+        if ((bool) $this->agent->is('iOS')) {
+            $info['isIOS'] = true;
+        }
+
+        if ((bool) $this->agent->is('AndroidOS')) {
+            $info['isAndroid'] = true;
+            $info['os'] = 'Android';
+        }
+
+        if (is_string($this->version('MicroMessenger'))) {
+            $info['isWechat'] = true;
+        }
+
+        return array_filter($info);
+    }
+
     /**
      * Parse API client from the User-Agent.
      *
@@ -128,5 +255,62 @@ class Client extends BaseClient
             $this->attributes['isInHouseChannel'],
             $this->attributes['isAppStoreReviewing']
         );
+    }
+
+    /**
+     * Determine if the given offset exists.
+     *
+     * @param  string  $offset
+     * @return bool
+     */
+    public function offsetExists($offset)
+    {
+        return isset($this->attributes[$offset]);
+    }
+
+    /**
+     * Get the value for a given offset.
+     *
+     * @param  string  $offset
+     * @return mixed
+     */
+    public function offsetGet($offset)
+    {
+        return $this->get($offset);
+    }
+
+    /**
+     * Set the value at the given offset.
+     *
+     * @param  string  $offset
+     * @param  mixed   $value
+     * @return void
+     */
+    public function offsetSet($offset, $value)
+    {
+        $this->attributes[$offset] = $value;
+    }
+
+    /**
+     * Unset the value at the given offset.
+     *
+     * @param  string  $offset
+     * @return void
+     */
+    public function offsetUnset($offset)
+    {
+        unset($this->attributes[$offset]);
+    }
+
+    /**
+     * Handle dynamic calls to the Agent instance.
+     *
+     * @param  string  $method
+     * @param  array  $parameters
+     * @return mixed
+     */
+    public function __call($method, $parameters)
+    {
+        return call_user_func_array([$this->agent, $method], $parameters);
     }
 }

@@ -7,7 +7,7 @@
 @servers(['web' => 'www@i0x123.aliyun'])
 
 @setup
-    $repo = 'git@git.coding.net:ElfSundae/holly-app.git';
+    $repo = 'git@git.coding.net:ElfSundae/holly.git';
     $branch = isset($branch) ? $branch : 'master';
     $wwwRoot = '/data/www';
     $repoName = preg_replace('#\\.git$#i', '', pathinfo($repo, PATHINFO_BASENAME));

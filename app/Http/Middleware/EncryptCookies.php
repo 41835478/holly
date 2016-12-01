@@ -2,7 +2,7 @@
 
 namespace App\Http\Middleware;
 
-use Holly\Http\Middleware\EncryptCookies as BaseEncrypter;
+use Illuminate\Cookie\Middleware\EncryptCookies as BaseEncrypter;
 
 class EncryptCookies extends BaseEncrypter
 {
@@ -14,4 +14,26 @@ class EncryptCookies extends BaseEncrypter
     protected $only = [
         //
     ];
+
+    /**
+     * Enable encryption for the given cookie name(s).
+     *
+     * @param string|array $cookieName
+     * @return void
+     */
+    public function enableFor($cookieName)
+    {
+        $this->only = array_merge($this->only, (array) $cookieName);
+    }
+
+    /**
+     * Determine whether encryption has been disabled for the given cookie.
+     *
+     * @param  string $name
+     * @return bool
+     */
+    public function isDisabled($name)
+    {
+        return ! in_array($name, $this->only);
+    }
 }
