@@ -4,7 +4,7 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 
-class UpdateAssetsVersion extends Command
+class AssetsVersion extends Command
 {
     /**
      * The name and signature of the console command.
@@ -30,6 +30,7 @@ class UpdateAssetsVersion extends Command
         $config = (string) $this->option('config');
 
         $assets = $this->laravel['config']->get($config);
+
         $revisioned = $this->revisionAssets($assets);
 
         if ($assets !== $revisioned) {
