@@ -51,7 +51,7 @@ class AppConfigServiceProvider extends ServiceProvider
                     return $domain;
                 }
             }
-        }, $this->app['config']['holly.url']);
+        }, $this->app['config']['support.url']);
     }
 
     /**

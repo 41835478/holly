@@ -128,7 +128,7 @@ if (! function_exists('app_url')) {
             }
         }
 
-        if ($identifier && ($root = config('holly.url.'.$identifier))) {
+        if ($identifier && ($root = config('support.url.'.$identifier))) {
             return $root.$path;
         }
 
@@ -166,7 +166,7 @@ if (! function_exists('asset_url')) {
             return $path;
         }
 
-        return config('holly.url.'.$identifier).'/'.revision(trim($path, '/'));
+        return config('support.url.'.$identifier).'/'.revision(trim($path, '/'));
     }
 }
 
