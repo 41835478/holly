@@ -31,62 +31,46 @@ class AppConfigServiceProvider extends ServiceProvider
     }
 
     /**
-     * Configure defaults.
+     * Configure app defaults.
      */
     protected function configureDefaults()
     {
-        $this->appendAppDomainsConfig();
+        $config = $this->app['config'];
 
-        $this->setMailConfig();
-    }
-
-    /**
-     * Append "app.domains" config.
-     */
-    protected function appendAppDomainsConfig()
-    {
-        $this->app['config']['app.domains'] = array_map(function ($value) {
+        // Append "app.domains"
+        $config['app.domains'] = array_map(function ($value) {
             if (is_string($domain = parse_url($value, PHP_URL_HOST))) {
                 if (str_contains($domain, '.')) {
                     return $domain;
                 }
             }
-        }, $this->app['config']['support.url']);
-    }
+        }, $config['support.url']);
 
-    /**
-     * Set "mail" config.
-     */
-    protected function setMailConfig()
-    {
-        if (str_contains($username = $this->app['config']['mail.username'], '@') &&
-            $this->app['config']['mail.from.address'] == 'hello@example.com') {
-            $this->app['config']['mail.from.address'] = $username;
-        }
-
-        if ($this->app['config']['mail.from.name'] == 'Example') {
-            $this->app['config']['mail.from.name'] = $this->app['config']['app.name'];
+        // Set "mail.from.name"
+        if ($config['mail.from.name'] == 'Example') {
+            $config['mail.from.name'] = $config['app.name'];
         }
     }
 
     /**
-     * Configure app for the request.
+     * Configure app for the given request.
      *
      * @param  \Illuminate\Http\Request  $request
      */
     protected function configureForRequest($request)
     {
-        $domain = $request->getHost();
-        $identifier = array_search($domain, $this->app['config']['app.domains']);
+        $config = $this->app['config'];
+
+        $identifier = array_search($request->getHost(), $config['app.domains']);
 
         // Configure the cookie domain
-        if (! is_null($identifier) && $this->app['config']->has('holly.cookie_domain.'.$identifier)) {
-            $this->app['config']['session.domain'] = $this->app['config']['holly.cookie_domain.'.$identifier];
+        if (! is_null($identifier) && $config->has('support.cookie_domain.'.$identifier)) {
+            $config['session.domain'] = $config['support.cookie_domain.'.$identifier];
         }
 
         // Configure the auth defaults
-        if (! is_null($identifier) && is_array($auth = $this->app['config']['holly.auth.'.$identifier])) {
-            $this->app['config']['auth.defaults'] = $auth;
+        if (! is_null($identifier) && is_array($auth = $config['support.auth.'.$identifier])) {
+            $config['auth.defaults'] = $auth;
         }
     }
 }
