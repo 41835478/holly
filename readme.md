@@ -10,44 +10,26 @@
 
 An app framework built with [Laravel][].
 
-<!-- MarkdownTOC -->
-
-- [Installation](#installation)
-- [Development Notes](#development-notes)
-- [Useful Links](#useful-links)
-
-<!-- /MarkdownTOC -->
-
 ## Installation
 
-You can create a Holly based project using the Composer `create-project` command:
+- You can create a Holly based project using the Composer `create-project` command:
 
-```sh
-composer create-project elfsundae/holly:dev-master myapp
-```
+    ```sh
+    composer create-project elfsundae/holly:dev-master myapp
+    ```
 
-Or you may want to keep the Holly framework up to date for your application with Git:
+- Or you may want to keep the Holly framework up to date for your application with Git:
 
-```sh
-git clone path/to/your/app/repo.git myapp
-cd myapp
-git remote add upstream git@github.com:ElfSundae/holly.git
-git fetch upstream
-git merge upstream/master
-git push origin master
-```
+    ```sh
+    git remote add upstream git@github.com:ElfSundae/holly.git
+    git fetch upstream
+    git merge upstream/master
+    git push origin master
+    ```
 
 ## Development Notes
 
-- [Configure Supervisor][] for queue worker.
-- Delete all git tags:
-  ```sh
-  # delete all remote tags
-  git tag -l | xargs -n 1 git push --delete origin
-
-  # delete all local tags
-  git tag -l | xargs git tag -d
-  ```
+- [Configure Supervisor][] for queue workers.
 - Configure cron job: `$ crontab  -u www -e`
   ```
   * * * * * php /path/to/artisan schedule:run >> /dev/null 2>&1
@@ -55,6 +37,7 @@ git push origin master
 
 ## Useful Links
 
+- [UUID Generator](https://github.com/ramsey/uuid)
 - [Hashids](https://github.com/ivanakimov/hashids.php)
 - [Optimus id transformation](https://github.com/jenssegers/optimus)
 - [DataTables](https://datatables.net)
