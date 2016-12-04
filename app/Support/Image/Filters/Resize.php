@@ -2,14 +2,10 @@
 
 namespace App\Support\Image\Filters;
 
-use App\Traits\MagicPropertySetter;
-use Intervention\Image\Filters\FilterInterface;
 use Intervention\Image\Image;
 
-class Resize implements FilterInterface
+class Resize extends Filter
 {
-    use MagicPropertySetter;
-
     /**
      * The new width of the image.
      *

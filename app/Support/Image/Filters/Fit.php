@@ -2,14 +2,10 @@
 
 namespace App\Support\Image\Filters;
 
-use App\Traits\MagicPropertySetter;
-use Intervention\Image\Filters\FilterInterface;
 use Intervention\Image\Image;
 
-class Fit implements FilterInterface
+class Fit extends Filter
 {
-    use MagicPropertySetter;
-
     /**
      * The width the image will be resized to after cropping out
      * the best fitting aspect ratio.
