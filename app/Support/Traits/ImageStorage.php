@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Traits;
+namespace App\Support\Traits;
 
 use App\Support\Image\Filters\Resize;
 use Exception;

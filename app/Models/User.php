@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use App\Support\Image\Filters\Fit;
-use App\Traits\ImageStorage;
+use App\Support\Traits\ImageStorage;
 use Iatstuti\Database\Support\NullableFields;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
