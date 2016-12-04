@@ -13,6 +13,8 @@ trait DeviceModelAttribute
      */
     public function getDeviceModelAttribute()
     {
-        return Helper::iDeviceModel($this->platform);
+        $platform = property_exists($this, 'deviceModelKey') ? $this->deviceModelKey : 'platform';
+
+        return Helper::iDeviceModel($this->{$platform});
     }
 }
