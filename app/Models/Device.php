@@ -2,14 +2,14 @@
 
 namespace App\Models;
 
-use App\Support\Helper;
+use App\Support\Traits\Eloquent\DeviceModelAttribute;
 use Iatstuti\Database\Support\NullableFields;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Request;
 
 class Device extends Model
 {
-    use NullableFields;
+    use DeviceModelAttribute, NullableFields;
 
     /**
      * The accessors to append to the model's array form.
@@ -17,7 +17,7 @@ class Device extends Model
      * @var array
      */
     protected $appends = [
-        'platform_string', 'push_enabled',
+        'device_model', 'push_enabled',
     ];
 
     /**
@@ -83,16 +83,6 @@ class Device extends Model
      * @var static|bool
      */
     protected static $clientDevice = false;
-
-    /**
-     * Get the `platform_string` attribute.
-     *
-     * @return string|null
-     */
-    public function getPlatformStringAttribute()
-    {
-        return Helper::iDeviceModel($this->platform);
-    }
 
     /**
      * Get the `push_enabled` attribute.

@@ -3,14 +3,14 @@
 namespace App\Models;
 
 use App\Exceptions\InvalidInputException;
-use App\Support\Helper;
+use App\Support\Traits\Eloquent\DeviceModelAttribute;
 use Iatstuti\Database\Support\NullableFields;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Request;
 
 class Feedback extends Model
 {
-    use NullableFields;
+    use DeviceModelAttribute, NullableFields;
 
     /**
      * Indicates if the model should be timestamped.
@@ -24,7 +24,7 @@ class Feedback extends Model
      *
      * @var array
      */
-    protected $appends = ['platform_string'];
+    protected $appends = ['device_model'];
 
     /**
      * The attributes that should be mutated to dates.
@@ -63,16 +63,6 @@ class Feedback extends Model
         static::creating(function ($instance) {
             $instance->created_at = $instance->freshTimestamp();
         });
-    }
-
-    /**
-     * Get the `platform_string` attribute.
-     *
-     * @return string|null
-     */
-    public function getPlatformStringAttribute()
-    {
-        return Helper::iDeviceModel($this->platform);
     }
 
     /**
