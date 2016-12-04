@@ -25,7 +25,8 @@
         "aporat/store-receipt-validator": "^1.4",
         "laravel-notification-channels/bearychat": "^1.0",
         "vinkla/hashids": "^3.0",
-        "jenssegers/optimus": "^0.2.2"
+        "jenssegers/optimus": "^0.2.2",
+        "ramsey/uuid": "^3.5"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
