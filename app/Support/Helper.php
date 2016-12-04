@@ -27,7 +27,7 @@ class Helper
     }
 
     /**
-     * Convert iOS platform to a human-readable string.
+     * Convert an iOS platform to the device model name.
      *
      * @see https://www.theiphonewiki.com/wiki/Models
      * @see https://support.hockeyapp.net/kb/client-integration-ios-mac-os-x-tvos/ios-device-types
@@ -35,7 +35,7 @@ class Helper
      * @param  string  $platform
      * @return string
      */
-    public static function iOSPlatform($platform)
+    public static function iDeviceModel($platform)
     {
         $list = [
             'iPhone1,1' => 'iPhone',

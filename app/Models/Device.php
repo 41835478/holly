@@ -91,7 +91,7 @@ class Device extends Model
      */
     public function getPlatformStringAttribute()
     {
-        return Helper::iOSPlatform($this->platform);
+        return Helper::iDeviceModel($this->platform);
     }
 
     /**
