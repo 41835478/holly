@@ -20,7 +20,7 @@ class OptimusGenerate extends Command
      *
      * @var string
      */
-    protected $description = 'Generate Optimus values';
+    protected $description = 'Generate Optimus prime values';
 
     /**
      * Execute the console command.
