@@ -61,7 +61,7 @@
         ],
         "post-create-project-cmd": [
             "php artisan key:generate",
-            "php artisan api:token-key",
+            "php artisan api:generate-token-key",
             "php artisan optimus:generate"
         ],
         "post-install-cmd": [
