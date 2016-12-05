@@ -4,14 +4,14 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 
-class GenerateApiTokenKey extends Command
+class ApiTokenKeyGenerate extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'key:api-token {--show : Display the key instead of modifying files}';
+    protected $signature = 'api:token-key {--show : Display the key instead of modifying files}';
 
     /**
      * The console command description.
