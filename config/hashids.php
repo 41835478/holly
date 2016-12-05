@@ -1,14 +1,5 @@
 <?php
 
-/*
- * This file is part of Laravel Hashids.
- *
- * (c) Vincent Klaiber <hello@vinkla.com>
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
-
 return [
 
     /*
@@ -38,15 +29,21 @@ return [
     'connections' => [
 
         'main' => [
-            'salt' => 'your-salt-string',
+            'salt' => '',
             'length' => 0,
-            'alphabet' => 'your-alphabet-string',
+            'alphabet' => 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890',
+        ],
+
+        'lower' => [
+            'salt' => '',
+            'length' => 0,
+            'alphabet' => 'abcdefghijklmnopqrstuvwxyz1234567890',
         ],
 
         'alternative' => [
-            'salt' => 'your-salt-string',
+            'salt' => '',
             'length' => 0,
-            'alphabet' => 'your-alphabet-string',
+            'alphabet' => 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890',
         ],
 
     ],
