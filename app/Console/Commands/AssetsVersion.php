@@ -78,9 +78,9 @@ class AssetsVersion extends Command
      * Update assets config file.
      *
      * @param  string  $config
-     * @param  array  $assets
+     * @param  mixed  $assets
      */
-    protected function updateAssetsConfigFile($config, array $assets)
+    protected function updateAssetsConfigFile($config, $assets)
     {
         file_put_contents(
             config_path($config.'.php'),
