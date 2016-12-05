@@ -63,7 +63,7 @@ class GenerateInt2stringCharacters extends Command
 
         $text = 'INT2STRING_CHARACTERS='.$characters;
 
-        $content = preg_replace('#^INT2STRING_CHARACTERS=.*$#m', $text, $content, -1, $replaceCount);
+        $content = preg_replace('#INT2STRING_CHARACTERS=.*#', $text, $content, -1, $replaceCount);
 
         if (0 === $replaceCount) {
             $content .= $text.PHP_EOL;
