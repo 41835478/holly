@@ -183,6 +183,7 @@ return [
         App\Providers\CaptchaServiceProvider::class,
         App\Providers\ClientServiceProvider::class,
         App\Providers\EventServiceProvider::class,
+        App\Providers\OptimusServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
     ],
