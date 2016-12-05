@@ -278,7 +278,7 @@ class Helper
         }
 
         if (is_null($characters)) {
-            $characters = config('support.int2string_characters', '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ');
+            $characters = config('support.int2string');
         }
 
         $charactersLength = strlen($characters);
@@ -306,7 +306,7 @@ class Helper
         $stringLength = strlen($string);
 
         if (is_null($characters)) {
-            $characters = config('support.int2string_characters', '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ');
+            $characters = config('support.int2string');
         }
         $charactersLength = strlen($characters);
 

@@ -66,10 +66,10 @@ return [
     |--------------------------------------------------------------------------
     |
     | Characters for `App\Support\Helper::int2string()` and `App\Support\Helper::string2int()`.
-    | You may generate it via `php artisan key:int2string-characters`.
+    | You may generate it via `php artisan int2string:generate-characters`.
     |
     */
 
-    'int2string_characters' => '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ',
+    'int2string' => env('INT2STRING_CHARACTERS', '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'),
 
 ];

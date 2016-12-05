@@ -11,7 +11,7 @@ class GenerateInt2stringCharacters extends Command
      *
      * @var string
      */
-    protected $signature = 'key:int2string-characters
+    protected $signature = 'int2string:generate-characters
         {--show : Display the characters instead of modifying the config file}
         {--c|characters=0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ : Generate with custom characters}';
 
@@ -20,7 +20,7 @@ class GenerateInt2stringCharacters extends Command
      *
      * @var string
      */
-    protected $description = 'Set the "support.int2string_characters" configuration';
+    protected $description = 'Set the "support.int2string" configuration';
 
     /**
      * Execute the console command.
@@ -35,9 +35,9 @@ class GenerateInt2stringCharacters extends Command
             return $this->comment($characters);
         }
 
-        $this->setCharactersInConfigFile($characters);
+        $this->setCharactersInEnvironmentFile($characters);
 
-        $this->laravel['config']['support.int2string_characters'] = $characters;
+        $this->laravel['config']['support.int2string'] = $characters;
 
         $this->info("Characters [$characters] set successfully.");
     }
@@ -53,18 +53,22 @@ class GenerateInt2stringCharacters extends Command
     }
 
     /**
-     * Set the characters in the config file.
+     * Set the characters in the environment file.
      *
      * @param  string  $characters
      */
-    protected function setCharactersInConfigFile($characters)
+    protected function setCharactersInEnvironmentFile($characters)
     {
-        $file = $this->laravel->configPath().'/support.php';
+        $content = file_get_contents($this->laravel->environmentFilePath());
 
-        file_put_contents($file, str_replace(
-            "'int2string_characters' => '".$this->laravel['config']['support.int2string_characters']."'",
-            "'int2string_characters' => '{$characters}'",
-            file_get_contents($file)
-        ));
+        $text = 'INT2STRING_CHARACTERS='.$characters;
+
+        $content = preg_replace('#^INT2STRING_CHARACTERS=.*$#m', $text, $content, -1, $replaceCount);
+
+        if (0 === $replaceCount) {
+            $content .= $text.PHP_EOL;
+        }
+
+        file_put_contents($this->laravel->environmentFilePath(), $content);
     }
 }
