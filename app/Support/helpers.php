@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Str;
+use Ramsey\Uuid\Uuid;
 
 if (! function_exists('mb_trim')) {
     /**
@@ -220,5 +221,20 @@ if (! function_exists('optimus_decode')) {
     function optimus_decode($number)
     {
         return app('optimus')->decode($number);
+    }
+}
+
+if (! function_exists('random_uuid')) {
+    /**
+     * Generate a version 4 (random) UUID.
+     *
+     * @param  bool  $hex
+     * @return string
+     */
+    function random_uuid($hex = false)
+    {
+        $uuid = Uuid::uuid4();
+
+        return $hex ? $uuid->getHex() : $uuid->toString();
     }
 }
