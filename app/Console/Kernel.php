@@ -16,6 +16,7 @@ class Kernel extends ConsoleKernel
         Commands\AssetsVersion::class,
         Commands\GenerateApiTokenKey::class,
         Commands\GenerateInt2stringCharacters::class,
+        Commands\Optimus::class,
     ];
 
     /**
