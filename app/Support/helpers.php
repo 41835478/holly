@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\ApiResponse;
 use Illuminate\Support\Str;
 use Ramsey\Uuid\Uuid;
 
@@ -194,7 +195,7 @@ if (! function_exists('api')) {
      */
     function api(...$args)
     {
-        return response()->api(...$args);
+        return new ApiResponse(...$args);
     }
 }
 
