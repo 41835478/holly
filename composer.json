@@ -62,7 +62,7 @@
         "post-create-project-cmd": [
             "php artisan key:generate",
             "php artisan api:generate-token-key",
-            "php artisan int2string:generate-characters"
+            "php artisan int2string:generate-characters",
             "php artisan optimus:generate"
         ],
         "post-install-cmd": [
