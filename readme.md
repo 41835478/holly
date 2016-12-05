@@ -37,9 +37,9 @@ An app framework built with [Laravel][].
 
 ## Useful Links
 
+- [Optimus](https://github.com/jenssegers/optimus) ID obfuscation based on Knuth's multiplicative hashing method.
 - [UUID Generator](https://github.com/ramsey/uuid)
-- [Hashids](https://github.com/ivanakimov/hashids.php)
-- [Optimus id transformation](https://github.com/jenssegers/optimus)
+- [Hashids](https://github.com/ivanakimov/hashids.php) Generate YouTube-like IDs from numbers.
 - [DataTables](https://datatables.net)
 - [Laravel DataTables](https://datatables.yajrabox.com)
 - [Guzzle](http://docs.guzzlephp.org/en/latest/)
