@@ -6,14 +6,14 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Str;
 use Jenssegers\Optimus\Energon;
 
-class Optimus extends Command
+class OptimusGenerate extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'app:optimus {--show : Display the values instead of modifying files}';
+    protected $signature = 'optimus:generate {--show : Display the values instead of modifying files}';
 
     /**
      * The console command description.
