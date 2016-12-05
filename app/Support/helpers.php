@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Support\Str;
+
 if (! function_exists('mb_trim')) {
     /**
      * Strip whitespace (or other characters) from the beginning and end of a string.
@@ -88,7 +90,7 @@ if (! function_exists('str_limit2')) {
      */
     function str_limit2($value, $limit = 100, $end = '')
     {
-        return str_limit($value, $limit, $end);
+        return Str::limit($value, $limit, $end);
     }
 }
 
