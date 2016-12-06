@@ -22,7 +22,7 @@ An app framework built with [Laravel][].
 
     ```sh
     git remote add upstream git@github.com:ElfSundae/holly.git
-    git fetch upstream
+    git fetch upstream --no-tags
     git merge upstream/master
     git push origin master
     ```
