@@ -3,9 +3,9 @@
 namespace App\Http\Middleware;
 
 use Closure;
-use App\Http\ApiResponse;
+use Illuminate\Http\JsonResponse;
 
-class AddDebugbarDataToApiResponse
+class ProfileJsonResponse
 {
     /**
      * Handle an incoming request.
@@ -18,11 +18,14 @@ class AddDebugbarDataToApiResponse
     {
         $response = $next($request);
 
-        if ($response instanceof ApiResponse &&
+        if (
+            $response instanceof JsonResponse &&
             app()->bound('debugbar') &&
             app('debugbar')->isEnabled()
         ) {
-            $response->mergeData(['_debugbar' => app('debugbar')->getData()]);
+            $response->setData($response->getData(true) + [
+                '_debugbar' => app('debugbar')->getData(),
+            ]);
         }
 
         return $response;

@@ -62,6 +62,6 @@ class Kernel extends HttpKernel
         'csrf' => \App\Http\Middleware\VerifyCsrfToken::class,
         'api.client' => \App\Http\Middleware\CheckForApiClient::class,
         'api.token' => \App\Http\Middleware\VerifyApiToken::class,
-        'api.profile' => \App\Http\Middleware\AddDebugbarDataToApiResponse::class,
+        'api.profile' => \App\Http\Middleware\ProfileJsonResponse::class,
     ];
 }
