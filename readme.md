@@ -33,7 +33,7 @@ An app framework built with [Laravel][].
 - Configure cron job: `$ crontab  -u www -e`
 
     ```
-    + * * * * php /path/to/artisan schedule:run >> /dev/null 2>&1
+    * * * * * php /path/to/artisan schedule:run >> /dev/null 2>&1
     ```
 
 ## Useful Links
