@@ -5,6 +5,15 @@ namespace App\Support\Traits;
 trait FluentArrayAccess
 {
     /**
+     * Get an attribute from the container.
+     *
+     * @param  string  $key
+     * @param  mixed   $default
+     * @return mixed
+     */
+    abstract public function get($key, $default = null);
+
+    /**
      * Determine if the given offset exists.
      *
      * @param  string  $offset
