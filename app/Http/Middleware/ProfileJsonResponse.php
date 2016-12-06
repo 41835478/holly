@@ -21,7 +21,8 @@ class ProfileJsonResponse
         if (
             $response instanceof JsonResponse &&
             app()->bound('debugbar') &&
-            app('debugbar')->isEnabled()
+            app('debugbar')->isEnabled() &&
+            is_object($response->getData())
         ) {
             $response->setData($response->getData(true) + [
                 '_debugbar' => app('debugbar')->getData(),
