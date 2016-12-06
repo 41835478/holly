@@ -3,10 +3,10 @@
 namespace App\Jobs;
 
 use Illuminate\Bus\Queueable;
+use ElfSundae\BearyChat\Message;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use ElfSundae\BearyChat\Message;
 
 class SendBearyChat implements ShouldQueue
 {

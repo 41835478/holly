@@ -2,11 +2,11 @@
 
 namespace App\Notifications;
 
+use App\Models\AdminUser;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
-use App\Models\AdminUser;
 
 class ResetPassword extends Notification implements ShouldQueue
 {

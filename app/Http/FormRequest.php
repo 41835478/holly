@@ -2,8 +2,8 @@
 
 namespace App\Http;
 
-use Illuminate\Foundation\Http\FormRequest as BaseFormRequest;
 use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Foundation\Http\FormRequest as BaseFormRequest;
 
 class FormRequest extends BaseFormRequest
 {

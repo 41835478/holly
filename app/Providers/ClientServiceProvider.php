@@ -2,9 +2,9 @@
 
 namespace App\Providers;
 
-use Illuminate\Support\ServiceProvider;
 use App\Support\Client;
 use Jenssegers\Agent\Agent;
+use Illuminate\Support\ServiceProvider;
 
 class ClientServiceProvider extends ServiceProvider
 {

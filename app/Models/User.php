@@ -4,10 +4,10 @@ namespace App\Models;
 
 use App\Support\Image\Filters\Fit;
 use App\Support\Traits\ImageStorage;
+use Illuminate\Support\Facades\Request;
+use Illuminate\Notifications\Notifiable;
 use Iatstuti\Database\Support\NullableFields;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
-use Illuminate\Support\Facades\Request;
 
 class User extends Authenticatable
 {

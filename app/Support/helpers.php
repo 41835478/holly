@@ -1,8 +1,8 @@
 <?php
 
+use Ramsey\Uuid\Uuid;
 use App\Http\ApiResponse;
 use Illuminate\Support\Str;
-use Ramsey\Uuid\Uuid;
 
 if (! function_exists('mb_trim')) {
     /**
