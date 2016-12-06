@@ -2,6 +2,7 @@
 
 namespace App\Support;
 
+use App\Support\Traits\FluentArrayAccess;
 use Illuminate\Support\Fluent;
 use Jenssegers\Agent\Agent;
 
@@ -29,6 +30,8 @@ use Jenssegers\Agent\Agent;
  */
 class Client extends Fluent
 {
+    use FluentArrayAccess;
+
     /**
      * The Agent instance.
      *
@@ -255,51 +258,6 @@ class Client extends Fluent
             $this->attributes['isInHouseChannel'],
             $this->attributes['isAppStoreReviewing']
         );
-    }
-
-    /**
-     * Determine if the given offset exists.
-     *
-     * @param  string  $offset
-     * @return bool
-     */
-    public function offsetExists($offset)
-    {
-        return isset($this->attributes[$offset]);
-    }
-
-    /**
-     * Get the value for a given offset.
-     *
-     * @param  string  $offset
-     * @return mixed
-     */
-    public function offsetGet($offset)
-    {
-        return $this->get($offset);
-    }
-
-    /**
-     * Set the value at the given offset.
-     *
-     * @param  string  $offset
-     * @param  mixed   $value
-     * @return void
-     */
-    public function offsetSet($offset, $value)
-    {
-        $this->attributes[$offset] = $value;
-    }
-
-    /**
-     * Unset the value at the given offset.
-     *
-     * @param  string  $offset
-     * @return void
-     */
-    public function offsetUnset($offset)
-    {
-        unset($this->attributes[$offset]);
     }
 
     /**
