@@ -2,8 +2,8 @@
 
 namespace App\Providers;
 
-use Illuminate\Support\ServiceProvider;
 use Jenssegers\Optimus\Optimus;
+use Illuminate\Support\ServiceProvider;
 
 class OptimusServiceProvider extends ServiceProvider
 {

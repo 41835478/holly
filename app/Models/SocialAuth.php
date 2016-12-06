@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-use App\Exceptions\InvalidInputException;
 use Illuminate\Database\Eloquent\Model;
+use App\Exceptions\InvalidInputException;
 
 class SocialAuth extends Model
 {

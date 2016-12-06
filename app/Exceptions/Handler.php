@@ -2,14 +2,14 @@
 
 namespace App\Exceptions;
 
-use App\Jobs\SendBearyChat;
 use Exception;
 use App\Http\ApiResponse;
+use App\Jobs\SendBearyChat;
 use Illuminate\Auth\AuthenticationException;
-use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
-use Illuminate\Foundation\Http\Exceptions\MaintenanceModeException;
 use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
+use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Foundation\Http\Exceptions\MaintenanceModeException;
 
 class Handler extends ExceptionHandler
 {

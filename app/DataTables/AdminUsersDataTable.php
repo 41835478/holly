@@ -3,8 +3,8 @@
 namespace App\DataTables;
 
 use App\Models\AdminUser;
-use App\Support\Datatables\Services\DataTable;
 use Illuminate\Support\Facades\Auth;
+use App\Support\Datatables\Services\DataTable;
 
 class AdminUsersDataTable extends DataTable
 {

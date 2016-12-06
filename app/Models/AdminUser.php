@@ -2,13 +2,13 @@
 
 namespace App\Models;
 
-use App\Notifications\ResetPassword;
-use App\Support\Image\Filters\Fit;
-use App\Support\Traits\ImageStorage;
 use App\Support\Helper;
+use App\Support\Image\Filters\Fit;
+use App\Notifications\ResetPassword;
+use App\Support\Traits\ImageStorage;
+use Illuminate\Notifications\Notifiable;
 use Iatstuti\Database\Support\NullableFields;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
 
 class AdminUser extends Authenticatable
 {

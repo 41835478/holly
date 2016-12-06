@@ -2,9 +2,9 @@
 
 namespace App\Providers;
 
-use Illuminate\Contracts\Routing\ResponseFactory;
-use Illuminate\Support\ServiceProvider;
 use App\Http\ApiResponse;
+use Illuminate\Support\ServiceProvider;
+use Illuminate\Contracts\Routing\ResponseFactory;
 
 class ApiServiceProvider extends ServiceProvider
 {

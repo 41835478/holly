@@ -4,9 +4,9 @@ namespace App\Http\Middleware;
 
 use Closure;
 use App\Support\Helper;
-use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Auth\Access\AuthorizationException;
 
 class VerifyApiToken
 {

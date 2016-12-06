@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Admin\Admin;
 
-use App\DataTables\AdminUsersDataTable;
-use App\Http\Controllers\Controller;
 use App\Models\AdminUser;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use App\DataTables\AdminUsersDataTable;
 
 class UserController extends Controller
 {

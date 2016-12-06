@@ -2,9 +2,9 @@
 
 namespace App\Support\Traits;
 
-use App\Support\Image\Filters\Resize;
 use Exception;
 use App\Support\Helper;
+use App\Support\Image\Filters\Resize;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 trait ImageStorage
