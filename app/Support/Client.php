@@ -43,9 +43,9 @@ class Client extends Fluent
      */
     public function __construct($attributes = [])
     {
-        $this->setAgent(app('agent'));
-
         parent::__construct($attributes);
+
+        $this->setAgent(app('agent'));
     }
 
     /**
