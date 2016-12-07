@@ -39,44 +39,6 @@ class AdminUsersDataTable extends DataTable
     }
 
     /**
-     * Get the "avatar" column data.
-     *
-     * @param  AdminUser  $user
-     * @return mixed
-     */
-    public function getAvatarColumnData($user)
-    {
-        return <<<HTML
-<a href='{$user->avatar}' data-lightbox='admin-user-avatar-{$user->id}'>
-    <img src='{$user->avatar}' class='img-circle' style='width:28px;height:28px'>
-</a>
-HTML;
-    }
-
-    /**
-     * Get the "action" column data.
-     *
-     * @param  AdminUser  $user
-     * @return mixed
-     */
-    public function getActionColumnData($user)
-    {
-        $html = '<div class="btn-group" role="group">';
-
-        if (Auth::user()->can('update', $user)) {
-            $html .= '<button type="button" class="btn btn-info admin-user-action-edit"><i class="fa fa-edit"></i></button>';
-        }
-
-        if (Auth::user()->can('delete', $user)) {
-            $html .= '<button type="button" class="btn btn-danger admin-user-action-delete"><i class="fa fa-trash"></i></button>';
-        }
-
-        $html .= '</div>';
-
-        return $html;
-    }
-
-    /**
      * Optional method if you want to use html builder.
      *
      * @return \Yajra\Datatables\Html\Builder
@@ -103,6 +65,44 @@ HTML;
             'email' => ['title' => '邮箱'],
             'created_at' => ['title' => '创建日期'],
         ];
+    }
+
+    /**
+     * Get the "avatar" column data.
+     *
+     * @param  AdminUser  $user
+     * @return mixed
+     */
+    protected function getAvatarColumnData($user)
+    {
+        return <<<HTML
+<a href='{$user->avatar}' data-lightbox='admin-user-avatar-{$user->id}'>
+    <img src='{$user->avatar}' class='img-circle' style='width:28px;height:28px'>
+</a>
+HTML;
+    }
+
+    /**
+     * Get the "action" column data.
+     *
+     * @param  AdminUser  $user
+     * @return mixed
+     */
+    protected function getActionColumnData($user)
+    {
+        $html = '<div class="btn-group" role="group">';
+
+        if (Auth::user()->can('update', $user)) {
+            $html .= '<button type="button" class="btn btn-info admin-user-action-edit"><i class="fa fa-edit"></i></button>';
+        }
+
+        if (Auth::user()->can('delete', $user)) {
+            $html .= '<button type="button" class="btn btn-danger admin-user-action-delete"><i class="fa fa-trash"></i></button>';
+        }
+
+        $html .= '</div>';
+
+        return $html;
     }
 
     /**
