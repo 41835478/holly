@@ -25,7 +25,7 @@ abstract class DataTable extends BaseDataTable
     protected function getHtmlBuilder()
     {
         return app(HtmlBuilder::class)
-            ->setTableAttribute('id', preg_replace('#datatable$#i', 'Table', camel_case(class_basename($this))));
+            ->tableId(preg_replace('#datatable$#i', 'Table', camel_case(class_basename($this))));
     }
 
     /**
