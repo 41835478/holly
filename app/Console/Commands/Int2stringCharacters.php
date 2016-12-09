@@ -4,14 +4,14 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 
-class GenerateInt2stringCharacters extends Command
+class Int2stringCharacters extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'int2string:generate-characters
+    protected $signature = 'int2string:characters
         {--show : Display the characters instead of modifying the config file}
         {--c|characters=0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ : Generate with custom characters}';
 
@@ -20,7 +20,7 @@ class GenerateInt2stringCharacters extends Command
      *
      * @var string
      */
-    protected $description = 'Set the "support.int2string" configuration';
+    protected $description = 'Set characters for Helper::int2string.';
 
     /**
      * Execute the console command.

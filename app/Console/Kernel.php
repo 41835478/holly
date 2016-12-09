@@ -13,9 +13,9 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
+        Commands\ApiTokenKey::class,
         Commands\AssetsVersion::class,
-        Commands\GenerateApiTokenKey::class,
-        Commands\GenerateInt2stringCharacters::class,
+        Commands\Int2stringCharacters::class,
         Commands\OptimusGenerate::class,
     ];
 
