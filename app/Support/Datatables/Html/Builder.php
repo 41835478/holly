@@ -13,7 +13,7 @@ class Builder extends BaseBuilder
      */
     protected $tableAttributes = [
         'id' => 'dataTable',
-        'class' => 'table table-bordered table-striped dt-responsive',
+        'class' => 'table table-bordered table-hover dt-responsive',
         'width' => '100%',
     ];
 
