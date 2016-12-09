@@ -5,7 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Auth\Access\AuthorizationException;
 
-class CheckForApiClient
+class CheckApiClient
 {
     /**
      * Handle an incoming request.

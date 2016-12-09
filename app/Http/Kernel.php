@@ -37,11 +37,11 @@ class Kernel extends HttpKernel
             \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
             \Illuminate\Session\Middleware\StartSession::class,
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
+            \Illuminate\Routing\Middleware\SubstituteBindings::class,
             // 'throttle:60,1',
-            'bindings',
             'api.client',
             'api.token',
-            'api.profile',
+            \App\Http\Middleware\ProfileJsonResponse::class,
         ],
     ];
 
@@ -58,10 +58,9 @@ class Kernel extends HttpKernel
         'bindings' => \Illuminate\Routing\Middleware\SubstituteBindings::class,
         'can' => \Illuminate\Auth\Middleware\Authorize::class,
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
-        'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
+        'throttle' => \App\Http\Middleware\ThrottleRequests::class,
         'csrf' => \App\Http\Middleware\VerifyCsrfToken::class,
-        'api.client' => \App\Http\Middleware\CheckForApiClient::class,
+        'api.client' => \App\Http\Middleware\CheckApiClient::class,
         'api.token' => \App\Http\Middleware\VerifyApiToken::class,
-        'api.profile' => \App\Http\Middleware\ProfileJsonResponse::class,
     ];
 }
