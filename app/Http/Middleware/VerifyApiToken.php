@@ -33,7 +33,7 @@ class VerifyApiToken
         if (
             $this->isReading($request) ||
             $this->shouldPassThrough($request) ||
-            $this->tokensMatch($request)
+            $this->isValidToken($request)
         ) {
             return $next($request);
         }
@@ -74,12 +74,12 @@ class VerifyApiToken
     }
 
     /**
-     * Determine if the session and input CSRF tokens match.
+     * Determine if the API token is valid.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return bool
      */
-    protected function tokensMatch(Request $request)
+    protected function isValidToken(Request $request)
     {
         if ($token = substr($request->header('X-API-TOKEN'), 4)) {
             $timestamp = (int) substr(Helper::sampleDecrypt($token, Config::get('support.api.token.key')), 4);
