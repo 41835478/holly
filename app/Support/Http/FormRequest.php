@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http;
+namespace App\Support\Http;
 
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Foundation\Http\FormRequest as BaseFormRequest;
 
-class FormRequest extends BaseFormRequest
+abstract class FormRequest extends BaseFormRequest
 {
     /**
      * Handle a failed authorization attempt.
