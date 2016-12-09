@@ -51,44 +51,6 @@ class Handler extends ExceptionHandler
     }
 
     /**
-     * Render an exception into an HTTP response.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Exception  $exception
-     * @return \Illuminate\Http\Response
-     */
-    public function render($request, Exception $exception)
-    {
-        if ($exception instanceof MaintenanceModeException) {
-            return $this->createApiResponse('服务器维护中，请稍后重试。', 503);
-        }
-
-        if ($exception instanceof ActionFailureException ||
-            $exception instanceof InvalidInputException
-        ) {
-            return $this->renderActionFailure($request, $exception);
-        }
-
-        return parent::render($request, $exception);
-    }
-
-    /**
-     * Convert an authentication exception into an unauthenticated response.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Illuminate\Auth\AuthenticationException  $exception
-     * @return \Illuminate\Http\Response
-     */
-    protected function unauthenticated($request, AuthenticationException $exception)
-    {
-        if ($request->expectsJson()) {
-            return $this->createApiResponse('认证失败，请先登录。', 401);
-        }
-
-        return redirect()->guest('login');
-    }
-
-    /**
      * Get the request info.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -128,6 +90,44 @@ class Handler extends ExceptionHandler
                 ->add(str_limit(string_value($requestInfo), 1300), 'Request Info', null, '#e67f0a')
             );
         }
+    }
+
+    /**
+     * Render an exception into an HTTP response.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \Exception  $exception
+     * @return \Illuminate\Http\Response
+     */
+    public function render($request, Exception $exception)
+    {
+        if ($exception instanceof MaintenanceModeException) {
+            return $this->createApiResponse('服务器维护中，请稍后重试。', 503);
+        }
+
+        if ($exception instanceof ActionFailureException ||
+            $exception instanceof InvalidInputException
+        ) {
+            return $this->renderActionFailure($request, $exception);
+        }
+
+        return parent::render($request, $exception);
+    }
+
+    /**
+     * Convert an authentication exception into an unauthenticated response.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Auth\AuthenticationException  $exception
+     * @return \Illuminate\Http\Response
+     */
+    protected function unauthenticated($request, AuthenticationException $exception)
+    {
+        if ($request->expectsJson()) {
+            return $this->createApiResponse('认证失败，请先登录。', 401);
+        }
+
+        return redirect()->guest('login');
     }
 
     /**
