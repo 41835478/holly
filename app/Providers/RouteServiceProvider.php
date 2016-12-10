@@ -71,17 +71,11 @@ class RouteServiceProvider extends ServiceProvider
         ];
 
         foreach ($routes as $identifier => $attributes) {
-            $attributes['namespace'] = rtrim(
-                $this->namespace.'\\'.studly_case(array_get($attributes, 'namespace', $identifier)),
-                '\\'
-            );
+            $attributes['namespace'] = rtrim($this->namespace.'\\'.studly_case(array_get($attributes, 'namespace', $identifier)), '\\');
 
-            Route::group(
-                $attributes,
-                function ($router) use ($identifier) {
-                    require base_path('routes/'.$identifier.'.php');
-                }
-            );
+            Route::group($attributes, function () use ($identifier) {
+                require base_path('routes/'.$identifier.'.php');
+            });
         }
     }
 }
