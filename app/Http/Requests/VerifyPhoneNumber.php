@@ -3,7 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Support\Http\FormRequest;
-use App\Support\Vendor\MobSms;
+use App\Support\Vendor\Mob\Sms;
 
 class VerifyPhoneNumber extends FormRequest
 {
@@ -76,7 +76,7 @@ class VerifyPhoneNumber extends FormRequest
         $credentials = $this->getCredentials();
 
         if (! $this->shouldPassThrough($credentials)) {
-            MobSms::verify($credentials);
+            Sms::verify($credentials);
         }
 
         return $credentials;

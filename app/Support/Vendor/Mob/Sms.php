@@ -6,7 +6,7 @@ use App\Exceptions\ActionFailureException;
 use App\Exceptions\InvalidInputException;
 use Exception;
 
-class MobSms
+class Sms
 {
     /**
      * MobSMS 短信验证码。
