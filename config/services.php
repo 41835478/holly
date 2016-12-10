@@ -35,11 +35,6 @@ return [
         'secret' => env('STRIPE_SECRET'),
     ],
 
-    /*
-     * Gravatar
-     *
-     * Configurations for `App\Support\Helper::gravatar()`.
-     */
     'gravatar' => [
         'host' => 'http://cdn.v2ex.com/gravatar',
         // 'host' => 'http://gravatar.css.network/avatar',
@@ -47,19 +42,19 @@ return [
         'rating' => 'pg',
     ],
 
-
-    /*
-     * Google Analytics
-     *
-     * https://www.google.com/analytics
-     */
     'google_analytics' => null,
 
-    /*
-     * Baidu Analytics
-     *
-     * http://tongji.baidu.com
-     */
     'baidu_analytics' => null,
+
+    'mobsms' => [
+        'key' => env('MOBSMS_KEY'),
+    ],
+
+    'xgpush' => [
+        'key' => env('XGPUSH_KEY'),
+        'secret' => env('XGPUSH_SECRET'),
+        'environment' => env('XGPUSH_ENVIRONMENT', env('APP_ENV')),
+        'custom_key' => 'my',
+    ],
 
 ];
