@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Support\Vendor;
+namespace App\Support\Vendor\Mob;
 
 use App\Exceptions\ActionFailureException;
 use App\Exceptions\InvalidInputException;
