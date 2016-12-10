@@ -41,7 +41,7 @@ class XingeApp
      */
     public static function PushTokenAndroid($accessId, $secretKey, $title, $content, $token)
     {
-        $push = new self($accessId, $secretKey);
+        $push = new static($accessId, $secretKey);
         $mess = new Message();
         $mess->setTitle($title);
         $mess->setContent($content);
@@ -60,7 +60,7 @@ class XingeApp
      */
     public static function PushTokenIos($accessId, $secretKey, $content, $token, $environment)
     {
-        $push = new self($accessId, $secretKey);
+        $push = new static($accessId, $secretKey);
         $mess = new MessageIOS();
         $mess->setAlert($content);
         $ret = $push->PushSingleDevice($token, $mess, $environment);
@@ -73,7 +73,7 @@ class XingeApp
      */
     public static function PushAccountAndroid($accessId, $secretKey, $title, $content, $account)
     {
-        $push = new self($accessId, $secretKey);
+        $push = new static($accessId, $secretKey);
         $mess = new Message();
         $mess->setTitle($title);
         $mess->setContent($content);
@@ -92,7 +92,7 @@ class XingeApp
      */
     public static function PushAccountIos($accessId, $secretKey, $content, $account, $environment)
     {
-        $push = new self($accessId, $secretKey);
+        $push = new static($accessId, $secretKey);
         $mess = new MessageIOS();
         $mess->setAlert($content);
         $ret = $push->PushSingleAccount(0, $account, $mess, $environment);
@@ -105,7 +105,7 @@ class XingeApp
      */
     public static function PushAllAndroid($accessId, $secretKey, $title, $content)
     {
-        $push = new self($accessId, $secretKey);
+        $push = new static($accessId, $secretKey);
         $mess = new Message();
         $mess->setTitle($title);
         $mess->setContent($content);
@@ -124,7 +124,7 @@ class XingeApp
      */
     public static function PushAllIos($accessId, $secretKey, $content, $environment)
     {
-        $push = new self($accessId, $secretKey);
+        $push = new static($accessId, $secretKey);
         $mess = new MessageIOS();
         $mess->setAlert($content);
         $ret = $push->PushAllDevices(0, $mess, $environment);
@@ -137,7 +137,7 @@ class XingeApp
      */
     public static function PushTagAndroid($accessId, $secretKey, $title, $content, $tag)
     {
-        $push = new self($accessId, $secretKey);
+        $push = new static($accessId, $secretKey);
         $mess = new Message();
         $mess->setTitle($title);
         $mess->setContent($content);
@@ -156,7 +156,7 @@ class XingeApp
      */
     public static function PushTagIos($accessId, $secretKey, $content, $tag, $environment)
     {
-        $push = new self($accessId, $secretKey);
+        $push = new static($accessId, $secretKey);
         $mess = new MessageIOS();
         $mess->setAlert($content);
         $ret = $push->PushTags(0, [0 => $tag], 'OR', $mess, $environment);
