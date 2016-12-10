@@ -15,8 +15,8 @@ class MobSms
      *
      * @param  array  $credentials  `['phone', 'code', 'zone']`
      *
-     * @throws \App\Exceptions\ActionFailureException
      * @throws \App\Exceptions\InvalidInputException
+     * @throws \App\Exceptions\ActionFailureException
      */
     public static function verify($credentials = [])
     {

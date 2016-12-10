@@ -4,6 +4,21 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Validation Variables
+    |--------------------------------------------------------------------------
+    */
+
+    'validation' => [
+        'verify_phone_excepts' => [
+            // The phone numbers that should be excluded from verification.
+            'phones' => array_filter(explode(',', env('VERIFY_PHONE_EXCEPTS_PHONES'))),
+            // The verification codes that should be excluded from verification.
+            'codes' => array_filter(explode(',', env('VERIFY_PHONE_EXCEPTS_CODES'))),
+        ],
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
     | iOS App Variables
     |--------------------------------------------------------------------------
     */
