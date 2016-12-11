@@ -44,6 +44,7 @@ class SupportServiceProvider extends ServiceProvider
     protected function getServiceProviders()
     {
         return [
+            AppConfigServiceProvider::class,
             CaptchaServiceProvider::class,
             ClientServiceProvider::class,
             ConsoleServiceProvider::class,
