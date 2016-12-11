@@ -2,8 +2,9 @@
 
 namespace App\Support\Providers;
 
-use Jenssegers\Optimus\Optimus;
+use App\Support\Console\Commands\OptimusGenerate;
 use Illuminate\Support\ServiceProvider;
+use Jenssegers\Optimus\Optimus;
 
 class OptimusServiceProvider extends ServiceProvider
 {
@@ -26,6 +27,12 @@ class OptimusServiceProvider extends ServiceProvider
         });
 
         $this->app->alias(Optimus::class, 'optimus');
+
+        $this->app->singleton('command.optimus.generate', function () {
+            return new OptimusGenerate;
+        });
+
+        $this->commands('command.optimus.generate');
     }
 
     /**
@@ -35,6 +42,10 @@ class OptimusServiceProvider extends ServiceProvider
      */
     public function provides()
     {
-        return [Optimus::class, 'optimus'];
+        return [
+            Optimus::class,
+            'optimus',
+            'command.optimus.generate',
+        ];
     }
 }

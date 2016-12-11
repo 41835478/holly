@@ -35,6 +35,7 @@ class SupportServiceProvider extends ServiceProvider
     {
         $this->app->register(CaptchaServiceProvider::class);
         $this->app->register(ClientServiceProvider::class);
+        $this->app->register(ConsoleServiceProvider::class);
         $this->app->register(OptimusServiceProvider::class);
     }
 }

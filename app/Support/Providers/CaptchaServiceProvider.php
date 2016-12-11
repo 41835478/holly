@@ -7,7 +7,7 @@ use Mews\Captcha\CaptchaServiceProvider as ServiceProvider;
 class CaptchaServiceProvider extends ServiceProvider
 {
     /**
-     * Override the Captcha service provider to remove the default routing.
+     * Override the original Captcha service provider to remove the default routing.
      */
     public function boot()
     {
