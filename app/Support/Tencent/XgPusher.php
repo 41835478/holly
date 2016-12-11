@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Support\Tencent\XgPush;
+namespace App\Support\Tencent;
 
-class Pusher
+class XgPusher
 {
     /**
      * The XingeApp instance.
