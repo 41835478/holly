@@ -43,12 +43,29 @@ class SupportServiceProvider extends ServiceProvider
      */
     protected function getServiceProviders()
     {
-        return [
+        $services = [
             AppConfigServiceProvider::class,
             CaptchaServiceProvider::class,
             ClientServiceProvider::class,
-            ConsoleServiceProvider::class,
             OptimusServiceProvider::class,
         ];
+
+        if ($this->app->runningInConsole()) {
+            array_push(
+                $services,
+                ConsoleServiceProvider::class,
+                \BackupManager\Laravel\Laravel5ServiceProvider::class
+            );
+        }
+
+        if ($this->app->isLocal()) {
+            array_push(
+                $services,
+                \Barryvdh\Debugbar\ServiceProvider::class,
+                \Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class
+            );
+        }
+
+        return $services;
     }
 }

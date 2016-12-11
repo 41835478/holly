@@ -20,14 +20,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        if ($this->app->isLocal()) {
-            $this->registerServices($this->getProvidersForLocalEnvironment());
-        }
-
-        if ($this->app->runningInConsole()) {
-            $this->registerServices($this->getProvidersForConsole());
-        }
-
         if (is_domain('admin')) {
             $this->registerServices($this->getProvidersForAdminSite());
         }
@@ -45,31 +37,6 @@ class AppServiceProvider extends ServiceProvider
     protected function registerServices($services)
     {
         array_map([$this->app, 'register'], (array) $services);
-    }
-
-    /**
-     * Get the services provided for local environment.
-     *
-     * @return array
-     */
-    protected function getProvidersForLocalEnvironment()
-    {
-        return [
-            'Barryvdh\Debugbar\ServiceProvider',
-            'Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider',
-        ];
-    }
-
-    /**
-     * Get the services provided for console.
-     *
-     * @return array
-     */
-    protected function getProvidersForConsole()
-    {
-        return [
-            'BackupManager\Laravel\Laravel5ServiceProvider',
-        ];
     }
 
     /**
