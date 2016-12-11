@@ -170,10 +170,10 @@ return [
         App\Support\Providers\ClientServiceProvider::class,
         App\Support\Providers\OptimusServiceProvider::class,
         Intervention\Image\ImageServiceProviderLaravel5::class,
-        Yajra\Datatables\DatatablesServiceProvider::class,
-        Vinkla\Hashids\HashidsServiceProvider::class,
-        SimpleSoftwareIO\QrCode\QrCodeServiceProvider::class,
         NotificationChannels\BearyChat\BearyChatServiceProvider::class,
+        SimpleSoftwareIO\QrCode\QrCodeServiceProvider::class,
+        Vinkla\Hashids\HashidsServiceProvider::class,
+        Yajra\Datatables\DatatablesServiceProvider::class,
 
         /*
          * Application Service Providers...
