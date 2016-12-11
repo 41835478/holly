@@ -41,7 +41,7 @@ class Kernel extends HttpKernel
             // 'throttle:60,1',
             'api.client',
             'api.token',
-            \App\Http\Middleware\ProfileJsonResponse::class,
+            \App\Support\Http\Middleware\ProfileJsonResponse::class,
         ],
     ];
 
@@ -58,9 +58,9 @@ class Kernel extends HttpKernel
         'bindings' => \Illuminate\Routing\Middleware\SubstituteBindings::class,
         'can' => \Illuminate\Auth\Middleware\Authorize::class,
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
-        'throttle' => \App\Http\Middleware\ThrottleRequests::class,
+        'throttle' => \App\Support\Http\Middleware\ThrottleRequests::class,
         'csrf' => \App\Http\Middleware\VerifyCsrfToken::class,
-        'api.client' => \App\Http\Middleware\CheckApiClient::class,
+        'api.client' => \App\Support\Http\Middleware\CheckApiClient::class,
         'api.token' => \App\Http\Middleware\VerifyApiToken::class,
     ];
 }

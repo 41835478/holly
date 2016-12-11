@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Middleware;
+namespace App\Support\Http\Middleware;
 
 use Closure;
 use Illuminate\Auth\Access\AuthorizationException;
