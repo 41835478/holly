@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Providers;
+namespace App\Support\Providers;
 
 use App\Support\Client;
 use Jenssegers\Agent\Agent;

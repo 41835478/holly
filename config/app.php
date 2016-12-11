@@ -167,6 +167,7 @@ return [
          * Package Service Providers...
          */
         App\Support\Providers\CaptchaServiceProvider::class,
+        App\Support\Providers\ClientServiceProvider::class,
         Intervention\Image\ImageServiceProviderLaravel5::class,
         Yajra\Datatables\DatatablesServiceProvider::class,
         Vinkla\Hashids\HashidsServiceProvider::class,
@@ -181,7 +182,6 @@ return [
         App\Providers\AppServiceProvider::class,
         App\Providers\AuthServiceProvider::class,
         // App\Providers\BroadcastServiceProvider::class,
-        App\Providers\ClientServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\OptimusServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
