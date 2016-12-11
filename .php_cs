@@ -51,6 +51,7 @@ $fixers = [
     'no_whitespace_in_blank_line' => true,
     'not_operator_with_successor_space' => true,
     'object_operator_without_whitespace' => true,
+    'ordered_imports' => true,
     'phpdoc_indent' => true,
     'phpdoc_inline_tag' => true,
     'phpdoc_no_access' => true,
