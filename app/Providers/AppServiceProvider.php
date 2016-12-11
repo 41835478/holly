@@ -41,13 +41,10 @@ class AppServiceProvider extends ServiceProvider
      * Register services.
      *
      * @param  string|array  $services
-     * @return void
      */
     protected function registerServices($services)
     {
-        foreach ((array) $services as $value) {
-            $this->app->register($value);
-        }
+        array_map([$this->app, 'register'], (array) $services);
     }
 
     /**
