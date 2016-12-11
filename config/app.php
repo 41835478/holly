@@ -169,6 +169,7 @@ return [
         App\Support\Providers\CaptchaServiceProvider::class,
         App\Support\Providers\ClientServiceProvider::class,
         App\Support\Providers\OptimusServiceProvider::class,
+        App\Support\Providers\SupportServiceProvider::class,
         Intervention\Image\ImageServiceProviderLaravel5::class,
         NotificationChannels\BearyChat\BearyChatServiceProvider::class,
         SimpleSoftwareIO\QrCode\QrCodeServiceProvider::class,

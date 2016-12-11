@@ -3,7 +3,7 @@
 namespace App\Exceptions;
 
 use Exception;
-use App\Http\ApiResponse;
+use App\Support\Http\ApiResponse;
 use App\Jobs\SendBearyChat;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Validation\ValidationException;
@@ -135,7 +135,7 @@ class Handler extends ExceptionHandler
      *
      * @param  mixed  $message
      * @param  int  $code
-     * @return \App\Http\ApiResponse
+     * @return \App\Support\Http\ApiResponse
      */
     protected function createApiResponse($message = null, $code = null)
     {
@@ -156,7 +156,7 @@ class Handler extends ExceptionHandler
      * Create an API response for the given exception.
      *
      * @param  \Exception  $e
-     * @return \App\Http\ApiResponse
+     * @return \App\Support\Http\ApiResponse
      */
     protected function convertExceptionToApiResponse(Exception $e)
     {
