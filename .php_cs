@@ -11,7 +11,7 @@ $finder = Finder::create()
         __DIR__.'/tests',
     ]);
 
-$fixers = [
+$rules = [
     'array_syntax' => ['syntax' => 'short'],
     'binary_operator_spaces' => true,
     'blank_line_after_namespace' => true,
@@ -79,6 +79,6 @@ $fixers = [
 
 return Config::create()
     ->setFinder($finder)
-    ->setRules($fixers)
+    ->setRules($rules)
     ->setRiskyAllowed(true)
     ->setUsingCache(true);
