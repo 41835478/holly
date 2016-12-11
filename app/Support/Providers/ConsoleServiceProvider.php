@@ -2,10 +2,10 @@
 
 namespace App\Support\Providers;
 
-use Illuminate\Support\ServiceProvider;
 use App\Support\Console\Commands\ApiTokenKey;
 use App\Support\Console\Commands\AssetsVersion;
 use App\Support\Console\Commands\Int2stringCharacters;
+use Illuminate\Support\ServiceProvider;
 
 class ConsoleServiceProvider extends ServiceProvider
 {

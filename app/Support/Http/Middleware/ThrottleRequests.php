@@ -2,8 +2,8 @@
 
 namespace App\Support\Http\Middleware;
 
-use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Routing\Middleware\ThrottleRequests as BaseThrottle;
+use Symfony\Component\HttpFoundation\Response;
 
 class ThrottleRequests extends BaseThrottle
 {

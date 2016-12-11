@@ -39,15 +39,15 @@ abstract class DataTable extends BaseDataTable
     {
         return array_merge([
             'defaultContent' => '',
-            'data'           => $name,
-            'name'           => $name,
-            'title'          => $this->builder()->getQualifiedTitle($name),
-            'render'         => null,
-            'orderable'      => false,
-            'searchable'     => false,
-            'exportable'     => false,
-            'printable'      => true,
-            'footer'         => '',
+            'data' => $name,
+            'name' => $name,
+            'title' => $this->builder()->getQualifiedTitle($name),
+            'render' => null,
+            'orderable' => false,
+            'searchable' => false,
+            'exportable' => false,
+            'printable' => true,
+            'footer' => '',
         ], $attributes);
     }
 

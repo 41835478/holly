@@ -2,10 +2,10 @@
 
 namespace App\Models;
 
+use App\Support\Traits\Eloquent\DeviceModelAttribute;
+use Iatstuti\Database\Support\NullableFields;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Request;
-use Iatstuti\Database\Support\NullableFields;
-use App\Support\Traits\Eloquent\DeviceModelAttribute;
 
 class Device extends Model
 {

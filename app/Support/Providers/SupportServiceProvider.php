@@ -3,8 +3,8 @@
 namespace App\Support\Providers;
 
 use App\Support\Http\ApiResponse;
-use Illuminate\Support\ServiceProvider;
 use Illuminate\Contracts\Routing\ResponseFactory;
+use Illuminate\Support\ServiceProvider;
 
 class SupportServiceProvider extends ServiceProvider
 {

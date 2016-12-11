@@ -2,8 +2,8 @@
 
 namespace App\Http\Requests;
 
-use App\Support\Mob\Sms;
 use App\Support\Http\FormRequest;
+use App\Support\Mob\Sms;
 
 class VerifyPhoneNumber extends FormRequest
 {

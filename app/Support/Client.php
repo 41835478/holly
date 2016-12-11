@@ -2,9 +2,9 @@
 
 namespace App\Support;
 
-use Jenssegers\Agent\Agent;
-use Illuminate\Support\Fluent;
 use App\Support\Traits\FluentArrayAccess;
+use Illuminate\Support\Fluent;
+use Jenssegers\Agent\Agent;
 
 /**
  * The app client.

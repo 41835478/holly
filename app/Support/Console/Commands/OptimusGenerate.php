@@ -2,8 +2,8 @@
 
 namespace App\Support\Console\Commands;
 
-use Illuminate\Support\Str;
 use Illuminate\Console\Command;
+use Illuminate\Support\Str;
 use Jenssegers\Optimus\Energon;
 
 class OptimusGenerate extends Command

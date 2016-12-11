@@ -2,10 +2,10 @@
 
 namespace App\Support\Http\Middleware;
 
-use Closure;
 use App\Support\Helper;
-use Illuminate\Http\Request;
+use Closure;
 use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Http\Request;
 
 class VerifyApiToken
 {

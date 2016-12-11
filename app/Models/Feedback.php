@@ -2,11 +2,11 @@
 
 namespace App\Models;
 
+use App\Exceptions\InvalidInputException;
+use App\Support\Traits\Eloquent\DeviceModelAttribute;
+use Iatstuti\Database\Support\NullableFields;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Request;
-use App\Exceptions\InvalidInputException;
-use Iatstuti\Database\Support\NullableFields;
-use App\Support\Traits\Eloquent\DeviceModelAttribute;
 
 class Feedback extends Model
 {

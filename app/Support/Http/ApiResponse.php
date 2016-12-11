@@ -2,8 +2,8 @@
 
 namespace App\Support\Http;
 
-use Illuminate\Http\JsonResponse;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\JsonResponse;
 
 class ApiResponse extends JsonResponse
 {

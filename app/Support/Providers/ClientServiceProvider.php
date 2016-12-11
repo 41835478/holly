@@ -3,8 +3,8 @@
 namespace App\Support\Providers;
 
 use App\Support\Client;
-use Jenssegers\Agent\Agent;
 use Illuminate\Support\ServiceProvider;
+use Jenssegers\Agent\Agent;
 
 class ClientServiceProvider extends ServiceProvider
 {
