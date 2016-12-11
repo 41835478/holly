@@ -3,8 +3,8 @@
 namespace App\Exceptions;
 
 use Exception;
-use App\Support\Http\ApiResponse;
 use App\Jobs\SendBearyChat;
+use App\Support\Http\ApiResponse;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpKernel\Exception\HttpException;

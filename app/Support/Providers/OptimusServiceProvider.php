@@ -2,9 +2,9 @@
 
 namespace App\Support\Providers;
 
-use App\Support\Console\Commands\OptimusGenerate;
-use Illuminate\Support\ServiceProvider;
 use Jenssegers\Optimus\Optimus;
+use Illuminate\Support\ServiceProvider;
+use App\Support\Console\Commands\OptimusGenerate;
 
 class OptimusServiceProvider extends ServiceProvider
 {
