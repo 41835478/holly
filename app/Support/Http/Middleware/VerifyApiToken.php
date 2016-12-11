@@ -5,7 +5,6 @@ namespace App\Support\Http\Middleware;
 use Closure;
 use App\Support\Helper;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Config;
 use Illuminate\Auth\Access\AuthorizationException;
 
 class VerifyApiToken
@@ -79,10 +78,12 @@ class VerifyApiToken
      */
     protected function isValidToken(Request $request)
     {
-        if ($token = substr($request->header('X-API-TOKEN'), 4)) {
-            $timestamp = (int) substr(Helper::sampleDecrypt($token, Config::get('support.api.token.key')), 4);
+        $config = config('support.api.token');
 
-            return abs($timestamp - time()) <= (int) Config::get('support.api.token.valid_interval');
+        if ($token = substr($request->header('X-API-TOKEN'), 4)) {
+            $timestamp = (int) substr(Helper::sampleDecrypt($token, $config['key']), 4);
+
+            return abs($timestamp - time()) <= (int) $config['valid_interval'];
         }
 
         return false;
