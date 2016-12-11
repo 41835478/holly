@@ -33,9 +33,21 @@ class SupportServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->register(CaptchaServiceProvider::class);
-        $this->app->register(ClientServiceProvider::class);
-        $this->app->register(ConsoleServiceProvider::class);
-        $this->app->register(OptimusServiceProvider::class);
+        array_map([$this->app, 'register'], $this->getServiceProviders());
+    }
+
+    /**
+     * Get service providers to be registered.
+     *
+     * @return array
+     */
+    protected function getServiceProviders()
+    {
+        return [
+            CaptchaServiceProvider::class,
+            ClientServiceProvider::class,
+            ConsoleServiceProvider::class,
+            OptimusServiceProvider::class,
+        ];
     }
 }
