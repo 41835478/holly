@@ -2,25 +2,35 @@
 
 namespace App\Providers;
 
+use App\Http\ApiResponse;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Response;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
     /**
      * Bootstrap any application services.
-     *
-     * @return void
      */
     public function boot()
     {
         Carbon::setLocale('zh');
+
+        $this->extendResponses();
+    }
+
+    /**
+     * Extend responses.
+     */
+    protected function extendResponses()
+    {
+        Response::macro('api', function (...$args) {
+            return new ApiResponse(...$args);
+        });
     }
 
     /**
      * Register any application services.
-     *
-     * @return void
      */
     public function register()
     {

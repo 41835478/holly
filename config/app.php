@@ -179,7 +179,6 @@ return [
          * Application Service Providers...
          */
         App\Providers\AppConfigServiceProvider::class,
-        App\Providers\ApiServiceProvider::class,
         App\Providers\AppServiceProvider::class,
         App\Providers\AuthServiceProvider::class,
         // App\Providers\BroadcastServiceProvider::class,
