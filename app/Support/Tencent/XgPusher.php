@@ -2,12 +2,14 @@
 
 namespace App\Support\Tencent;
 
+use ElfSundae\XgPush\XingeApp;
+
 class XgPusher
 {
     /**
      * The XingeApp instance.
      *
-     * @var \XingeApp
+     * @var \ElfSundae\XgPush\XingeApp
      */
     protected $service;
 
@@ -22,7 +24,7 @@ class XgPusher
     /**
      * Get the XingeApp instance.
      *
-     * @return \XingeApp
+     * @return \ElfSundae\XgPush\XingeApp
      */
     public function getService()
     {
@@ -32,7 +34,7 @@ class XgPusher
     /**
      * Create a XingeApp instance.
      *
-     * @return \XingeApp
+     * @return \ElfSundae\XgPush\XingeApp
      */
     public static function createService()
     {
@@ -245,5 +247,31 @@ class XgPusher
         }
 
         return $result;
+    }
+
+    /**
+     * Dynamically handle calls to the XingeApp class.
+     *
+     * @param  string  $method
+     * @param  array   $parameters
+     * @return mixed
+     */
+    public static function __callStatic($method, $parameters)
+    {
+        array_unshift($parameters, static::appKey(), static::appSecret());
+
+        return call_user_func_array([XingeApp::class, $method], $parameters);
+    }
+
+    /**
+     * Dynamically handle calls to the XingeApp instance.
+     *
+     * @param  string  $method
+     * @param  array   $parameters
+     * @return mixed
+     */
+    public function __call($method, $parameters)
+    {
+        return call_user_func_array([$this->getService(), $method], $parameters);
     }
 }
