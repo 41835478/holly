@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Providers;
+namespace App\Support\Providers;
 
 use Jenssegers\Optimus\Optimus;
 use Illuminate\Support\ServiceProvider;
