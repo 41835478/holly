@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Providers;
+namespace App\Support\Providers;
 
 use Mews\Captcha\CaptchaServiceProvider as ServiceProvider;
 
