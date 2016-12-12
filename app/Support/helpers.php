@@ -81,6 +81,26 @@ if (! function_exists('active_if')) {
     }
 }
 
+if (! function_exists('get_id')) {
+    /**
+     * Get id from a mixed variable.
+     *
+     * @param  mixed  $var
+     * @param  string  $key
+     * @return mixed
+     */
+    function get_id($var, $key = 'id')
+    {
+        if (is_object($var)) {
+            return $var->{$key};
+        } elseif (is_array($var)) {
+            return $var[$key];
+        }
+
+        return $var;
+    }
+}
+
 if (! function_exists('str_limit2')) {
     /**
      * Limit the number of characters in a string.
