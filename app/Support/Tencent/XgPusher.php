@@ -297,6 +297,30 @@ class XgPusher
     }
 
     /**
+     * Push message to a device.
+     *
+     * @param  string  $deviceToken
+     * @param  \ElfSundae\XgPush\Message|\ElfSundae\XgPush\MessageIOS  $message
+     * @return array
+     */
+    public function toDevice($deviceToken, $message)
+    {
+        return $this->xinge->PushSingleDevice($deviceToken, $message, $this->environment);
+    }
+
+    /**
+     * Push message to an user.
+     *
+     * @param  mixed  $user
+     * @param  \ElfSundae\XgPush\Message|\ElfSundae\XgPush\MessageIOS  $message
+     * @return array
+     */
+    public function toUser($user, $message)
+    {
+        return $this->xinge->PushSingleAccount(0, $this->accountForUser($user), $message, $this->environment);
+    }
+
+    /**
      * Query all device tokens for the given user.
      *
      * @param  mixed  $user
@@ -339,30 +363,6 @@ class XgPusher
 
             return $result;
         }
-    }
-
-    /**
-     * Push message to a device.
-     *
-     * @param  string  $deviceToken
-     * @param  \ElfSundae\XgPush\Message|\ElfSundae\XgPush\MessageIOS  $message
-     * @return array
-     */
-    public function toDevice($deviceToken, $message)
-    {
-        return $this->xinge->PushSingleDevice($deviceToken, $message, $this->environment);
-    }
-
-    /**
-     * Push message to an user.
-     *
-     * @param  mixed  $user
-     * @param  \ElfSundae\XgPush\Message|\ElfSundae\XgPush\MessageIOS  $message
-     * @return array
-     */
-    public function toUser($user, $message)
-    {
-        return $this->xinge->PushSingleAccount(0, $this->accountForUser($user), $message, $this->environment);
     }
 
     /**
