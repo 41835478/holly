@@ -342,7 +342,7 @@ class XgPusher
      */
     public function toUsersList($users, $message)
     {
-        $accounts = array_map([$this, 'accountForUser'], $users);
+        $accounts = array_map([$this, 'accountForUser'], (array) $users);
 
         return $this->xinge->PushAccountList(0, $accounts, $message, $this->environment);
     }
@@ -357,6 +357,45 @@ class XgPusher
     public function toTags($tags, $message, $tagsOperation = 'OR')
     {
         return $this->xinge->PushTags(0, (array) $tags, strtoupper($tagsOperation), $message, $this->environment);
+    }
+
+    /**
+     * Create a batch push.
+     *
+     * @param  \ElfSundae\XgPush\Message|\ElfSundae\XgPush\MessageIOS  $message
+     * @return string|null
+     */
+    public function createBatch($message)
+    {
+        return $this->result($this->xinge->CreateMultipush($message, $this->environment), 'push_id');
+    }
+
+    /**
+     * Batch pushing to a list of users.
+     *
+     * @warning 用户数限制 1000 个。
+     *
+     * @param  int|string  $pushId
+     * @param  string|string[] $users
+     * @return array
+     */
+    public function batchToUsers($pushId, $users)
+    {
+        $accounts = array_map([$this, 'accountForUser'], (array) $users);
+
+        return $this->xinge->PushAccountListMultiple($pushId, $accounts);
+    }
+
+    /**
+     * Batch pushing to a list of devices.
+     *
+     * @param  int|string  $pushId
+     * @param  string|string[]  $devices
+     * @return array
+     */
+    public function batchToDevices($pushId, $devices)
+    {
+        return $this->xinge->PushDeviceListMultiple($pushId, (array) $devices);
     }
 
     /**
