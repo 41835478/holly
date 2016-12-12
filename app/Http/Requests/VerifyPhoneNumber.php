@@ -25,7 +25,7 @@ class VerifyPhoneNumber extends FormRequest
     public function rules()
     {
         return [
-            'phone' => 'bail|required|digits',
+            'phone' => 'bail|required|digits:11',
             'code' => 'required',
         ];
     }
