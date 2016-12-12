@@ -304,10 +304,7 @@ class XgPusher
      */
     public function queryDeviceTokensForUser($user)
     {
-        return $this->result(
-            $this->xinge->QueryTokensOfAccount($this->accountForUser($user)),
-            'tokens'
-        );
+        return $this->result($this->xinge->QueryTokensOfAccount($this->accountForUser($user)), 'tokens');
     }
 
     /**
@@ -318,10 +315,7 @@ class XgPusher
      */
     public function queryTagsForDeviceToken($deviceToken)
     {
-        return $this->result(
-            $this->xinge->QueryTokenTags($deviceToken),
-            'tags'
-        );
+        return $this->result($this->xinge->QueryTokenTags($deviceToken), 'tags');
     }
 
     /**
