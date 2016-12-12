@@ -48,6 +48,7 @@ class SupportServiceProvider extends ServiceProvider
             CaptchaServiceProvider::class,
             ClientServiceProvider::class,
             OptimusServiceProvider::class,
+            XgPusherServiceProvider::class,
         ];
 
         if ($this->app->runningInConsole()) {
