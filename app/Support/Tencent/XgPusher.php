@@ -2,7 +2,12 @@
 
 namespace App\Support\Tencent;
 
+use ElfSundae\XgPush\ClickAction;
+use ElfSundae\XgPush\Message;
+use ElfSundae\XgPush\MessageIOS;
+use ElfSundae\XgPush\Style;
 use ElfSundae\XgPush\XingeApp;
+use Illuminate\Support\Str;
 
 class XgPusher
 {
@@ -11,14 +16,46 @@ class XgPusher
      *
      * @var \ElfSundae\XgPush\XingeApp
      */
-    protected $service;
+    protected $xinge;
+
+    /**
+     * The pusher environment.
+     *
+     * 向iOS设备推送时必填，1表示推送生产环境；2表示推送开发环境。推送Android平台不填或填0.
+     *
+     * @var int
+     */
+    protected $environment = XingeApp::IOSENV_DEV;
+
+    /**
+     * The key for custom payload.
+     *
+     * @var string
+     */
+    protected $customKey = 'custom';
+
+    /**
+     * Xinge account prefix.
+     *
+     * @warning 信鸽不允许使用简单的账号，例如纯数字的id。
+     *
+     * @var string
+     */
+    protected $accountPrefix = 'user';
 
     /**
      * Create a new instance.
+     *
+     * @param  string  $appKey
+     * @param  string  $appSecret
+     * @param  mixed  $environment
+     * @param  string  $customKey
      */
-    public function __construct()
+    public function __construct($appKey, $appSecret, $environment, $customKey)
     {
-        $this->service = static::createService();
+        $this->xinge = new XingeApp($appKey, $appSecret);
+        $this->setEnvironment($environment);
+        $this->setCustomKey($customKey);
     }
 
     /**
@@ -26,19 +63,9 @@ class XgPusher
      *
      * @return \ElfSundae\XgPush\XingeApp
      */
-    public function getService()
+    public function getXinge()
     {
-        return $this->service;
-    }
-
-    /**
-     * Create a XingeApp instance.
-     *
-     * @return \ElfSundae\XgPush\XingeApp
-     */
-    public static function createService()
-    {
-        return new XingeApp(static::appKey(), static::appSecret());
+        return $this->xinge;
     }
 
     /**
@@ -46,9 +73,9 @@ class XgPusher
      *
      * @return string
      */
-    public static function appKey()
+    public function getAppKey()
     {
-        return config('services.xgpush.key');
+        return $this->xinge->accessId;
     }
 
     /**
@@ -56,59 +83,99 @@ class XgPusher
      *
      * @return string
      */
-    public static function appSecret()
+    public function getAppSecret()
     {
-        return config('services.xgpush.secret');
+        return $this->xinge->secretKey;
     }
 
     /**
-     * Get the custom key.
-     *
-     * @return string
-     */
-    public static function customKey()
-    {
-        return config('services.xgpush.custom_key', 'custom');
-    }
-
-    /**
-     * Get the environment.
-     *
-     * environment: 向iOS设备推送时必填，1表示推送生产环境；2表示推送开发环境。推送Android平台不填或填0.
+     * Get the pusher environment.
      *
      * @return int
      */
-    public static function environment()
+    public function getEnvironment()
     {
-        return config('services.xgpush.environment') == 'production' ?
-            XingeApp::IOSENV_PROD :
-            XingeApp::IOSENV_DEV;
+        return $this->environment;
     }
 
     /**
-     * 解析信鸽返回的结果。
+     * Set the pusher environment.
+     *
+     * @param  mixed  $env
+     * @return $this
+     */
+    public function setEnvironment($env)
+    {
+        if (is_string($env)) {
+            $env = $env == 'production' ? XingeApp::IOSENV_PROD : XingeApp::IOSENV_DEV;
+        }
+
+        if (is_numeric($env)) {
+            $this->environment = $env;
+        }
+
+        return $this;
+    }
+
+    /**
+     * Get the key for custom payload.
+     *
+     * @return string
+     */
+    public function getCustomKey()
+    {
+        return $this->customKey;
+    }
+
+    /**
+     * Set the key for custom payload.
+     *
+     * @param  string  $key
+     * @return $this
+     */
+    public function setCustomKey($key)
+    {
+        if ($key) {
+            $this->customKey = $key;
+        }
+
+        return $this;
+    }
+
+    /**
+     * Get account prefix.
+     *
+     * @return string
+     */
+    public function getAccountPrefix()
+    {
+        return $this->accountPrefix;
+    }
+
+    /**
+     * Set account prefix.
+     *
+     * @param  string  $prefix
+     * @return $this
+     */
+    public function setAccountPrefix($prefix)
+    {
+        $this->accountPrefix = $prefix;
+
+        return $this;
+    }
+
+    /**
+     * Determine if the Xinge result is success.
      *
      * @see http://developer.qq.com/wiki/xg/%E6%9C%8D%E5%8A%A1%E7%AB%AFAPI%E6%8E%A5%E5%85%A5/Rest%20API%20%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/Rest%20API%20%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97.html
      *
-     * @param  mixed    $xgResult   信鸽的请求结果
-     * @param  int      &$code      返回码，0 为成功
-     * @param  string   &$message   请求出错时的错误信息
-     * @param  mixed    &$result    请求正确时的额外数据
+     * @param  mixed  $result
      * @return bool
      */
-    public static function parseResult($xgResult = null, &$code = null, &$message = null, &$result = null)
+    public function succeed($result)
     {
-        if (is_array($xgResult) && isset($xgResult['ret_code'])) {
-            $code = (int) $xgResult['ret_code'];
-            $message = isset($xgResult['err_msg']) ? (string) $xgResult['err_msg'] : '';
-            if (isset($xgResult['result'])) {
-                $result = $xgResult['result'];
-            }
-        } else {
-            $code = -99999;
-        }
-
-        return $code === 0;
+        return is_array($result) && isset($result['ret_code']) && $result['ret_code'] === 0;
     }
 
     /**
@@ -117,9 +184,11 @@ class XgPusher
      * @param  mixed  $data
      * @return array|null
      */
-    public static function encodeCustomData($data)
+    public function encodeCustomData($data)
     {
-        return ! empty($data) ? [static::customKey() => $data] : null;
+        if (!empty($data)) {
+            return [$this->customKey => $data];
+        }
     }
 
     /**
@@ -128,21 +197,13 @@ class XgPusher
      * @param  mixed  $user
      * @return string
      */
-    public static function accountForUser($user)
+    public function accountForUser($user)
     {
-        if (is_object($user)) {
-            $user = $user->id;
-        } elseif (is_array($user)) {
-            $user = $user['id'];
-        }
-
-        // 信鸽不允许使用简单的账号，例如纯数字的id。
-        // 所以在 userId 前面加个 'user' 字符。
-        if (starts_with($user, 'user')) {
+        if ($this->accountPrefix && is_string($user) && Str::startsWith($user, $this->accountPrefix)) {
             return $user;
         }
 
-        return 'user'.$user;
+        return $this->accountPrefix.get_id($user);
     }
 
     /**
@@ -152,13 +213,13 @@ class XgPusher
      * @param  mixed  $custom
      * @param  int  $badge
      * @param  string  $sound
-     * @return MessageIOS
+     * @return \ElfSundae\XgPush\MessageIOS
      */
-    public static function createIOSMessage($alert = '', $custom = null, $badge = 1, $sound = 'default')
+    public function createIOSMessage($alert = '', $custom = null, $badge = 1, $sound = 'default')
     {
         $message = new MessageIOS();
         $message->setAlert($alert);
-        if ($customData = static::encodeCustomData($custom)) {
+        if ($customData = $this->encodeCustomData($custom)) {
             $message->setCustom($customData);
         }
         if (is_numeric($badge) && $badge >= 0) {
@@ -174,18 +235,18 @@ class XgPusher
     /**
      * Create a Message instance.
      *
-     * @param  string $content
-     * @param  mixed $custom
-     * @param  string $title
-     * @param  int $type
-     * @return Message
+     * @param  string  $content
+     * @param  mixed  $custom
+     * @param  string  $title
+     * @param  int  $type
+     * @return \ElfSundae\XgPush\Message
      */
-    public static function createAndroidMessage($content = '', $custom = null, $title = null, $type = Message::TYPE_NOTIFICATION)
+    public function createAndroidMessage($content = '', $custom = null, $title = null, $type = Message::TYPE_NOTIFICATION)
     {
         $message = new Message();
         $message->setTitle($title ?: config('app.name'));
         $message->setContent($content);
-        if ($customData = static::encodeCustomData($custom)) {
+        if ($customData = $this->encodeCustomData($custom)) {
             $message->setCustom($customData);
         }
         $message->setType($type);
@@ -204,12 +265,12 @@ class XgPusher
      * @param  mixed  $user
      * @return string[]|null
      */
-    public static function queryDeviceTokensForUser($user)
+    public function queryDeviceTokensForUser($user)
     {
-        $query = static::createService()->QueryTokensOfAccount(static::accountForUser($user));
+        $result = $this->xinge->QueryTokensOfAccount($this->accountForUser($user));
 
-        if (static::parseResult($query, null, null, $result)) {
-            return is_array($result) ? array_get($result, 'tokens', []) : [];
+        if ($this->succeed($result)) {
+            return array_get($result, 'result.tokens', []);
         }
     }
 
@@ -219,12 +280,12 @@ class XgPusher
      * @param  string  $deviceToken
      * @return string[]|null
      */
-    public static function queryTagsForDeviceToken($deviceToken)
+    public function queryTagsForDeviceToken($deviceToken)
     {
-        $query = static::createService()->QueryTokenTags($deviceToken);
+        $result = $this->xinge->QueryTokenTags($deviceToken);
 
-        if (static::parseResult($query, null, null, $result)) {
-            return is_array($result) ? array_get($result, 'tags', []) : [];
+        if ($this->succeed($result)) {
+            return array_get($result, 'result.tags', []);
         }
     }
 
@@ -233,34 +294,20 @@ class XgPusher
      *
      * @param  mixed  $user
      * @param  array  &$deviceTokens
-     * @return array|null
+     * @return array
      */
-    public static function queryTagsForUser($user, &$deviceTokens = null)
+    public function queryTagsForUser($user, &$deviceTokens = null)
     {
-        $deviceTokens = static::queryDeviceTokensForUser($user);
+        $deviceTokens = $this->queryDeviceTokensForUser($user);
 
         $result = [];
         foreach ($deviceTokens as $token) {
-            if ($tags = static::queryTagsForDeviceToken($token)) {
+            if ($tags = $this->queryTagsForDeviceToken($token)) {
                 $result[$token] = $tags;
             }
         }
 
         return $result;
-    }
-
-    /**
-     * Dynamically handle calls to the XingeApp class.
-     *
-     * @param  string  $method
-     * @param  array   $parameters
-     * @return mixed
-     */
-    public static function __callStatic($method, $parameters)
-    {
-        array_unshift($parameters, static::appKey(), static::appSecret());
-
-        return call_user_func_array([XingeApp::class, $method], $parameters);
     }
 
     /**
@@ -272,6 +319,6 @@ class XgPusher
      */
     public function __call($method, $parameters)
     {
-        return call_user_func_array([$this->getService(), $method], $parameters);
+        return call_user_func_array([$this->xinge, $method], $parameters);
     }
 }

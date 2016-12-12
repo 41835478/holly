@@ -19,8 +19,15 @@ class XgPusherServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->singleton(XgPusher::class, function () {
-            return new XgPusher;
+        $this->app->singleton(XgPusher::class, function ($app) {
+            $config = $app['config']['services.xgpush'];
+
+            return new XgPusher(
+                $config['key'],
+                $config['secret'],
+                $config['environment'],
+                $config['custom']
+            );
         });
 
         $this->app->alias(XgPusher::class, 'xgpusher');
