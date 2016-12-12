@@ -245,7 +245,7 @@ class XgPusher
     }
 
     /**
-     * Creates a MessageIOS instance.
+     * Creates a new MessageIOS instance.
      *
      * @param  string  $alert
      * @param  mixed  $custom
@@ -263,7 +263,7 @@ class XgPusher
         if (is_numeric($badge) && $badge >= 0) {
             $message->setBadge($badge);
         }
-        if (! empty($sound)) {
+        if ($sound) {
             $message->setSound($sound);
         }
 
@@ -271,7 +271,7 @@ class XgPusher
     }
 
     /**
-     * Create a Message instance.
+     * Create a new Message instance.
      *
      * @param  string  $content
      * @param  mixed  $custom
@@ -288,7 +288,6 @@ class XgPusher
             $message->setCustom($customData);
         }
         $message->setType($type);
-        //含义:样式编号0,响铃,震动,不可从通知栏清除,不影响先前通知
         $message->setStyle(new Style(0, 1, 1, 1, 0));
         $action = new ClickAction();
         $action->setActionType(ClickAction::TYPE_ACTIVITY);
