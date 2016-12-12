@@ -7,7 +7,6 @@ use ElfSundae\XgPush\Message;
 use ElfSundae\XgPush\MessageIOS;
 use ElfSundae\XgPush\Style;
 use ElfSundae\XgPush\XingeApp;
-use Illuminate\Support\Str;
 
 class XgPusher
 {
@@ -139,7 +138,7 @@ class XgPusher
     }
 
     /**
-     * Get account prefix.
+     * Get the account prefix.
      *
      * @return string
      */
@@ -149,7 +148,7 @@ class XgPusher
     }
 
     /**
-     * Set account prefix.
+     * Set the account prefix.
      *
      * @param  string  $prefix
      * @return $this
@@ -162,16 +161,53 @@ class XgPusher
     }
 
     /**
-     * Determine if the Xinge result is success.
+     * Determine if the Xinge response is success.
      *
      * @see http://developer.qq.com/wiki/xg/%E6%9C%8D%E5%8A%A1%E7%AB%AFAPI%E6%8E%A5%E5%85%A5/Rest%20API%20%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/Rest%20API%20%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97.html
      *
-     * @param  mixed  $result
+     * @param  mixed  $response
      * @return bool
      */
-    public function succeed($result)
+    public function succeed($response)
     {
-        return is_array($result) && isset($result['ret_code']) && $result['ret_code'] === 0;
+        return $this->code($response) === 0;
+    }
+
+    /**
+     * Get the code of Xinge response.
+     *
+     * @param  mixed  $response
+     * @return int
+     */
+    public function code($response)
+    {
+        return is_array($response) && isset($response['ret_code']) ? $response['ret_code'] : -999999;
+    }
+
+    /**
+     * Get the error message of Xinge response.
+     *
+     * @param  mixed  $response
+     * @return string|null
+     */
+    public function message($response)
+    {
+        if (is_array($response)) {
+            return array_get($response, 'err_msg');
+        }
+    }
+
+    /**
+     * Get the result data of Xinge response.
+     *
+     * @param  mixed  $response
+     * @return mixed
+     */
+    public function result($response, $key = null)
+    {
+        if (is_array($response)) {
+            return array_get($response, $key ? "result.{$key}" : 'result');
+        }
     }
 
     /**
@@ -182,7 +218,7 @@ class XgPusher
      */
     public function encodeCustomData($data)
     {
-        if (!empty($data)) {
+        if (! empty($data)) {
             return [$this->customKey => $data];
         }
     }
@@ -195,11 +231,17 @@ class XgPusher
      */
     public function accountForUser($user)
     {
-        if ($this->accountPrefix && is_string($user) && Str::startsWith($user, $this->accountPrefix)) {
+        if ($this->accountPrefix && is_string($user) && starts_with($user, $this->accountPrefix)) {
             return $user;
         }
 
-        return $this->accountPrefix.get_id($user);
+        if (is_object($user)) {
+            $user = $user->id;
+        } elseif (is_array($user)) {
+            $user = $user['id'];
+        }
+
+        return $this->accountPrefix.$user;
     }
 
     /**
