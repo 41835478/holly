@@ -356,9 +356,7 @@ class XgPusher
         if (is_array($deviceTokens)) {
             $result = [];
             foreach ($deviceTokens as $token) {
-                if ($tags = $this->queryTagsForDeviceToken($token)) {
-                    $result[$token] = $tags;
-                }
+                $result[$token] = $this->queryTagsForDeviceToken($token) ?: [];
             }
 
             return $result;
