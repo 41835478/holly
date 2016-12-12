@@ -28,7 +28,7 @@ class XgPusher
     protected $environment = XingeApp::IOSENV_DEV;
 
     /**
-     * The key for custom payload.
+     * The key of custom payload.
      *
      * @var string
      */
@@ -48,14 +48,10 @@ class XgPusher
      *
      * @param  string  $appKey
      * @param  string  $appSecret
-     * @param  mixed  $environment
-     * @param  string  $customKey
      */
-    public function __construct($appKey, $appSecret, $environment, $customKey)
+    public function __construct($appKey, $appSecret)
     {
         $this->xinge = new XingeApp($appKey, $appSecret);
-        $this->setEnvironment($environment);
-        $this->setCustomKey($customKey);
     }
 
     /**
@@ -118,7 +114,7 @@ class XgPusher
     }
 
     /**
-     * Get the key for custom payload.
+     * Get the key of custom payload.
      *
      * @return string
      */
@@ -128,7 +124,7 @@ class XgPusher
     }
 
     /**
-     * Set the key for custom payload.
+     * Set the key of custom payload.
      *
      * @param  string  $key
      * @return $this

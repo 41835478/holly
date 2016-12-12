@@ -22,12 +22,10 @@ class XgPusherServiceProvider extends ServiceProvider
         $this->app->singleton(XgPusher::class, function ($app) {
             $config = $app['config']['services.xgpush'];
 
-            return new XgPusher(
-                $config['key'],
-                $config['secret'],
-                $config['environment'],
-                $config['custom']
-            );
+            return (new XgPusher($config['key'], $config['secret']))
+                ->setEnvironment($config['environment'])
+                ->setCustomKey($config['custom'])
+                ->setAccountPrefix($config['account_prefix']);
         });
 
         $this->app->alias(XgPusher::class, 'xgpusher');

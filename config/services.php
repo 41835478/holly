@@ -55,6 +55,7 @@ return [
         'secret' => env('XGPUSH_SECRET'),
         'environment' => env('XGPUSH_ENVIRONMENT', env('APP_ENV')),
         'custom' => 'my',
+        'account_prefix' => 'user',
     ],
 
 ];
