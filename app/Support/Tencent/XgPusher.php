@@ -304,11 +304,10 @@ class XgPusher
      */
     public function queryDeviceTokensForUser($user)
     {
-        $result = $this->xinge->QueryTokensOfAccount($this->accountForUser($user));
-
-        if ($this->succeed($result)) {
-            return array_get($result, 'result.tokens', []);
-        }
+        return $this->result(
+            $this->xinge->QueryTokensOfAccount($this->accountForUser($user)),
+            'tokens'
+        );
     }
 
     /**
@@ -319,11 +318,10 @@ class XgPusher
      */
     public function queryTagsForDeviceToken($deviceToken)
     {
-        $result = $this->xinge->QueryTokenTags($deviceToken);
-
-        if ($this->succeed($result)) {
-            return array_get($result, 'result.tags', []);
-        }
+        return $this->result(
+            $this->xinge->QueryTokenTags($deviceToken),
+            'tags'
+        );
     }
 
     /**
@@ -331,20 +329,21 @@ class XgPusher
      *
      * @param  mixed  $user
      * @param  array  &$deviceTokens
-     * @return array
+     * @return array|null
      */
     public function queryTagsForUser($user, &$deviceTokens = null)
     {
         $deviceTokens = $this->queryDeviceTokensForUser($user);
 
-        $result = [];
-        foreach ($deviceTokens as $token) {
-            if ($tags = $this->queryTagsForDeviceToken($token)) {
-                $result[$token] = $tags;
+        if (is_array($deviceTokens)) {
+            $result = [];
+            foreach ($deviceTokens as $token) {
+                if ($tags = $this->queryTagsForDeviceToken($token)) {
+                    $result[$token] = $tags;
+                }
             }
+            return $result;
         }
-
-        return $result;
     }
 
     /**
