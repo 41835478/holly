@@ -31,7 +31,7 @@ class XgPusher
      *
      * @var string
      */
-    protected $customKey = 'custom';
+    protected $customKey;
 
     /**
      * Xinge account prefix.
@@ -40,7 +40,7 @@ class XgPusher
      *
      * @var string
      */
-    protected $accountPrefix = 'user';
+    protected $accountPrefix;
 
     /**
      * Create a new instance.
@@ -115,7 +115,7 @@ class XgPusher
     /**
      * Get the key of custom payload.
      *
-     * @return string
+     * @return string|null
      */
     public function getCustomKey()
     {
@@ -125,14 +125,12 @@ class XgPusher
     /**
      * Set the key of custom payload.
      *
-     * @param  string  $key
+     * @param  string|null  $key
      * @return $this
      */
     public function setCustomKey($key)
     {
-        if ($key) {
-            $this->customKey = $key;
-        }
+        $this->customKey = $key;
 
         return $this;
     }
@@ -177,11 +175,13 @@ class XgPusher
      * Get the code of Xinge response.
      *
      * @param  mixed  $response
-     * @return int
+     * @return int|null
      */
     public function code($response)
     {
-        return is_array($response) && isset($response['ret_code']) ? $response['ret_code'] : -999999;
+        if (is_array($response)) {
+            return array_get($response, 'ret_code');
+        }
     }
 
     /**
@@ -201,7 +201,7 @@ class XgPusher
      * Get the result data of Xinge response.
      *
      * @param  mixed  $response
-     * @return mixed
+     * @return mixed|null
      */
     public function result($response, $key = null)
     {
@@ -218,8 +218,12 @@ class XgPusher
      */
     public function encodeCustomData($data)
     {
-        if (! empty($data)) {
-            return [$this->customKey => $data];
+        if ($data) {
+            if ($this->customKey) {
+                return [$this->customKey => $data];
+            }
+
+            return $data;
         }
     }
 
