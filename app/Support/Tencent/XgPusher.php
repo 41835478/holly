@@ -438,6 +438,16 @@ class XgPusher
     }
 
     /**
+     * Query tags.
+     *
+     * @return array
+     */
+    public function queryTags($start = 0, $limit = 100)
+    {
+        return $this->result($this->xinge->QueryTags($start, $limit));
+    }
+
+    /**
      * Query all device tokens for the given user.
      *
      * @param  mixed  $user
