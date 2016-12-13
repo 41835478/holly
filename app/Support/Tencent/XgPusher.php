@@ -6,6 +6,7 @@ use ElfSundae\XgPush\ClickAction;
 use ElfSundae\XgPush\Message;
 use ElfSundae\XgPush\MessageIOS;
 use ElfSundae\XgPush\Style;
+use ElfSundae\XgPush\TagTokenPair;
 use ElfSundae\XgPush\XingeApp;
 
 class XgPusher
@@ -510,6 +511,32 @@ class XgPusher
 
             return $result;
         }
+    }
+
+    /**
+     * Set tags for device tokens.
+     *
+     * @warning 每次最多设置 20 对。
+     *
+     * @param  \ElfSundae\XgPush\TagTokenPair[]  $tagTokenPairs
+     * @return bool
+     */
+    public function setTags($tagTokenPairs)
+    {
+        return $this->succeed($this->xinge->BatchSetTag($tagTokenPairs));
+    }
+
+    /**
+     * Delete tags for device tokens.
+     *
+     * @warning 每次最多删除 20 对。
+     *
+     * @param  \ElfSundae\XgPush\TagTokenPair[]  $tagTokenPairs
+     * @return bool
+     */
+    public function deleteTags($tagTokenPairs)
+    {
+        return $this->succeed($this->xinge->BatchDelTag($tagTokenPairs));
     }
 
     /**
