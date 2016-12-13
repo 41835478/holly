@@ -355,7 +355,7 @@ class XgPusher
      * @param  \ElfSundae\XgPush\Message|\ElfSundae\XgPush\MessageIOS  $message
      * @return array
      */
-    public function toUsersList($users, $message)
+    public function toUsers($users, $message)
     {
         $accounts = array_map([$this, 'accountForUser'], (array) $users);
 
