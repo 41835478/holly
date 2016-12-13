@@ -273,19 +273,36 @@ class XgPusher
     /**
      * Create a new Message instance.
      *
+     * @param  string  $title
      * @param  string  $content
      * @param  mixed  $custom
-     * @param  string  $title
      * @param  int  $type
      * @return \ElfSundae\XgPush\Message
      */
-    public function createAndroidMessage($content = '', $custom = null, $title = null, $type = Message::TYPE_NOTIFICATION)
+    public function createAndroidMessage($title = '', $content = '', $custom = null, $type = Message::TYPE_MESSAGE)
     {
         $message = new Message();
-        $message->setTitle($title ?: config('app.name'));
+        $message->setTitle($title);
         $message->setContent($content);
         $message->setCustom($this->encodeCustomData($custom));
         $message->setType($type);
+
+        return $message;
+    }
+
+    /**
+     * Create a new Message instance for notification.
+     * The default action is opening app.
+     *
+     * @param  string  $title
+     * @param  string  $content
+     * @param  mixed  $custom
+     * @return \ElfSundae\XgPush\Message
+     */
+    public function createAndroidNotification($title = '', $content = '', $custom = null)
+    {
+        $message = $this->createAndroidMessage($title, $content, $custom, Message::TYPE_NOTIFICATION);
+
         $message->setStyle(new Style(0, 1, 1, 1, 0));
         $action = new ClickAction();
         $action->setActionType(ClickAction::TYPE_ACTIVITY);
