@@ -8,7 +8,6 @@ use ElfSundae\XgPush\MessageIOS;
 use ElfSundae\XgPush\Style;
 use ElfSundae\XgPush\TagTokenPair;
 use ElfSundae\XgPush\XingeApp;
-use InvalidArgumentException;
 
 class XgPusher
 {
