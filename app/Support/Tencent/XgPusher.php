@@ -348,9 +348,10 @@ class XgPusher
      */
     public function toUser($message, $users)
     {
-        $users = $this->getParameterAsArray(func_get_args(), 1);
-
-        $accounts = array_map([$this, 'accountForUser'], $users);
+        $accounts = array_map(
+            [$this, 'accountForUser'],
+            $this->getParameterAsArray(func_get_args(), 1)
+        );
 
         if (count($accounts) == 1) {
             return $this->xinge->PushSingleAccount(0, $accounts[0], $message, $this->environment);
@@ -389,12 +390,15 @@ class XgPusher
      * @warning 用户数限制 1000 个。
      *
      * @param  int|string  $pushId
-     * @param  string|string[] $users
+     * @param  mixed $users
      * @return array
      */
     public function batchToUsers($pushId, $users)
     {
-        $accounts = array_map([$this, 'accountForUser'], (array) $users);
+        $accounts = array_map(
+            [$this, 'accountForUser'],
+            $this->getParameterAsArray(func_get_args(), 1)
+        );
 
         return $this->xinge->PushAccountListMultiple($pushId, $accounts);
     }
@@ -403,12 +407,12 @@ class XgPusher
      * Batch pushing to a list of devices.
      *
      * @param  int|string  $pushId
-     * @param  string|string[]  $devices
+     * @param  mixed  $deviceTokens
      * @return array
      */
-    public function batchToDevices($pushId, $devices)
+    public function batchToDevices($pushId, $deviceTokens)
     {
-        return $this->xinge->PushDeviceListMultiple($pushId, (array) $devices);
+        return $this->xinge->PushDeviceListMultiple($pushId, $this->getParameterAsArray(func_get_args(), 1));
     }
 
     /**
@@ -664,7 +668,7 @@ class XgPusher
             }
         }
 
-        return array_unique($tagTokenPairs);
+        return $tagTokenPairs;
     }
 
     /**
