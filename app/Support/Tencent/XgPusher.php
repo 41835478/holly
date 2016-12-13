@@ -367,6 +367,7 @@ class XgPusher
      *
      * @param  string|string[]  $tags
      * @param  \ElfSundae\XgPush\Message|\ElfSundae\XgPush\MessageIOS  $message
+     * @param  string  $tagsOperation  'OR', 'AND'
      * @return array
      */
     public function toTags($tags, $message, $tagsOperation = 'OR')
