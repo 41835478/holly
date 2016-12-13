@@ -105,7 +105,7 @@ class XgPusher
             $env = $env == 'production' ? XingeApp::IOSENV_PROD : XingeApp::IOSENV_DEV;
         }
 
-        if (is_numeric($env)) {
+        if (is_int($env)) {
             $this->environment = $env;
         }
 
@@ -214,17 +214,15 @@ class XgPusher
      * Encode the custom data.
      *
      * @param  mixed  $data
-     * @return array|null
+     * @return array
      */
     public function encodeCustomData($data)
     {
-        if ($data) {
-            if ($this->customKey) {
-                return [$this->customKey => $data];
-            }
-
-            return $data;
+        if ($this->customKey && $data) {
+            return [$this->customKey => $data];
         }
+
+        return $data ?: [];
     }
 
     /**
@@ -261,10 +259,8 @@ class XgPusher
     {
         $message = new MessageIOS();
         $message->setAlert($alert);
-        if ($customData = $this->encodeCustomData($custom)) {
-            $message->setCustom($customData);
-        }
-        if (is_numeric($badge) && $badge >= 0) {
+        $message->setCustom($this->encodeCustomData($custom));
+        if (is_int($badge) && $badge >= 0) {
             $message->setBadge($badge);
         }
         if ($sound) {
@@ -288,9 +284,7 @@ class XgPusher
         $message = new Message();
         $message->setTitle($title ?: config('app.name'));
         $message->setContent($content);
-        if ($customData = $this->encodeCustomData($custom)) {
-            $message->setCustom($customData);
-        }
+        $message->setCustom($this->encodeCustomData($custom));
         $message->setType($type);
         $message->setStyle(new Style(0, 1, 1, 1, 0));
         $action = new ClickAction();
