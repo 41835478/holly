@@ -530,6 +530,18 @@ class XgPusher
     }
 
     /**
+     * Set tags for the given device token.
+     *
+     * @param  string|string[]  $tags
+     * @param  string  $deviceToken
+     * @return bool
+     */
+    public function setTagsForDeviceToken($tags, $deviceToken)
+    {
+        return $this->setTags($this->createTagTokenPairs((array) $tags, (string) $deviceToken));
+    }
+
+    /**
      * Delete tags for device tokens.
      *
      * @warning 每次最多删除 20 对。
@@ -540,18 +552,6 @@ class XgPusher
     public function deleteTags($tagTokenPairs)
     {
         return $this->succeed($this->xinge->BatchDelTag($tagTokenPairs));
-    }
-
-    /**
-     * Set tags for the given device token.
-     *
-     * @param  string|string[]  $tags
-     * @param  string  $deviceToken
-     * @return bool
-     */
-    public function setTagsForDeviceToken($tags, $deviceToken)
-    {
-        return $this->setTags($this->createTagTokenPairs((array) $tags, (string) $deviceToken));
     }
 
     /**
