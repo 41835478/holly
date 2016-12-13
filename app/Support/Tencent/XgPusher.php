@@ -8,6 +8,7 @@ use ElfSundae\XgPush\MessageIOS;
 use ElfSundae\XgPush\Style;
 use ElfSundae\XgPush\TagTokenPair;
 use ElfSundae\XgPush\XingeApp;
+use InvalidArgumentException;
 
 class XgPusher
 {
@@ -202,12 +203,14 @@ class XgPusher
      * Get the result data of Xinge response.
      *
      * @param  mixed  $response
-     * @return mixed|null
+     * @param  string  $key
+     * @param  mixed  $default
+     * @return mixed
      */
-    public function result($response, $key = null)
+    public function result($response, $key = null, $default = null)
     {
         if (is_array($response)) {
-            return array_get($response, $key ? "result.{$key}" : 'result');
+            return array_get($response, $key ? "result.{$key}" : 'result', $default);
         }
     }
 
@@ -423,7 +426,7 @@ class XgPusher
             $pushIds = func_get_args();
         }
 
-        $list = $this->result($this->xinge->QueryPushStatus($pushIds), 'list') ?: [];
+        $list = $this->result($this->xinge->QueryPushStatus($pushIds), 'list', []);
 
         return array_combine(array_pluck($list, 'push_id'), $list);
     }
@@ -446,7 +449,7 @@ class XgPusher
      */
     public function queryCountOfDevices()
     {
-        return $this->result($this->xinge->QueryDeviceCount(), 'device_num');
+        return $this->result($this->xinge->QueryDeviceCount(), 'device_num', 0);
     }
 
     /**
@@ -468,7 +471,7 @@ class XgPusher
      */
     public function queryCountOfDeviceTokensForTag($tag)
     {
-        return $this->result($this->xinge->QueryTagTokenNum($tag), 'device_num');
+        return $this->result($this->xinge->QueryTagTokenNum($tag), 'device_num', 0);
     }
 
     /**
@@ -478,18 +481,18 @@ class XgPusher
      */
     public function queryTags($start = 0, $limit = 100)
     {
-        return $this->result($this->xinge->QueryTags($start, $limit));
+        return $this->xinge->QueryTags($start, $limit);
     }
 
     /**
      * Query all tags for the given device token.
      *
      * @param  string  $deviceToken
-     * @return string[]|null
+     * @return string[]
      */
     public function queryTagsForDeviceToken($deviceToken)
     {
-        return $this->result($this->xinge->QueryTokenTags($deviceToken), 'tags');
+        return $this->result($this->xinge->QueryTokenTags($deviceToken), 'tags', []);
     }
 
     /**
@@ -540,14 +543,66 @@ class XgPusher
     }
 
     /**
+     * Set tags for the given device token.
+     *
+     * @param  string|string[]  $tags
+     * @param  string  $deviceToken
+     * @return bool
+     */
+    public function setTagsForDeviceToken($tags, $deviceToken)
+    {
+        return $this->setTags($this->createTagTokenPairs((array) $tags, (string) $deviceToken));
+    }
+
+    /**
+     * Delete tags for the given device token.
+     *
+     * @param  string|string[]  $tags
+     * @param  string  $deviceToken
+     * @return bool
+     */
+    public function deleteTagsForDeviceToken($tags, $deviceToken)
+    {
+        return $this->deleteTags($this->createTagTokenPairs((array) $tags, (string) $deviceToken));
+    }
+
+    /**
+     * Create array of TagTokenPair.
+     *
+     * @warning $tags 和 $tokens 一个是数组，另一个是字符串
+     *
+     * @param  string|string[]  $tags
+     * @param  string|string[]  $tokens
+     * @return \ElfSundae\XgPush\TagTokenPair[]
+     */
+    protected function createTagTokenPairs($tags, $tokens)
+    {
+        $tagTokenPairs = [];
+
+        if (is_string($tags) && is_array($tokens)) {
+            foreach ($tokens as $token) {
+                $tagTokenPairs[] = new TagTokenPair($tags, $token);
+            }
+        } elseif (is_array($tags) && is_string($tokens)) {
+            foreach ($tags as $tag) {
+                $tagTokenPairs[] = new TagTokenPair($tag, $tokens);
+            }
+        } else {
+            throw new InvalidArgumentException('$tags and $tokens can not be array at the same time.');
+        }
+
+        return $tagTokenPairs;
+    }
+
+    /**
      * Query all device tokens for the given user.
      *
      * @param  mixed  $user
-     * @return string[]|null
+     * @return string[]
      */
     public function queryDeviceTokensForUser($user)
     {
-        return $this->result($this->xinge->QueryTokensOfAccount($this->accountForUser($user)), 'tokens');
+        return $this->result($this->xinge->QueryTokensOfAccount($this->accountForUser($user)), 'tokens', []);
     }
 
     /**
