@@ -448,17 +448,6 @@ class XgPusher
     }
 
     /**
-     * Query all device tokens for the given user.
-     *
-     * @param  mixed  $user
-     * @return string[]|null
-     */
-    public function queryDeviceTokensForUser($user)
-    {
-        return $this->result($this->xinge->QueryTokensOfAccount($this->accountForUser($user)), 'tokens');
-    }
-
-    /**
      * Query all tags for the given device token.
      *
      * @param  string  $deviceToken
@@ -467,6 +456,17 @@ class XgPusher
     public function queryTagsForDeviceToken($deviceToken)
     {
         return $this->result($this->xinge->QueryTokenTags($deviceToken), 'tags');
+    }
+
+    /**
+     * Query all device tokens for the given user.
+     *
+     * @param  mixed  $user
+     * @return string[]|null
+     */
+    public function queryDeviceTokensForUser($user)
+    {
+        return $this->result($this->xinge->QueryTokensOfAccount($this->accountForUser($user)), 'tokens');
     }
 
     /**
