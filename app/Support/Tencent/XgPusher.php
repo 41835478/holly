@@ -314,11 +314,11 @@ class XgPusher
     /**
      * Push message to a device.
      *
-     * @param  string  $deviceToken
      * @param  \ElfSundae\XgPush\Message|\ElfSundae\XgPush\MessageIOS  $message
+     * @param  string  $deviceToken
      * @return array
      */
-    public function toDevice($deviceToken, $message)
+    public function toDevice($message, $deviceToken)
     {
         return $this->xinge->PushSingleDevice($deviceToken, $message, $this->environment);
     }
@@ -337,11 +337,11 @@ class XgPusher
     /**
      * Push message to an user.
      *
-     * @param  mixed  $user
      * @param  \ElfSundae\XgPush\Message|\ElfSundae\XgPush\MessageIOS  $message
+     * @param  mixed  $user
      * @return array
      */
-    public function toUser($user, $message)
+    public function toUser($message, $user)
     {
         return $this->xinge->PushSingleAccount(0, $this->accountForUser($user), $message, $this->environment);
     }
@@ -351,11 +351,11 @@ class XgPusher
      *
      * @warning 用户数限制 100 个。
      *
-     * @param  string[]  $users
      * @param  \ElfSundae\XgPush\Message|\ElfSundae\XgPush\MessageIOS  $message
+     * @param  string[]  $users
      * @return array
      */
-    public function toUsers($users, $message)
+    public function toUsers($message, $users)
     {
         $accounts = array_map([$this, 'accountForUser'], (array) $users);
 
@@ -365,12 +365,12 @@ class XgPusher
     /**
      * Push message to tagged devices.
      *
-     * @param  string|string[]  $tags
      * @param  \ElfSundae\XgPush\Message|\ElfSundae\XgPush\MessageIOS  $message
+     * @param  string|string[]  $tags
      * @param  string  $tagsOperation  'OR', 'AND'
      * @return array
      */
-    public function toTags($tags, $message, $tagsOperation = 'OR')
+    public function toTags($message, $tags, $tagsOperation = 'OR')
     {
         return $this->xinge->PushTags(0, (array) $tags, strtoupper($tagsOperation), $message, $this->environment);
     }
