@@ -449,6 +449,17 @@ class XgPusher
     }
 
     /**
+     * Query info for the given device token.
+     *
+     * @param  string  $deviceToken
+     * @return array
+     */
+    public function queryDeviceTokenInfo($deviceToken)
+    {
+        return $this->xinge->QueryInfoOfToken($deviceToken);
+    }
+
+    /**
      * Query tags.
      *
      * @return array
