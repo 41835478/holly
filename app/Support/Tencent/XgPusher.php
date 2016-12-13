@@ -428,6 +428,17 @@ class XgPusher
     }
 
     /**
+     * Cancel a timed pushing task that has not been pushed.
+     *
+     * @param  string  $pushId
+     * @return array
+     */
+    public function cancelTimedPush($pushId)
+    {
+        return $this->xinge->CancelTimingPush($pushId);
+    }
+
+    /**
      * Query count of registered devices.
      *
      * @return int
