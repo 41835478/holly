@@ -58,7 +58,7 @@ class XgPusher
      *
      * @return \ElfSundae\XgPush\XingeApp
      */
-    public function getXinge()
+    public function xinge()
     {
         return $this->xinge;
     }
