@@ -335,29 +335,25 @@ class XgPusher
     }
 
     /**
-     * Push message to an user.
-     *
-     * @param  \ElfSundae\XgPush\Message|\ElfSundae\XgPush\MessageIOS  $message
-     * @param  mixed  $user
-     * @return array
-     */
-    public function toUser($message, $user)
-    {
-        return $this->xinge->PushSingleAccount(0, $this->accountForUser($user), $message, $this->environment);
-    }
-
-    /**
-     * Push message to multi users.
+     * Push message to users.
      *
      * @warning 用户数限制 100 个。
      *
      * @param  \ElfSundae\XgPush\Message|\ElfSundae\XgPush\MessageIOS  $message
-     * @param  string[]  $users
+     * @param  mixed  $users
      * @return array
      */
-    public function toUsers($message, $users)
+    public function toUser($message, $users)
     {
-        $accounts = array_map([$this, 'accountForUser'], (array) $users);
+        if (! is_array($users)) {
+            $users = array_slice(func_get_args(), 1);
+        }
+
+        $accounts = array_map([$this, 'accountForUser'], $users);
+
+        if (count($accounts) == 1) {
+            return $this->xinge->PushSingleAccount(0, $accounts[0], $message, $this->environment);
+        }
 
         return $this->xinge->PushAccountList(0, $accounts, $message, $this->environment);
     }
@@ -417,7 +413,7 @@ class XgPusher
     /**
      * Query group pushing status.
      *
-     * @param  string|string[]  $pushIds
+     * @param  mixed  $pushIds
      * @return array
      */
     public function queryPushStatus($pushIds)
