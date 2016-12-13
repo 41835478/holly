@@ -492,6 +492,27 @@ class XgPusher
     }
 
     /**
+     * Query all tags for the given user.
+     *
+     * @param  mixed  $user
+     * @param  array  &$deviceTokens
+     * @return array|null
+     */
+    public function queryTagsForUser($user, &$deviceTokens = null)
+    {
+        $deviceTokens = $this->queryDeviceTokensForUser($user);
+
+        if (is_array($deviceTokens)) {
+            $result = [];
+            foreach ($deviceTokens as $token) {
+                $result[$token] = $this->queryTagsForDeviceToken($token) ?: [];
+            }
+
+            return $result;
+        }
+    }
+
+    /**
      * Query all device tokens for the given user.
      *
      * @param  mixed  $user
@@ -526,27 +547,6 @@ class XgPusher
         }
 
         return $result;
-    }
-
-    /**
-     * Query all tags for the given user.
-     *
-     * @param  mixed  $user
-     * @param  array  &$deviceTokens
-     * @return array|null
-     */
-    public function queryTagsForUser($user, &$deviceTokens = null)
-    {
-        $deviceTokens = $this->queryDeviceTokensForUser($user);
-
-        if (is_array($deviceTokens)) {
-            $result = [];
-            foreach ($deviceTokens as $token) {
-                $result[$token] = $this->queryTagsForDeviceToken($token) ?: [];
-            }
-
-            return $result;
-        }
     }
 
     /**
