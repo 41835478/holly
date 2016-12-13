@@ -349,9 +349,7 @@ class XgPusher
      */
     public function toUser($message, $users)
     {
-        if (! is_array($users)) {
-            $users = array_slice(func_get_args(), 1);
-        }
+        $users = $this->getParameterAsArray(func_get_args(), 1);
 
         $accounts = array_map([$this, 'accountForUser'], $users);
 
@@ -422,9 +420,7 @@ class XgPusher
      */
     public function queryPushStatus($pushIds)
     {
-        if (! is_array($pushIds)) {
-            $pushIds = func_get_args();
-        }
+        $pushIds = $this->getParameterAsArray(func_get_args());
 
         $list = $this->result($this->xinge->QueryPushStatus($pushIds), 'list', []);
 
@@ -440,6 +436,43 @@ class XgPusher
     public function cancelTimedPush($pushId)
     {
         return $this->xinge->CancelTimingPush($pushId);
+    }
+
+    /**
+     * Query all device tokens for the given user.
+     *
+     * @param  mixed  $user
+     * @return string[]
+     */
+    public function queryDeviceTokensForUser($user)
+    {
+        return $this->result($this->xinge->QueryTokensOfAccount($this->accountForUser($user)), 'tokens', []);
+    }
+
+    /**
+     * Delete device tokens for the given user.
+     *
+     * @param  mixed  $user
+     * @param  string|string[]  $deviceToken
+     * @return bool
+     */
+    public function deleteDeviceTokensForUser($user, $deviceTokens = null)
+    {
+        $account = $this->accountForUser($user);
+
+        if (is_null($deviceTokens)) {
+            return $this->succeed($this->xinge->DeleteAllTokensOfAccount($account));
+        }
+
+        $deviceTokens = array_unique((array) $deviceTokens);
+
+        $result = true;
+
+        foreach ($deviceTokens as $token) {
+            $result = $result && $this->succeed($this->xinge->DeleteTokenOfAccount($account, $token));
+        }
+
+        return $result;
     }
 
     /**
@@ -500,20 +533,18 @@ class XgPusher
      *
      * @param  mixed  $user
      * @param  array  &$deviceTokens
-     * @return array|null
+     * @return array
      */
     public function queryTagsForUser($user, &$deviceTokens = null)
     {
         $deviceTokens = $this->queryDeviceTokensForUser($user);
 
-        if (is_array($deviceTokens)) {
-            $result = [];
-            foreach ($deviceTokens as $token) {
-                $result[$token] = $this->queryTagsForDeviceToken($token) ?: [];
-            }
-
-            return $result;
+        $result = [];
+        foreach ($deviceTokens as $token) {
+            $result[$token] = $this->queryTagsForDeviceToken($token);
         }
+
+        return $result;
     }
 
     /**
@@ -532,13 +563,31 @@ class XgPusher
     /**
      * Set tags for the given device token.
      *
-     * @param  string|string[]  $tags
      * @param  string  $deviceToken
+     * @param  mixed  $tags
      * @return bool
      */
-    public function setTagsForDeviceToken($tags, $deviceToken)
+    public function setTagsForDeviceToken($deviceToken, $tags)
     {
-        return $this->setTags($this->createTagTokenPairs((array) $tags, (string) $deviceToken));
+        return $this->setTags($this->createTagTokenPairs(
+            $this->getParameterAsArray(func_get_args(), 1),
+            $deviceToken
+        ));
+    }
+
+    /**
+     * Set tags for the given user.
+     *
+     * @param  mixed  $user
+     * @param  mixed  $tags
+     * @return bool
+     */
+    public function setTagsForUser($user, $tags)
+    {
+        return $this->setTags($this->createTagTokenPairs(
+            $this->getParameterAsArray(func_get_args(), 1),
+            $this->queryDeviceTokensForUser($user)
+        ));
     }
 
     /**
@@ -557,13 +606,43 @@ class XgPusher
     /**
      * Delete tags for the given device token.
      *
-     * @param  string|string[]  $tags
      * @param  string  $deviceToken
+     * @param  mixed  $tags
      * @return bool
      */
-    public function deleteTagsForDeviceToken($tags, $deviceToken)
+    public function deleteTagsForDeviceToken($deviceToken, $tags)
     {
-        return $this->deleteTags($this->createTagTokenPairs((array) $tags, (string) $deviceToken));
+        return $this->deleteTags($this->createTagTokenPairs(
+            $this->getParameterAsArray(func_get_args(), 1),
+            $deviceToken
+        ));
+    }
+
+    /**
+     * Delete tags for the given user.
+     *
+     * @param  mixed  $user
+     * @param  mixed  $tags
+     * @return bool
+     */
+    public function deleteTagsForUser($user, $tags)
+    {
+        return $this->deleteTags($this->createTagTokenPairs(
+            $this->getParameterAsArray(func_get_args(), 1),
+            $this->queryDeviceTokensForUser($user)
+        ));
+    }
+
+    /**
+     * Get parameter as array.
+     *
+     * @param  array  $args
+     * @param  int $offset
+     * @return array
+     */
+    protected function getParameterAsArray(array $args, $offset = 0)
+    {
+        return is_array($args[$offset]) ? $args[$offset] : array_slice($args, $offset);
     }
 
     /**
@@ -579,56 +658,14 @@ class XgPusher
     {
         $tagTokenPairs = [];
 
-        if (is_string($tags) && is_array($tokens)) {
+        $tokens = (array) $tokens;
+        foreach ((array) $tags as $tag) {
             foreach ($tokens as $token) {
-                $tagTokenPairs[] = new TagTokenPair($tags, $token);
+                $tagTokenPairs[] = new TagTokenPair($tag, $token);
             }
-        } elseif (is_array($tags) && is_string($tokens)) {
-            foreach ($tags as $tag) {
-                $tagTokenPairs[] = new TagTokenPair($tag, $tokens);
-            }
-        } else {
-            throw new InvalidArgumentException('$tags and $tokens can not be array at the same time.');
         }
 
-        return $tagTokenPairs;
-    }
-
-    /**
-     * Query all device tokens for the given user.
-     *
-     * @param  mixed  $user
-     * @return string[]
-     */
-    public function queryDeviceTokensForUser($user)
-    {
-        return $this->result($this->xinge->QueryTokensOfAccount($this->accountForUser($user)), 'tokens', []);
-    }
-
-    /**
-     * Delete device tokens for the given user.
-     *
-     * @param  mixed  $user
-     * @param  string|string[]  $deviceToken
-     * @return bool
-     */
-    public function deleteDeviceTokensForUser($user, $deviceTokens = null)
-    {
-        $account = $this->accountForUser($user);
-
-        if (is_null($deviceTokens)) {
-            return $this->succeed($this->xinge->DeleteAllTokensOfAccount($account));
-        }
-
-        $deviceTokens = array_unique((array) $deviceTokens);
-
-        $result = true;
-
-        foreach ($deviceTokens as $token) {
-            $result = $result && $this->succeed($this->xinge->DeleteTokenOfAccount($account, $token));
-        }
-
-        return $result;
+        return array_unique($tagTokenPairs);
     }
 
     /**
