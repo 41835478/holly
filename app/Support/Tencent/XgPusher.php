@@ -415,6 +415,23 @@ class XgPusher
     }
 
     /**
+     * Query group pushing status.
+     *
+     * @param  string|string[]  $pushIds
+     * @return array
+     */
+    public function queryPushStatus($pushIds)
+    {
+        if (! is_array($pushIds)) {
+            $pushIds = func_get_args();
+        }
+
+        $list = $this->result($this->xinge->QueryPushStatus($pushIds), 'list') ?: [];
+
+        return array_combine(array_pluck($list, 'push_id'), $list);
+    }
+
+    /**
      * Query all device tokens for the given user.
      *
      * @param  mixed  $user
