@@ -443,7 +443,7 @@ class XgPusher
      *
      * @return int
      */
-    public function queryDevicesCount()
+    public function queryCountOfDevices()
     {
         return $this->result($this->xinge->QueryDeviceCount(), 'device_num');
     }
@@ -457,6 +457,17 @@ class XgPusher
     public function queryDeviceTokenInfo($deviceToken)
     {
         return $this->xinge->QueryInfoOfToken($deviceToken);
+    }
+
+    /**
+     * Query count of registered tokens for the given tag.
+     *
+     * @param  string  $tag
+     * @return int
+     */
+    public function queryCountOfDeviceTokensForTag($tag)
+    {
+        return $this->result($this->xinge->QueryTagTokenNum($tag), 'device_num');
     }
 
     /**
