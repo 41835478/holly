@@ -428,6 +428,16 @@ class XgPusher
     }
 
     /**
+     * Query count of registered devices.
+     *
+     * @return int
+     */
+    public function queryDevicesCount()
+    {
+        return $this->result($this->xinge->QueryDeviceCount(), 'device_num');
+    }
+
+    /**
      * Query all device tokens for the given user.
      *
      * @param  mixed  $user
