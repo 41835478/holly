@@ -492,6 +492,32 @@ class XgPusher
     }
 
     /**
+     * Delete device tokens for the given user.
+     *
+     * @param  mixed  $user
+     * @param  string|string[]  $deviceToken
+     * @return bool
+     */
+    public function deleteDeviceTokensForUser($user, $deviceTokens = null)
+    {
+        $account = $this->accountForUser($user);
+
+        if (is_null($deviceTokens)) {
+            return $this->succeed($this->xinge->DeleteAllTokensOfAccount($account));
+        }
+
+        $deviceTokens = array_unique((array) $deviceTokens);
+
+        $result = true;
+
+        foreach ($deviceTokens as $token) {
+            $result = $result && $this->succeed($this->xinge->DeleteTokenOfAccount($account, $token));
+        }
+
+        return $result;
+    }
+
+    /**
      * Query all tags for the given user.
      *
      * @param  mixed  $user
