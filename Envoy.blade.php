@@ -36,6 +36,7 @@
         cd "{{ $path }}"
         composer install --no-scripts --no-dev --no-interaction --profile
         composer run-script post-root-package-install
+        php -r "file_put_contents('.env', preg_replace('#((APP_ENV|APP_DEBUG)=.*)#', '# \$1', file_get_contents('.env')));"
         composer run-script post-create-project-cmd
         echo "====== Cloned repository! Please edit .env file."
         exit 0
