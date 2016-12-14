@@ -18,8 +18,10 @@ abstract class Filter implements FilterInterface
     {
         if (property_exists($this, $method) && count($parameters) > 0) {
             $this->{$method} = $parameters[0];
+
+            return $this;
         }
 
-        throw new ErrorException('Call to undefined method '.get_class($this)."::\${$method}()");
+        throw new ErrorException('Call to undefined method '.get_class($this)."::{$method}()");
     }
 }
