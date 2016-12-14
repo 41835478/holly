@@ -250,6 +250,17 @@ class XgPusher
     }
 
     /**
+     * Get Xinge accounts for users.
+     *
+     * @param  array $users
+     * @return array
+     */
+    public function accountsForUsers(array $users)
+    {
+        return array_map([$this, 'accountForUser'], $users);
+    }
+
+    /**
      * Creates a new MessageIOS instance.
      *
      * @param  string  $alert
@@ -348,10 +359,7 @@ class XgPusher
      */
     public function toUser($message, $users)
     {
-        $accounts = array_map(
-            [$this, 'accountForUser'],
-            $this->getParameterAsArray(func_get_args(), 1)
-        );
+        $accounts = $this->accountsForUsers($this->getParameterAsArray(func_get_args(), 1));
 
         if (count($accounts) == 1) {
             return $this->xinge->PushSingleAccount(0, $accounts[0], $message, $this->environment);
@@ -395,12 +403,10 @@ class XgPusher
      */
     public function batchToUsers($pushId, $users)
     {
-        $accounts = array_map(
-            [$this, 'accountForUser'],
-            $this->getParameterAsArray(func_get_args(), 1)
+        return $this->xinge->PushAccountListMultiple(
+            $pushId,
+            $this->accountsForUsers($this->getParameterAsArray(func_get_args(), 1))
         );
-
-        return $this->xinge->PushAccountListMultiple($pushId, $accounts);
     }
 
     /**
@@ -412,7 +418,10 @@ class XgPusher
      */
     public function batchToDevices($pushId, $deviceTokens)
     {
-        return $this->xinge->PushDeviceListMultiple($pushId, $this->getParameterAsArray(func_get_args(), 1));
+        return $this->xinge->PushDeviceListMultiple(
+            $pushId,
+            $this->getParameterAsArray(func_get_args(), 1)
+        );
     }
 
     /**
