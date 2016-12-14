@@ -139,18 +139,22 @@ class AdminUser extends Authenticatable
      */
     protected function getImageFilter($identifier = null)
     {
-        return (new Fit)->width(static::AVATAR_SIZE);
+        if ($identifier == 'avatar') {
+            return (new Fit)->width(static::AVATAR_SIZE);
+        }
     }
 
     /**
-     * Get image directory for the given attribute.
+     * Get image output directory.
      *
-     * @param  string  $attribute
+     * @param  string|null  $identifier
      * @return string
      */
-    protected function getImageDirectory($attribute)
+    protected function getImageDirectory($identifier = null)
     {
-        return static::AVATAR_DIRECTORY;
+        if ($identifier == 'avatar') {
+            return static::AVATAR_DIRECTORY;
+        }
     }
 
     /**
