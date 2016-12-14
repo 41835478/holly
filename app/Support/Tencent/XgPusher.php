@@ -359,7 +359,8 @@ class XgPusher
      */
     public function toUser($message, $users)
     {
-        $accounts = $this->accountsForUsers($this->getParameterAsArray(func_get_args(), 1));
+        $users = $this->getParameterAsArray(func_get_args(), 1);
+        $accounts = $this->accountsForUsers($users);
 
         if (count($accounts) == 1) {
             return $this->xinge->PushSingleAccount(0, $accounts[0], $message, $this->environment);
