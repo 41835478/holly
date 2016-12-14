@@ -560,89 +560,91 @@ class XgPusher
     }
 
     /**
-     * Set tags for device tokens.
+     * Add tags for device tokens.
      *
      * @warning 每次最多设置 20 对。
      *
      * @param  \ElfSundae\XgPush\TagTokenPair[]  $tagTokenPairs
      * @return bool
      */
-    public function setTags($tagTokenPairs)
+    public function addTags($tagTokenPairs)
     {
         return $this->succeed($this->xinge->BatchSetTag($tagTokenPairs));
     }
 
     /**
-     * Set tags for the given device token.
+     * Add tags for the given device token.
      *
      * @param  string  $deviceToken
      * @param  mixed  $tags
      * @return bool
      */
-    public function setTagsForDeviceToken($deviceToken, $tags)
+    public function addTagsForDeviceToken($deviceToken, $tags)
     {
-        return $this->setTags($this->createTagTokenPairs(
-            $this->getParameterAsArray(func_get_args(), 1),
-            $deviceToken
-        ));
+        return $this->addTags(
+            $this->createTagTokenPairs($this->getParameterAsArray(func_get_args(), 1), $deviceToken)
+        );
     }
 
     /**
-     * Set tags for the given user.
+     * Add tags for the given user.
      *
      * @param  mixed  $user
      * @param  mixed  $tags
      * @return bool
      */
-    public function setTagsForUser($user, $tags)
+    public function addTagsForUser($user, $tags)
     {
-        return $this->setTags($this->createTagTokenPairs(
-            $this->getParameterAsArray(func_get_args(), 1),
-            $this->queryDeviceTokensForUser($user)
-        ));
+        return $this->addTags(
+            $this->createTagTokenPairs(
+                $this->getParameterAsArray(func_get_args(), 1),
+                $this->queryDeviceTokensForUser($user)
+            )
+        );
     }
 
     /**
-     * Delete tags for device tokens.
+     * Remove tags for device tokens.
      *
      * @warning 每次最多删除 20 对。
      *
      * @param  \ElfSundae\XgPush\TagTokenPair[]  $tagTokenPairs
      * @return bool
      */
-    public function deleteTags($tagTokenPairs)
+    public function removeTags($tagTokenPairs)
     {
         return $this->succeed($this->xinge->BatchDelTag($tagTokenPairs));
     }
 
     /**
-     * Delete tags for the given device token.
+     * Remove tags for the given device token.
      *
      * @param  string  $deviceToken
      * @param  mixed  $tags
      * @return bool
      */
-    public function deleteTagsForDeviceToken($deviceToken, $tags)
+    public function removeTagsForDeviceToken($deviceToken, $tags)
     {
-        return $this->deleteTags($this->createTagTokenPairs(
-            $this->getParameterAsArray(func_get_args(), 1),
-            $deviceToken
-        ));
+        return $this->removeTags(
+            $this->createTagTokenPairs($this->getParameterAsArray(func_get_args(), 1), $deviceToken)
+        );
     }
 
     /**
-     * Delete tags for the given user.
+     * Remove tags for the given user.
      *
      * @param  mixed  $user
      * @param  mixed  $tags
      * @return bool
      */
-    public function deleteTagsForUser($user, $tags)
+    public function removeTagsForUser($user, $tags)
     {
-        return $this->deleteTags($this->createTagTokenPairs(
-            $this->getParameterAsArray(func_get_args(), 1),
-            $this->queryDeviceTokensForUser($user)
-        ));
+        return $this->removeTags(
+            $this->createTagTokenPairs(
+                $this->getParameterAsArray(func_get_args(), 1),
+                $this->queryDeviceTokensForUser($user)
+            )
+        );
     }
 
     /**
