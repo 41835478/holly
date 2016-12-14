@@ -30,4 +30,8 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('profile/{admin_user?}', 'ProfileController@show');
         Route::post('profile/{admin_user?}', 'ProfileController@edit');
     });
+
+    Route::get('user', 'UserController@index');
+    Route::get('device', 'DeviceController@index');
+    Route::get('feedback', 'FeedbackController@index');
 });
