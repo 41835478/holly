@@ -659,8 +659,8 @@ class XgPusher
      */
     public function setTagsForDeviceToken($deviceToken, $tags)
     {
-        $oldTags = $this->queryTagsForDeviceToken($deviceToken);
         $tags = $this->getParameterAsArray(func_get_args(), 1);
+        $oldTags = $this->queryTagsForDeviceToken($deviceToken);
 
         $result = true;
 
@@ -670,6 +670,44 @@ class XgPusher
 
         if ($removeTags = array_diff($oldTags, $tags)) {
             $result = $result && $this->removeTagsForDeviceToken($deviceToken, $removeTags);
+        }
+
+        return $result;
+    }
+
+    /**
+     * Set tags for the given user.
+     *
+     * @param  mixed  $user
+     * @param  mixed  $tags
+     * @return bool
+     */
+    public function setTagsForUser($user, $tags)
+    {
+        $tags = $this->getParameterAsArray(func_get_args(), 1);
+        $oldTags = $this->queryTagsForUser($user, $tokens);
+
+        $addTagTokenPairs = [];
+        $removeTagTokenPairs = [];
+
+        foreach ($oldTags as $token => $tokenTags) {
+            $addTagTokenPairs = array_merge($addTagTokenPairs,
+                $this->createTagTokenPairs(array_diff($tags, $tokenTags), $token)
+            );
+
+            $removeTagTokenPairs = array_merge($removeTagTokenPairs,
+                $this->createTagTokenPairs(array_diff($tokenTags, $tags), $token)
+            );
+        }
+
+        $result = true;
+
+        if (count($addTagTokenPairs) > 0) {
+            $result = $result && $this->addTags($addTagTokenPairs);
+        }
+
+        if (count($removeTagTokenPairs) > 0) {
+            $result = $result && $this->removeTags($removeTagTokenPairs);
         }
 
         return $result;
