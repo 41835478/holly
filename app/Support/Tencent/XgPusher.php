@@ -412,6 +412,8 @@ class XgPusher
     /**
      * Batch pushing to a list of devices.
      *
+     * @warning 设备数限制 1000 个。
+     *
      * @param  int|string  $pushId
      * @param  mixed  $deviceTokens
      * @return array
