@@ -47,7 +47,7 @@ class Handler extends ExceptionHandler
 
         $this->container['log']->error($exception, $requestInfo);
 
-        // $this->notifyException($exception, $requestInfo);
+        $this->notifyException($exception, $requestInfo);
     }
 
     /**
@@ -79,7 +79,7 @@ class Handler extends ExceptionHandler
      */
     protected function notifyException(Exception $exception, $requestInfo = null)
     {
-        if (app()->environment('production')) {
+        if (app()->environment('production') && config('bearychat.clients.server')) {
             dispatch(
                 (new SendBearyChat)
                 ->client('server')
