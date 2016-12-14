@@ -650,6 +650,31 @@ class XgPusher
     }
 
     /**
+     * Set tags for the given device token.
+     *
+     * @param  string  $deviceToken
+     * @param  mixed  $tags
+     * @return bool
+     */
+    public function setTagsForDeviceToken($deviceToken, $tags)
+    {
+        $oldTags = $this->queryTagsForDeviceToken($deviceToken);
+        $tags = $this->getParameterAsArray(func_get_args(), 1);
+
+        $result = true;
+
+        if ($addTags = array_diff($tags, $oldTags)) {
+            $result = $result && $this->addTagsForDeviceToken($deviceToken, $addTags);
+        }
+
+        if ($removeTags = array_diff($oldTags, $tags)) {
+            $result = $result && $this->removeTagsForDeviceToken($deviceToken, $removeTags);
+        }
+
+        return $result;
+    }
+
+    /**
      * Get parameter as array.
      *
      * @param  array  $args
