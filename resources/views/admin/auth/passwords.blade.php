@@ -104,7 +104,7 @@ $(function() {
 @endif
 
       <div class="row">
-        <div class="col-xs-4">
+        <div class="col-xs-12">
           <a href="/login">返回登录</a>
         </div>
       </div>

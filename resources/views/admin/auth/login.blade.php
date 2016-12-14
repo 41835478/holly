@@ -83,8 +83,8 @@ $(function() {
       </div>
 
       <div class="row">
-        <div class="col-xs-4 pull-right">
-          <a href="/password/reset" class="pull-right">忘记密码</a>
+        <div class="col-xs-12">
+          <a href="/password/reset">忘记密码</a>
         </div>
       </div>
     </form>
