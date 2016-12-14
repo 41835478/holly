@@ -467,7 +467,7 @@ class XgPusher
      * Delete device tokens for the given user.
      *
      * @param  mixed  $user
-     * @param  string|string[]  $deviceToken
+     * @param  string|string[]  $deviceTokens
      * @return bool
      */
     public function deleteDeviceTokensForUser($user, $deviceTokens = null)
