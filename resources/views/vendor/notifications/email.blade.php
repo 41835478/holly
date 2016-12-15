@@ -46,11 +46,11 @@ $fontFamily = 'font-family: \'Helvetica Neue\', Helvetica, Arial, sans-serif;';
     $actionColor = '#FF1916';
     break;
     default:
-    $actionColor = '#3869E8';
+    $actionColor = '#FF1916';
   }
   ?>
   <p style="{{ $style['paragraph'] }}">
-    <strong>点击下面链接 <span style="color: {{ $actionColor }}">{{ $actionText }}</span> ：</strong>
+    <strong>请点击下面链接<span style="color: {{ $actionColor }}">{{ $actionText }}</span> ：</strong>
     <br>
     <a href="{{ $actionUrl }}" target="_blank">{{ $actionUrl }}</a>
   </p>
@@ -64,16 +64,18 @@ $fontFamily = 'font-family: \'Helvetica Neue\', Helvetica, Arial, sans-serif;';
   @endforeach
 
   <!-- Salutation -->
+  {{--
   <p style="{{ $style['paragraph'] }} {{ $style['paragraph-signature'] }}">
-    Best regards,<br>{{ config('app.name') }}
+    Regards,<br>{{ config('app.name') }}
   </p>
+  --}}
 
   <!-- Footer -->
-  <hr style="{{ $style['line'] }}">
+  <hr style="{{ $style['line'] }} margin-top: 40px;">
 
   <p style="{{ $style['paragraph-sub'] }}">
     &copy; {{ date('Y') }}
-    <a style="{{ $style['anchor'] }}" href="{{ app_url() }}" target="_blank">{{ config('app.name') }}</a>
+    <a style="{{ $style['anchor'] }}" href="{{ config('app.url') }}" target="_blank">{{ config('app.name') }}</a>
   </p>
 
 </body>
