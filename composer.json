@@ -11,7 +11,8 @@
     "homepage": "https://github.com/ElfSundae/holly",
     "require": {
         "php": ">=5.6.4",
-        "laravel/framework": "5.3.*",
+        "laravel/framework": "5.4.*",
+        "laravel/tinker": "~1.0",
         "rap2hpoutre/laravel-log-viewer": "^0.7.1",
         "backup-manager/laravel": "^1.1",
         "guzzlehttp/guzzle": "^6.2",
@@ -32,9 +33,7 @@
     "require-dev": {
         "fzaninotto/faker": "~1.4",
         "mockery/mockery": "0.9.*",
-        "phpunit/phpunit": "~5.0",
-        "symfony/css-selector": "3.1.*",
-        "symfony/dom-crawler": "3.1.*",
+        "phpunit/phpunit": "~5.7",
         "doctrine/dbal": "^2.5",
         "barryvdh/laravel-debugbar": "^2.3",
         "barryvdh/laravel-ide-helper": "^2.2",
@@ -52,9 +51,9 @@
         }
     },
     "autoload-dev": {
-        "classmap": [
-            "tests/TestCase.php"
-        ]
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
     },
     "scripts": {
         "post-root-package-install": [
@@ -77,7 +76,9 @@
         ]
     },
     "config": {
-        "preferred-install": "dist"
+        "preferred-install": "dist",
+        "sort-packages": true,
+        "optimize-autoloader": true
     },
     "repositories": {
         "packagist": {

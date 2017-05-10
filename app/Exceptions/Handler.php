@@ -127,7 +127,7 @@ class Handler extends ExceptionHandler
             return $this->createApiResponse('认证失败，请先登录。', 401);
         }
 
-        return redirect()->guest('login');
+        return redirect()->guest(route('login'));
     }
 
     /**
