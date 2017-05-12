@@ -4,13 +4,13 @@
 
 @section('title', 'Error '.$exception->getStatusCode())
 
-@push('css')
+@prepend('css')
 <style type="text/css">
 .message {
   font-size: 21px;
 }
 </style>
-@endpush
+@endprepend
 
 @section('body')
 <div class="message">

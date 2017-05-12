@@ -4,13 +4,13 @@
 @section('alerts-position', 'top')
 @section('baidu-analytics', config('services.baidu_analytics'))
 
-@push('css')
+@prepend('css')
   <link rel="stylesheet" href="{{ asset_url('css/site.css') }}">
-@endpush
+@endprepend
 
-@push('js')
+@prepend('js')
 <script src="{{ asset_url('js/site.js') }}"></script>
-@endpush
+@endprepend
 
 @section('body')
 @yield('header')

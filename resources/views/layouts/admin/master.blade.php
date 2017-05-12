@@ -2,10 +2,10 @@
 
 @section('apple-mobile-web-app-title', config('app.name').'后台')
 
-@push('css')
+@prepend('css')
   <link rel="stylesheet" href="{{ asset_url('css/admin.css') }}">
-@endpush
+@endprepend
 
-@push('js')
+@prepend('js')
 <script src="{{ asset_url('js/admin.js') }}"></script>
-@endpush
+@endprepend
