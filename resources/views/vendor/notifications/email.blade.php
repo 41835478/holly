@@ -21,10 +21,10 @@
 <?php
     switch ($level) {
         case 'success':
-            $color = 'green';
+            $color = '#29A33E';
             break;
         case 'error':
-            $color = 'red';
+            $color = '#FF1916';
             break;
         default:
             $color = 'blue';
