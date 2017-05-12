@@ -43,11 +43,12 @@ An app framework built with [Laravel][].
 - [Hashids](https://github.com/vinkla/laravel-hashids) Generate YouTube-like IDs from numbers.
 - [DataTables](https://datatables.net)
 - [Laravel DataTables](https://datatables.yajrabox.com)
-- [Guzzle](http://docs.guzzlephp.org/en/latest/)
-- [Goutte Client](https://github.com/FriendsOfPHP/Goutte)
-- [Intervention Image](http://image.intervention.io)
-- [jQuery Form](http://malsup.com/jquery/form/)
+- [Guzzle](http://docs.guzzlephp.org/en/latest/) An extensible PHP HTTP client.
+- [Goutte](https://github.com/FriendsOfPHP/Goutte) PHP Web Scraper.
+- [Intervention Image](http://image.intervention.io) PHP image handling and manipulation library.
 - [Simple QrCode](https://www.simplesoftware.io/docs/simple-qrcode/zh)
+- [App Store Receipt Validator](https://github.com/aporat/store-receipt-validator) PHP receipt validator for Apple iTunes, Google Play and Amazon App Store.
+- [jQuery Form](http://malsup.com/jquery/form/)
 - [SweetAlert2](https://github.com/limonte/sweetalert2)
 
 [Laravel]: https://laravel.com

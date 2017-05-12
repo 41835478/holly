@@ -55,6 +55,7 @@ class SupportServiceProvider extends ServiceProvider
             array_push(
                 $services,
                 ConsoleServiceProvider::class,
+                \Laravel\Tinker\TinkerServiceProvider::class,
                 \BackupManager\Laravel\Laravel5ServiceProvider::class
             );
         }

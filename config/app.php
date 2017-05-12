@@ -166,13 +166,13 @@ return [
         /*
          * Package Service Providers...
          */
-        Laravel\Tinker\TinkerServiceProvider::class,
         App\Support\Providers\SupportServiceProvider::class,
         Intervention\Image\ImageServiceProviderLaravel5::class,
         NotificationChannels\BearyChat\BearyChatServiceProvider::class,
         SimpleSoftwareIO\QrCode\QrCodeServiceProvider::class,
         Vinkla\Hashids\HashidsServiceProvider::class,
         Yajra\Datatables\DatatablesServiceProvider::class,
+        Yajra\Datatables\HtmlServiceProvider::class,
 
         /*
          * Application Service Providers...
