@@ -16,6 +16,17 @@ return array(
 
     /*
     |--------------------------------------------------------------------------
+    | Fluent helpers
+    |--------------------------------------------------------------------------
+    |
+    | Set to true to generate commonly used Fluent methods
+    |
+    */
+
+    'include_fluent' => false,
+
+    /*
+    |--------------------------------------------------------------------------
     | Helper files to include
     |--------------------------------------------------------------------------
     |
@@ -28,7 +39,7 @@ return array(
 
     'helper_files' => array(
         base_path().'/vendor/laravel/framework/src/Illuminate/Support/helpers.php',
-        base_path().'/vendor/elfsundae/holly/src/Holly/Support/helpers.php',
+        base_path().'/app/Support/helpers.php',
     ),
 
     /*
@@ -145,4 +156,16 @@ return array(
      */
     'model_camel_case_properties' => false,
 
+    /*
+    |--------------------------------------------------------------------------
+    | Property Casts
+    |--------------------------------------------------------------------------
+    |
+    | Cast the given "real type" to the given "type".
+    |
+    */
+   'type_overrides' => array(
+        'integer' => 'int',
+        'boolean' => 'bool',
+   ),
 );
