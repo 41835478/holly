@@ -12,13 +12,8 @@ class AdminUsersTableSeeder extends Seeder
      */
     public function run()
     {
-        $email = 'admin@example.com';
-        $username = 'Super Admin';
-        $password = bcrypt(md5('admin'));
+        factory(AdminUser::class, 'super')->create();
 
-        AdminUser::firstOrCreate(
-            compact('email'),
-            compact('username', 'password')
-        );
+        factory(AdminUser::class, 50)->create();
     }
 }

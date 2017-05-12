@@ -12,15 +12,6 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {
-        foreach ([
-
-            655300 => [
-                'email' => 'test@example.com',
-                'username' => 'Test User',
-            ],
-
-        ] as $id => $attributes) {
-            User::firstOrCreate(compact('id'), $attributes);
-        }
+        factory(User::class, 300)->create();
     }
 }

@@ -38,6 +38,7 @@ An app framework built with [Laravel][].
 
 ## Useful Links
 
+- [Faker](https://github.com/fzaninotto/Faker)
 - [Optimus](https://github.com/jenssegers/optimus) ID obfuscation based on Knuth's multiplicative hashing method.
 - [UUID Generator](https://github.com/ramsey/uuid)
 - [Hashids](https://github.com/vinkla/laravel-hashids) Generate YouTube-like IDs from numbers.
