@@ -31,7 +31,6 @@ class CreateSocialAuthsTable extends Migration
 
             $table->index('user_id');
             $table->index(['social_type', 'user_id']);
-            $table->index(['social_type', 'access_token', 'uid', 'vendor']);
         });
     }
 
