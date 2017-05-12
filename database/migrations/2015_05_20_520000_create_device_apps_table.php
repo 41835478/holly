@@ -20,7 +20,7 @@ class CreateDeviceAppsTable extends Migration
         Schema::create('device_apps', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('device_id');
-            $table->string('identifier', 191);
+            $table->string('identifier', 40);
             $table->string('version', 20);
             $table->string('channel', 20);
         });

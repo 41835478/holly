@@ -20,12 +20,12 @@ class CreateUsersTable extends Migration
 
         Schema::create('users', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('email', 150)->nullable()->unique();
+            $table->string('email', 100)->nullable()->unique();
             $table->string('phone', 20)->nullable()->unique();
-            $table->string('password', 60)->nullable();
+            $table->string('password')->nullable();
             $table->string('username', 12)->nullable();
-            $table->string('avatar', 300)->nullable();
-            $table->string('original_avatar', 300)->nullable();
+            $table->string('avatar')->nullable();
+            $table->string('original_avatar')->nullable();
             $table->unsignedInteger('status')->default(User::STATUS_NORMAL);
             $table->unsignedInteger('login_count')->default(0);
             $table->timestamp('last_login_at')->nullable();

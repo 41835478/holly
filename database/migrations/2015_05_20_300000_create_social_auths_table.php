@@ -19,13 +19,13 @@ class CreateSocialAuthsTable extends Migration
 
         Schema::create('social_auths', function (Blueprint $table) {
             $table->increments('id');
-            $table->tinyInteger('social_type')->unsigned();
+            $table->unsignedInteger('social_type');
             $table->unsignedInteger('user_id');
-            $table->string('access_token', 520);
-            $table->string('refresh_token', 520)->nullable();
+            $table->string('access_token', 550);
+            $table->string('refresh_token', 550)->nullable();
             $table->string('uid', 40)->nullable();
             // May store other vendor information, like Weixin UnionID
-            $table->string('vendor', 200)->nullable();
+            $table->string('vendor')->nullable();
             $table->timestamp('expires_at')->nullable();
             $table->timestamps();
 
