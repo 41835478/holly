@@ -23,7 +23,7 @@ class CreateUsersTable extends Migration
             $table->string('email', 100)->nullable()->unique();
             $table->string('phone', 20)->nullable()->unique();
             $table->string('password')->nullable();
-            $table->string('username', 12)->nullable();
+            $table->string('username', 20)->nullable();
             $table->string('avatar')->nullable();
             $table->string('original_avatar')->nullable();
             $table->unsignedInteger('status')->default(User::STATUS_NORMAL);
