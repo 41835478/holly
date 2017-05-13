@@ -9,7 +9,8 @@ $finder = Finder::create()
         __DIR__.'/database',
         __DIR__.'/routes',
         __DIR__.'/tests',
-    ]);
+    ])
+    ->notPath('ExampleTest.php');
 
 $rules = [
     'array_syntax' => ['syntax' => 'short'],
