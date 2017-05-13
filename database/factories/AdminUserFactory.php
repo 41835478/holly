@@ -2,7 +2,7 @@
 
 use App\Models\AdminUser;
 
-/** @var \Illuminate\Database\Eloquent\Factory $factory */
+/* @var \Illuminate\Database\Eloquent\Factory $factory */
 $factory->defineAs(AdminUser::class, 'super', function (Faker\Generator $faker) {
     return [
         'email' => env('SUPER_ADMIN_EMAIL', $faker->unique()->safeEmail),
@@ -13,7 +13,7 @@ $factory->defineAs(AdminUser::class, 'super', function (Faker\Generator $faker) 
     ];
 });
 
-/** @var \Illuminate\Database\Eloquent\Factory $factory */
+/* @var \Illuminate\Database\Eloquent\Factory $factory */
 $factory->define(AdminUser::class, function (Faker\Generator $faker) {
     static $password;
 

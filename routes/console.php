@@ -26,7 +26,7 @@ Artisan::command('db-backup', function () {
 
 Artisan::command('sync-git-upstream {branch=master}', function ($branch) {
     foreach ([
-        "git fetch upstream --no-tags",
+        'git fetch upstream --no-tags',
         "git merge upstream/$branch",
         ] as $cmd) {
         $this->comment('$ '.$cmd);
