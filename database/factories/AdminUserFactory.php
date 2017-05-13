@@ -5,7 +5,7 @@ use App\Models\AdminUser;
 /* @var \Illuminate\Database\Eloquent\Factory $factory */
 $factory->defineAs(AdminUser::class, 'super', function (Faker\Generator $faker) {
     return [
-        'email' => env('SUPER_ADMIN_EMAIL', $faker->unique()->safeEmail),
+        'email' => config('var.super_admin_email') ?: $faker->unique()->safeEmail,
         'username' => $faker->name,
         'avatar' => $faker->imageUrl(640, 640),
         'password' => bcrypt(md5('admin')),
