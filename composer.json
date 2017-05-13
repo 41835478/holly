@@ -1,11 +1,7 @@
 {
     "name": "elfsundae/holly",
     "description": "An app framework built with Laravel.",
-    "keywords": [
-        "holly",
-        "laravel",
-        "framework"
-    ],
+    "keywords": ["holly", "laravel", "framework"],
     "license": "MIT",
     "type": "project",
     "homepage": "https://github.com/ElfSundae/holly",
