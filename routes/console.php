@@ -24,9 +24,10 @@ Artisan::command('db-backup', function () {
     ]);
 })->describe('Backup the default database.');
 
-Artisan::command('sync-git-upstream {branch=master}', function ($branch) {
+Artisan::command('sync-upstream {branch=master}', function ($branch) {
     foreach ([
-        'git fetch upstream --no-tags',
+        'git fetch upstream --no-tags -v',
+        "git checkout $branch",
         "git merge upstream/$branch",
         ] as $cmd) {
         $this->comment('$ '.$cmd);
