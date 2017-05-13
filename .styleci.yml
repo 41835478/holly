@@ -14,3 +14,5 @@ finder:
     - "database"
     - "routes"
     - "tests"
+  not-name:
+    - "ExampleTest.php"
