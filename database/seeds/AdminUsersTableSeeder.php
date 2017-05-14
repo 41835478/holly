@@ -12,7 +12,9 @@ class AdminUsersTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(AdminUser::class, 'super')->create();
+        if (! AdminUser::whereKey(1)->exists()) {
+            factory(AdminUser::class, 'super')->create();
+        }
 
         factory(AdminUser::class, 30)->create();
     }
