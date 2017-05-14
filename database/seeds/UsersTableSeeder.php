@@ -12,6 +12,8 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(User::class, 300)->create();
+        if (App::isLocal()) {
+            factory(User::class, 300)->create();
+        }
     }
 }

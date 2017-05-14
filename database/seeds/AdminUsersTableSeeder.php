@@ -16,6 +16,8 @@ class AdminUsersTableSeeder extends Seeder
             factory(AdminUser::class, 'super')->create();
         }
 
-        factory(AdminUser::class, 30)->create();
+        if (App::isLocal()) {
+            factory(AdminUser::class, 100)->create();
+        }
     }
 }
