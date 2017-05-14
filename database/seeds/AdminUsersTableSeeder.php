@@ -12,8 +12,13 @@ class AdminUsersTableSeeder extends Seeder
      */
     public function run()
     {
-        if (! AdminUser::whereKey(1)->exists()) {
-            factory(AdminUser::class, 'super')->create();
+        if ($super_admin_email = config('var.super_admin_email')) {
+            if (! AdminUser::where(['email' => $super_admin_email])->exists()) {
+                factory(AdminUser::class)->create([
+                    'email' => $super_admin_email,
+                    'password' => bcrypt(md5('admin')),
+                ]);
+            }
         }
 
         if (App::isLocal()) {
