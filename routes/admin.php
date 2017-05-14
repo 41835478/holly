@@ -4,14 +4,14 @@ Route::get('captcha/{config?}', '\Mews\Captcha\CaptchaController@getCaptcha');
 
 Route::group(['namespace' => 'Auth'], function () {
     Route::group(['middleware' => 'guest'], function () {
-        Route::get('login', 'LoginController@showLoginForm')->name('login');
+        Route::get('login', 'LoginController@showLoginForm');
         Route::post('login', 'LoginController@login');
-        Route::get('password/reset', 'ForgotPasswordController@showLinkRequestForm')->name('password.request');
-        Route::post('password/email', 'ForgotPasswordController@sendResetLinkEmail')->name('password.email');
-        Route::get('password/reset/{token}', 'ResetPasswordController@showResetForm')->name('password.reset');
+        Route::get('password/reset', 'ForgotPasswordController@showLinkRequestForm');
+        Route::post('password/email', 'ForgotPasswordController@sendResetLinkEmail');
+        Route::get('password/reset/{token}', 'ResetPasswordController@showResetForm');
         Route::post('password/reset', 'ResetPasswordController@reset');
     });
-    Route::get('logout', 'LoginController@logout')->name('logout');
+    Route::get('logout', 'LoginController@logout');
 });
 
 Route::group(['middleware' => 'auth'], function () {

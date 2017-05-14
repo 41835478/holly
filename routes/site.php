@@ -6,7 +6,7 @@ Route::get('/', 'HomeController@index');
 
 Route::group(['namespace' => 'Auth'], function () {
     Route::group(['middleware' => 'guest'], function () {
-        Route::get('login', 'LoginController@showLoginForm')->name('login');
+        Route::get('login', 'LoginController@showLoginForm');
     });
-    Route::get('logout', 'LoginController@logout')->name('logout');
+    Route::get('logout', 'LoginController@logout');
 });
