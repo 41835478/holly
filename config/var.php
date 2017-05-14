@@ -10,6 +10,8 @@ return [
 
     'super_admin_email' => env('SUPER_ADMIN_EMAIL'),
 
+    'initial_user_id' => env('INITIAL_USER_ID'),
+
     /*
     |--------------------------------------------------------------------------
     | Validation Variables
