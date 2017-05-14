@@ -14,6 +14,6 @@ class AdminUsersTableSeeder extends Seeder
     {
         factory(AdminUser::class, 'super')->create();
 
-        factory(AdminUser::class, 50)->create();
+        factory(AdminUser::class, 30)->create();
     }
 }
