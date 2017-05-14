@@ -12,10 +12,10 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {
-        if ($initial_user_id = config('var.initial_user_id')) {
-            if (! User::whereKey($initial_user_id)->exists()) {
+        if ($userId = config('var.initial_user_id')) {
+            if (! User::whereKey($userId)->exists()) {
                 factory(User::class)->create([
-                    (new User)->getKeyName() => $initial_user_id,
+                    (new User)->getKeyName() => $userId,
                 ]);
             }
         }
