@@ -211,7 +211,7 @@ if (! function_exists('api')) {
     /**
      * Create a new API response.
      *
-     * @return \App\Http\ApiResponse
+     * @return \App\Support\Http\ApiResponse
      */
     function api(...$args)
     {
