@@ -24,6 +24,7 @@ An app framework built with [Laravel][].
     git remote add upstream git@github.com:ElfSundae/holly.git
     git fetch upstream --no-tags
     git merge upstream/master
+    # Or: git merge upstream/master --allow-unrelated-histories
     git push origin master
     ```
 
