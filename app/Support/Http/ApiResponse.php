@@ -46,22 +46,6 @@ class ApiResponse extends JsonResponse
     }
 
     /**
-     * Get the success code.
-     *
-     * @return int
-     */
-    public static function successCode()
-    {
-        static $successCode = null;
-
-        if (is_null($successCode)) {
-            $successCode = (int) config('support.api.code.success', 1);
-        }
-
-        return $successCode;
-    }
-
-    /**
      * Get the message key.
      *
      * @return string
@@ -75,6 +59,22 @@ class ApiResponse extends JsonResponse
         }
 
         return $messageKey;
+    }
+
+    /**
+     * Get the success code.
+     *
+     * @return int
+     */
+    public static function successCode()
+    {
+        static $successCode = null;
+
+        if (is_null($successCode)) {
+            $successCode = (int) config('support.api.code.success', 1);
+        }
+
+        return $successCode;
     }
 
     /**
