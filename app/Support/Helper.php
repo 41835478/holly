@@ -185,7 +185,7 @@ class Helper
     {
         $text = (string) $text;
         if (is_null($key)) {
-            $key = config('app.key');
+            $key = app('encrypter')->getKey();
         }
 
         // 生成随机字符串
@@ -212,7 +212,7 @@ class Helper
     public static function sampleDecrypt($text, $key = null)
     {
         if (is_null($key)) {
-            $key = config('app.key');
+            $key = app('encrypter')->getKey();
         }
 
         $tmp = static::sampleEncryption(urlsafe_base64_decode($text), $key);
