@@ -70,7 +70,7 @@ function getScripts(scripts) {
     './node_modules/jquery/dist/jquery.js',
     './node_modules/bootstrap/dist/js/bootstrap.js',
     './node_modules/holly-packages/utilities/csrf_token.js',
-    './node_modules/jquery-form/jquery.form.js',
+    './node_modules/jquery-form/src/jquery.form.js',
     './node_modules/spin.js/spin.js',
     './node_modules/spin.js/jquery.spin.js',
     './node_modules/holly-packages/fastclick/dist/fastclick.js'
