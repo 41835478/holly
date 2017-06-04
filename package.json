@@ -5,6 +5,6 @@
     "prod": "gulp --production"
   },
   "devDependencies": {
-    "holly-packages": "^1.0.13"
+    "holly-packages": "^1.0.14"
   }
 }
