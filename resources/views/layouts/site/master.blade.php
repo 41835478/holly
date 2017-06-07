@@ -2,7 +2,6 @@
 
 @section('alerts-selector', 'body')
 @section('alerts-position', 'top')
-@section('baidu-analytics', config('services.baidu_analytics'))
 
 @prepend('css')
   <link rel="stylesheet" href="{{ asset_url('css/site.css') }}">

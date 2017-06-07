@@ -44,8 +44,6 @@ return [
 
     'google_analytics' => null,
 
-    'baidu_analytics' => null,
-
     'mobsms' => [
         'key' => env('MOBSMS_KEY'),
     ],
