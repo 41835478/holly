@@ -2,7 +2,9 @@
   "private": true,
   "scripts": {
     "dev": "gulp watch",
-    "prod": "gulp --production"
+    "prod": "gulp --production",
+    "build": "npm run prod",
+    "update": "npm update --save --dev"
   },
   "devDependencies": {
     "holly-packages": "^1.0.19"
