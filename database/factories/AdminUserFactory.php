@@ -9,7 +9,7 @@ $factory->define(AdminUser::class, function (Faker\Generator $faker) {
     return [
         'email' => $faker->unique()->safeEmail,
         'username' => $faker->name,
-        'avatar' => $faker->imageUrl(640, 640),
+        'avatar' => asset_from($faker->imageUrl(640, 640), ''),
         'password' => $password ?: $password = bcrypt(md5('secret')),
         'remember_token' => str_random(10),
     ];

@@ -11,7 +11,7 @@ $factory->define(User::class, function (Faker\Generator $faker) {
         'phone' => $faker->unique()->phoneNumber,
         'password' => $password ?: $password = bcrypt(md5('secret')),
         'username' => $faker->userName,
-        'avatar' => $avatar = $faker->imageUrl(640, 640),
+        'avatar' => $avatar = asset_from($faker->imageUrl(640, 640), ''),
         'original_avatar' => $avatar,
         'login_count' => $faker->numberBetween(1, 100000),
         'last_login_at' => $faker->dateTime(),
