@@ -29,8 +29,8 @@ class CreateUsersTable extends Migration
             $table->unsignedInteger('status')->default(User::STATUS_NORMAL);
             $table->unsignedInteger('login_count')->default(0);
             $table->timestamp('last_login_at')->nullable();
-            $table->string('last_login_ip', 45)->nullable();
-            $table->string('registered_ip', 45)->nullable();
+            $table->ipAddress('last_login_ip')->nullable();
+            $table->ipAddress('registered_ip')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

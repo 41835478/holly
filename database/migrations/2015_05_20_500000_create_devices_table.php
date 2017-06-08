@@ -40,8 +40,8 @@ class CreateDevicesTable extends Migration
             $table->integer('timezone_gmt')->default(0);
             $table->unsignedInteger('login_count')->default(0);
             $table->timestamp('last_login_at')->nullable();
-            $table->string('last_login_ip', 45)->nullable();
-            $table->string('registered_ip', 45)->nullable();
+            $table->ipAddress('last_login_ip')->nullable();
+            $table->ipAddress('registered_ip')->nullable();
             $table->timestamps();
         });
     }

@@ -27,7 +27,7 @@ class CreateFeedbackTable extends Migration
             $table->string('os_version', 20)->nullable();
             $table->string('platform', 20)->nullable();
             $table->string('network', 8)->nullable();
-            $table->string('ip', 45);
+            $table->ipAddress('ip');
             $table->timestamp('created_at')->useCurrent();
         });
     }
