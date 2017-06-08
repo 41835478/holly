@@ -74,7 +74,7 @@ return [
      |
      */
     'error_handler' => false,
-    
+
     /*
      |--------------------------------------------------------------------------
      | Clockwork integration
@@ -129,7 +129,7 @@ return [
 
     'options' => [
         'auth' => [
-            'show_name' => true,   // Also show the users name/email in the debugbar
+            'show_name' => false,   // Also show the users name/email in the debugbar
         ],
         'db' => [
             'with_params'       => true,   // Render SQL with the parameters substituted
@@ -148,7 +148,7 @@ return [
             'data' => false,    //Note: Can slow down the application, because the data can be quite large..
         ],
         'route' => [
-            'label' => true  // show complete route on bar
+            'label' => false  // show complete route on bar
         ],
         'logs' => [
             'file' => null
