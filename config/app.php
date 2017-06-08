@@ -185,6 +185,7 @@ return [
         SimpleSoftwareIO\QrCode\QrCodeServiceProvider::class,
         Vinkla\Hashids\HashidsServiceProvider::class,
         Yajra\Datatables\DatatablesServiceProvider::class,
+        Yajra\Datatables\ButtonsServiceProvider::class,
         Yajra\Datatables\HtmlServiceProvider::class,
 
         /*
