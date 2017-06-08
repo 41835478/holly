@@ -29,7 +29,7 @@ return [
     /**
      * Set Custom stub folder
      */
-    //'stub' => '/resources/custom_stub',
+    'stub' => '/resources/datatables-stubs',
 
     /**
      * PDF generator to be used when converting the table to pdf.
