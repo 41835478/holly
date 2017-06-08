@@ -15,8 +15,7 @@ class DummyClass extends DataTable
     public function dataTable()
     {
         return $this->datatables
-            ->eloquent($this->query())
-            ->addColumn('action', 'DummyAction');
+            ->eloquent($this->query());
     }
 
     /**
@@ -26,7 +25,7 @@ class DummyClass extends DataTable
      */
     public function query()
     {
-        $query = ModelName::query()->select($this->getColumns());
+        $query = ModelName::query();
 
         return $this->applyScopes($query);
     }
@@ -40,8 +39,6 @@ class DummyClass extends DataTable
     {
         return $this->builder()
             ->columns($this->getColumns())
-            ->ajax('')
-            ->addAction(['width' => '80px'])
             ->parameters($this->getBuilderParameters());
     }
 
