@@ -177,6 +177,21 @@ if (! function_exists('revision')) {
     }
 }
 
+if (! function_exists('asset_from')) {
+    /**
+     * Generate the URL to an asset from a custom root domain such as CDN, etc.
+     *
+     * @param  string  $root
+     * @param  string  $path
+     * @param  bool|null  $secure
+     * @return string
+     */
+    function asset_from($root, $path, $secure = null)
+    {
+        return app('url')->assetFrom($root, $path, $secure);
+    }
+}
+
 if (! function_exists('asset_url')) {
     /**
      * Generate an asset URL.
