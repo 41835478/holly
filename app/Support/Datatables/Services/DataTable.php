@@ -24,8 +24,7 @@ abstract class DataTable extends BaseDataTable
      */
     protected function getHtmlBuilder()
     {
-        return app(HtmlBuilder::class)
-            ->tableId(preg_replace('#datatable$#i', 'Table', camel_case(class_basename($this))));
+        return app(HtmlBuilder::class);
     }
 
     /**
