@@ -22,7 +22,7 @@
         "mews/captcha": "~2.1",
         "simplesoftwareio/simple-qrcode": "~1.5",
         "yajra/laravel-datatables-oracle": "~7.7",
-        "yajra/laravel-datatables-html": "~1.0",
+        "yajra/laravel-datatables-html": "~1.2",
         "laravel-notification-channels/bearychat": "~1.0",
         "elfsundae/xgpush": "~1.1"
     },
