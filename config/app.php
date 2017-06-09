@@ -186,7 +186,7 @@ return [
         Vinkla\Hashids\HashidsServiceProvider::class,
         Yajra\Datatables\DatatablesServiceProvider::class,
         Yajra\Datatables\ButtonsServiceProvider::class,
-        Yajra\Datatables\HtmlServiceProvider::class,
+        App\Support\Datatables\DatatablesServiceProvider::class,
 
         /*
          * Application Service Providers...
