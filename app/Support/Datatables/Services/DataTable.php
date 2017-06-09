@@ -8,19 +8,20 @@ use Yajra\Datatables\Services\DataTable as BaseDataTable;
 abstract class DataTable extends BaseDataTable
 {
     /**
-     * Return attributes for a "static" column that can not be ordered, searched, nor exported.
+     * Get attributes for a "static" column that can not be
+     * ordered, searched, nor exported.
      *
      * @param  string  $name
      * @param  array  $attributes
      * @return $this
      */
-    protected function staticColumnAttributes($name, array $attributes = [])
+    protected function staticColumn($name, array $attributes = [])
     {
         return array_merge([
-            'defaultContent' => '',
             'data' => $name,
             'name' => $name,
             'title' => $this->builder()->getQualifiedTitle($name),
+            'defaultContent' => '',
             'render' => null,
             'orderable' => false,
             'searchable' => false,

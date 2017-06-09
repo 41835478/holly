@@ -60,7 +60,7 @@ class AdminUserDataTable extends DataTable
     {
         return [
             'id' => ['title' => 'ID'],
-            'avatar' => $this->staticColumnAttributes('avatar', ['title' => '头像']),
+            'avatar' => $this->staticColumn('avatar', ['title' => '头像']),
             'username' => ['title' => '用户名'],
             'email' => ['title' => '邮箱'],
             'created_at' => ['title' => '创建日期'],
