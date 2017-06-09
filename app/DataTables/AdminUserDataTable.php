@@ -4,7 +4,6 @@ namespace App\DataTables;
 
 use App\Models\AdminUser;
 use App\Support\Datatables\Services\DataTable;
-use Illuminate\Support\Facades\Auth;
 
 class AdminUserDataTable extends DataTable
 {

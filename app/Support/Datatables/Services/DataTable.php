@@ -2,7 +2,6 @@
 
 namespace App\Support\Datatables\Services;
 
-use App\Support\Datatables\Html\Builder as HtmlBuilder;
 use Yajra\Datatables\Services\DataTable as BaseDataTable;
 
 abstract class DataTable extends BaseDataTable
