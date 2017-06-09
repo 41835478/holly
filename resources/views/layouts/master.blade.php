@@ -19,11 +19,11 @@
   <meta name="format-detection" content="@yield('format-detection', 'telephone=no,date=no,address=no,email=no,url=no')">
   <link rel="shortcut icon" type="image/x-icon" href="@yield('favicon', revision('/favicon.ico'))">
   <link rel="apple-touch-icon" href="@yield('apple-touch-icon', asset_url('assets/icon-120.png'))">
+@stack('css')
+@stack('head')
 @section('IE')
   <!--[if lt IE 9]><script src="{{ asset_url('js/ie-compatible.js') }}"></script><![endif]-->
 @show
-@stack('css')
-@stack('head')
 </head>
 @hasSection('body-class')
 <body class="@yield('body-class')">
