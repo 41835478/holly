@@ -186,7 +186,7 @@ if (! function_exists('asset_from')) {
      * @param  bool|null  $secure
      * @return string
      */
-    function asset_from($root, $path, $secure = null)
+    function asset_from($root, $path = '', $secure = null)
     {
         return app('url')->assetFrom($root, $path, $secure);
     }
