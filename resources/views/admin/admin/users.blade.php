@@ -4,7 +4,7 @@
 
 @push('js')
 {!! $dataTable->scripts() !!}
-@include('includes.admin.scripts.adminUsersTable')
+@include('admin.partials.admin-user-datatable')
 @endpush
 
 @section('content')

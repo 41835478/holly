@@ -1,9 +1,9 @@
 <script>
-(function ($) {
-  $('#adminUsersTable tbody').on('click', '[class*="admin-user-action-"]', function (e) {
+$(function() {
+  $('#dataTable tbody').on('click', '.admin-user-action', function(e) {
     e.preventDefault();
-    let action = /admin-user-action-(\w+)/g.exec($(this).attr('class'))[1];
-    let table = DataTables['adminUsersTable'];
+    let action = $(this).data('action');
+    let table = DataTables['dataTable'];
     let data = table.row($(this).dataTableRow()).data();
 
     if (action == 'edit') {
@@ -22,8 +22,8 @@
               swalApi(json);
             }
         });
-      });
+      }).catch(swal.noop);
     }
-  });
-})(jQuery)
+  })
+})
 </script>
