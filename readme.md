@@ -23,8 +23,7 @@ An app framework built with [Laravel][].
     ```sh
     git remote add upstream git@github.com:ElfSundae/holly.git
     git fetch upstream --no-tags
-    git merge upstream/master
-    # Or: git merge upstream/master --allow-unrelated-histories
+    git merge upstream/master  # --allow-unrelated-histories
     git push origin master
     ```
 
@@ -34,7 +33,7 @@ An app framework built with [Laravel][].
 - Configure cron job: `$ crontab  -u www -e`
 
     ```
-    * * * * * php /path/to/artisan schedule:run >> /dev/null 2>&1
+    * * * * * /usr/bin/php /data/www/myapp/artisan schedule:run >> /dev/null 2>&1
     ```
 
 ## Useful Links
