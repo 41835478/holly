@@ -17,11 +17,9 @@ class AdminUserDataTable extends DataTable
     {
         return $this->datatables
             ->eloquent($this->query())
-            ->editColumn('avatar', function ($user) {
-                return $this->getAvatarColumnData($user);
-            })
+            ->editColumn('avatar', 'datatables.admin-user-avatar')
             ->editColumn('action', function ($user) {
-                return $this->getActionColumnData($user);
+                return view('datatables.admin-user-action', compact('user'))->render();
             })
             ->rawColumns(['avatar', 'action']);
     }
@@ -47,7 +45,6 @@ class AdminUserDataTable extends DataTable
     {
         return $this->builder()
             ->columns($this->getColumns())
-            ->addAction()
             ->parameters($this->getBuilderParameters());
     }
 
@@ -64,45 +61,8 @@ class AdminUserDataTable extends DataTable
             'username' => ['title' => '用户名'],
             'email' => ['title' => '邮箱'],
             'created_at' => ['title' => '创建日期'],
+            'action' => $this->staticColumn('action'),
         ];
-    }
-
-    /**
-     * Get the "avatar" column data.
-     *
-     * @param  AdminUser  $user
-     * @return mixed
-     */
-    protected function getAvatarColumnData($user)
-    {
-        return <<<HTML
-<a href='{$user->avatar}' data-lightbox='admin-user-avatar-{$user->id}'>
-    <img src='{$user->avatar}' class='img-circle' style='width:28px;height:28px'>
-</a>
-HTML;
-    }
-
-    /**
-     * Get the "action" column data.
-     *
-     * @param  AdminUser  $user
-     * @return mixed
-     */
-    protected function getActionColumnData($user)
-    {
-        $html = '<div class="btn-group" role="group">';
-
-        if (Auth::user()->can('update', $user)) {
-            $html .= '<button type="button" class="btn btn-info admin-user-action-edit"><i class="fa fa-edit"></i></button>';
-        }
-
-        if (Auth::user()->can('delete', $user)) {
-            $html .= '<button type="button" class="btn btn-danger admin-user-action-delete"><i class="fa fa-trash"></i></button>';
-        }
-
-        $html .= '</div>';
-
-        return $html;
     }
 
     /**
