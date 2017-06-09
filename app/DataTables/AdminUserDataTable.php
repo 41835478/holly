@@ -6,14 +6,14 @@ use App\Models\AdminUser;
 use App\Support\Datatables\Services\DataTable;
 use Illuminate\Support\Facades\Auth;
 
-class AdminUsersDataTable extends DataTable
+class AdminUserDataTable extends DataTable
 {
     /**
-     * Display ajax response.
+     * Build DataTable class.
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return \Yajra\Datatables\Engines\BaseEngine
      */
-    public function ajax()
+    public function dataTable()
     {
         return $this->datatables
             ->eloquent($this->query())
@@ -23,7 +23,7 @@ class AdminUsersDataTable extends DataTable
             ->editColumn('action', function ($user) {
                 return $this->getActionColumnData($user);
             })
-            ->make(true);
+            ->rawColumns(['avatar', 'action']);
     }
 
     /**
@@ -47,7 +47,7 @@ class AdminUsersDataTable extends DataTable
     {
         return $this->builder()
             ->columns($this->getColumns())
-            ->addAction(['title' => '操作'])
+            ->addAction()
             ->parameters($this->getBuilderParameters());
     }
 
@@ -112,6 +112,8 @@ HTML;
      */
     protected function getBuilderParameters()
     {
-        return [];
+        return [
+            'order' => [[0, 'asc']],
+        ];
     }
 }

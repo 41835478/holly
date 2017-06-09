@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers\Admin\Admin;
 
-use App\DataTables\AdminUsersDataTable;
+use App\DataTables\AdminUserDataTable;
 use App\Http\Controllers\Controller;
 use App\Models\AdminUser;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
-    public function users(AdminUsersDataTable $dataTable)
+    public function users(AdminUserDataTable $dataTable)
     {
         return $dataTable->render('admin.admin.users');
     }
