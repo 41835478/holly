@@ -15,7 +15,8 @@ class DummyClass extends DataTable
     public function dataTable()
     {
         return $this->datatables
-            ->eloquent($this->query());
+            ->eloquent($this->query())
+            ->rawColumns([]);
     }
 
     /**
