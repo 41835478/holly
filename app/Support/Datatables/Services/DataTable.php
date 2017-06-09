@@ -8,26 +8,6 @@ use Yajra\Datatables\Services\DataTable as BaseDataTable;
 abstract class DataTable extends BaseDataTable
 {
     /**
-     * Get Datatables Html Builder instance.
-     *
-     * @return \App\Support\Datatables\Html\Builder
-     */
-    public function builder()
-    {
-        return $this->htmlBuilder ?: $this->htmlBuilder = $this->getHtmlBuilder();
-    }
-
-    /**
-     * Get the Html Builder instance.
-     *
-     * @return \App\Support\Datatables\Html\Builder
-     */
-    protected function getHtmlBuilder()
-    {
-        return app(HtmlBuilder::class);
-    }
-
-    /**
      * Return attributes for a "static" column that can not be ordered, searched, nor exported.
      *
      * @param  string  $name
